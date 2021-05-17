@@ -9,9 +9,10 @@ public class quickSort {
     public static int partionOverAnArray(int[] arr,int si,int ei,int pIdx)
     {
         int p=si-1,itr=si;
+        swap(arr,pIdx,ei);
         while(itr<=ei)
         {
-            if(arr[itr]<=arr[pIdx])
+            if(arr[itr]<=arr[ei])
             {
                 swap(arr,itr,++p);
             }
@@ -19,27 +20,27 @@ public class quickSort {
         }
         return p;
     }
-    public static void quickSort(int[] arr,int si,int ei)
+    public static void QuickSort(int[] arr,int si,int ei)
     {
         if(si>=ei)
         return;
-        int idx=si,prev=si;
-        // while(idx<=ei && arr[prev]<=arr[ei])
-        // {
-        //     prev=idx;
-        //     idx++;
-        // }
-        // if(idx==ei+1)
-        // return;
-        int pIdx=ei;
+       int idx=si,prev=si;
+        while(idx<=ei && arr[prev]<=arr[ei])
+        {
+            prev=idx;
+            idx++;
+        }
+        if(idx==ei+1)
+        return;
+        int pIdx=si;
         int p=partionOverAnArray(arr,si,ei,pIdx);
-        quickSort(arr,si,p-1);
-        quickSort(arr,p+1,ei);
+        QuickSort(arr,si,p-1);
+        QuickSort(arr,p+1,ei);
     }
     public static void main(String[] args)
     {
         int[] arr={-12,2,7,4,34,23,0,1,-1,-50,16,23,7,4,2,3};
-        quickSort(arr,0,arr.length-1);
+        QuickSort(arr,0,arr.length-1);
         for(int ele:arr)
         {
             System.out.print(ele+" ");
