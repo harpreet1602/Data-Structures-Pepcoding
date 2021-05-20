@@ -1,4 +1,4 @@
-public class questions {
+public class twoSum {
       public static void swap(int[] arr,int i,int j)
     {
         int temp=arr[i];
