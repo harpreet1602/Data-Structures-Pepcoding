@@ -1,5 +1,5 @@
 import java.util.*;
-public class threeSum {
+public class fourSum {
     public static void swap(int[] arr,int i,int j)
     {
         int temp=arr[i];
@@ -90,14 +90,29 @@ public class threeSum {
         }
         return ans;
     }
+    public static ArrayList<int[]> foursum(int[] arr,int target,int si,int ei)
+    {
+        ArrayList<int[]> ans=new ArrayList<>();
+        for(int i=si;i<=ei;i++)
+        {
+            ArrayList<int[]> smallAns=threesum1(arr, target-arr[i], i+1, ei);
+            for(int[] a:smallAns)
+            {
+                ans.add(new int[]{arr[i],a[0],a[1],a[2]});
+            }
+        }
+        return ans;
+    }
+
     public static void main(String[] args)
     {
         int[] arr={-2,-3,7,5,8,15,3,2,9,10,19};
         quicksort(arr,0,arr.length-1);
-        ArrayList<int[]> res=threesum1(arr,25,0,arr.length-1);
+        // ArrayList<int[]> res=threesum1(arr,25,0,arr.length-1);
+        ArrayList<int[]> res=foursum(arr,28,0,arr.length-1);
         for(int[] a:res)
         {
-            System.out.println(a[0]+", "+a[1]+", "+a[2]);
+            System.out.println(a[0]+", "+a[1]+", "+a[2]+", "+a[3]);
         }
     }
 }
