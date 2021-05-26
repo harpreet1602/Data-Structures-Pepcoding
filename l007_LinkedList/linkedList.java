@@ -57,6 +57,23 @@ public class linkedList {
             Node node=new Node(data);
             addLastNode(node);
         }
+        private void addNodeAt(Node node,int idx)
+        {
+            Node prev=getNodeAt(idx-1);
+            if(idx==0)
+            {
+                node.next=this.head;
+                this.head=node;
+            }
+            node.next=prev.next;
+            prev.next=node;
+            this.size++;
+        }
+        public void addAt(int idx,int data)
+        {
+            Node node=new Node(data);
+            addNodeAt(node,idx);
+        }
         //.................................Add Done let us do remove
         private Node removeFirstNode()
         {
@@ -78,17 +95,47 @@ public class linkedList {
             Node node=removeFirstNode();
             return node.data;
         }
-        // private Node removeLastNode()
-        // {
-            
-        // }
-        // public int removeLast()
-        // {
-        //     if(this.size==0)
-        //     return -1;
-        //     Node node=removeLastNode();
-        //     return node.data;
-        // }
+        private Node removeLastNode()
+        {
+            Node prev=getNodeAt(this.size-2);
+            Node curr=this.tail;
+            prev.next=null;
+            this.tail=prev;
+            return curr;
+        }
+        public int removeLast()
+        {
+            if(this.size==0)
+            return -1;
+            Node node=removeLastNode();
+            this.size--;
+            return node.data;
+        }
+        private Node removeNodeAt(int idx)
+        {
+            Node prev=getNodeAt(idx-1);
+            Node curr=getNodeAt(idx);
+            if(idx==0)
+            {
+                this.head=curr.next;
+            }
+            if(idx==this.size-1)
+            {
+                this.tail=prev;
+            }
+            if(idx!=0)
+            prev.next=curr.next;
+            curr.next=null;
+            this.size--;
+            return curr;   
+        }
+        public int removeAt(int idx)
+        {
+            if(this.size==0)
+            return -1;
+            Node node=removeNodeAt(idx);
+            return node.data;
+        }
         //=======================================
 
         private Node getFirstNode()
@@ -127,4 +174,59 @@ public class linkedList {
             return -1;
             return getNodeAt(idx).data;
         }
+        //odd even nodes in Linked list
+        public void oddEven(){
+        
+            if(head==null || head.next==null)
+            return;
+            Node odd=new Node(-1);
+            Node op=odd;
+            Node even=new Node(-1);
+            Node ep=even;
+            Node curr=this.head;
+            while(curr!=null)
+            {
+                if(curr.data%2==0)
+                {
+                    ep.next=curr;
+                    ep=ep.next;
+                }
+                else
+                {
+                    op.next=curr;
+                    op=op.next;
+                }
+                curr=curr.next;
+            }
+            op.next=even.next;
+            this.head=odd.next;
+            ep.next=null;
+            if(even.next!=null)
+            this.tail=ep;
+            else
+            this.tail=op;
+         }
+         //remove duplicates in a sorted ll
+         public void removeDuplicates(){
+            // write your code here
+            if(head==null && head.next==null)
+            return;
+            Node dummy=new Node(-1);
+            Node dp=this.head;
+            Node curr=this.head.next;
+            dummy.next=dp;
+            while(curr!=null)
+            {
+              if(dp.data!=curr.data)
+              {
+                  dp.next=curr;
+                  dp=curr;
+              }
+              curr=curr.next;
+            }
+            dp.next=curr;
+            this.head=dummy.next;
+          }
+          
+          
     }
