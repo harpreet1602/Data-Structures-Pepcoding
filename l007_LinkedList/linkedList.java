@@ -227,6 +227,62 @@ public class linkedList {
             dp.next=curr;
             this.head=dummy.next;
           }
-          
+          //reverse a linked list
+          public void reversePI(){
+            // write your code here
+              if(head==null || head.next==null)
+              return;
+              Node prev=null;
+              Node curr=this.head;
+              while(curr!=null)
+              {   
+                  Node forward=curr.next;
+                  curr.next=prev;
+                  prev=curr;
+                  curr=forward;
+              }
+              tail=this.head;
+              this.head=prev;
+          }
+          //add two linked list
+          public static Node reverse(Node head)
+          {
+              if(head==null || head.next==null)
+              return head;
+              Node prev=null;
+              Node curr=head;
+              while(curr!=null)
+              {
+                  Node forward=curr.next;
+                  curr.next=prev;
+                  prev=curr;
+                  curr=forward;
+              }
+              return prev;
+          }
+
+          public static Node addTwoNumbers(Node l1, Node l2) {
+              l1=reverse(l1);
+              l2=reverse(l2);
+              Node dummy=new Node(-1);
+              Node p=dummy,first=l1,second=l2;
+              int carry=0;
+              while(first!=null || second!=null || carry!=0)
+              {
+                  int sum=((first!=null)?first.data:0) + ((second!=null)?second.data:0) +carry;
+                  carry=sum/10;
+                  sum%=10;
+                  p.next=new Node(sum);
+                  p=p.next;
+                  if(first!=null)
+                  first=first.next;
+                  if(second!=null)
+                  second=second.next;
+              }
+              Node head=dummy.next;
+              head=reverse(head);
+              return head;
+          }
+          //add two lists using recursion
           
     }
