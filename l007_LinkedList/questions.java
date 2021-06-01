@@ -96,42 +96,52 @@ public class questions {
     }
     //leetcode 21. merge two sorted linked lists.
     //   time O(n) and space O(1) and inplace
-    public ListNode mergeTwoLists(ListNode l1, ListNode l2) {
-        if(l1==null && l2==null)
-        {
-            return null;
-        }
+    public ListNode mergeTwoSortedLists(ListNode l1,ListNode l2)
+    {
+        if(l1==null || l2==null)
+        return l1!=null?l1:l2;
         ListNode dummy=new ListNode(-1);
-        ListNode dp=dummy,p1=l1,p2=l2;
-        while(p1!=null && p2!=null)
+        ListNode prev=dummy,c1=l1,c2=l2;
+        while(c1!=null && c2!=null)
         {
-            if(p1.val<=p2.val)
+            if(c1.val<=c2.val)
             {
-                dp.next=p1;
-                dp=p1;
-                p1=p1.next;
-            }
-            else
+                prev.next=c1;
+                c1=c1.next;
+            }else
             {
-                dp.next=p2;
-                dp=p2;
-                p2=p2.next;
+                prev.next=c2;
+                c2=c2.next;
             }
+            prev=prev.next;
         }
-        while(p1!=null)
-        {
-                dp.next=p1;
-                dp=p1;
-                p1=p1.next;
-        }
-        while(p2!=null)
-        {
-                dp.next=p2;
-                dp=p2;
-                p2=p2.next;
-            
-        }
+        prev.next=c1!=null?c1:c2;
         return dummy.next;
+    }
+    public ListNode midNode(ListNode head)
+    {
+        ListNode slow=head;
+        ListNode fast=head;
+        while(fast.next!=null &&fast.next.next!=null)
+        {
+            fast=fast.next.next;
+            slow=slow.next;
+        }
+        return slow;
+    }
+    //leetcode 148 Merge sort the linked list
+    public ListNode sortList(ListNode head) {
+        
+        if(head==null ||head.next==null)
+        {
+            return head;
+        }
+        ListNode mid=midNode(head);
+        ListNode nhead=mid.next;
+        mid.next=null;
+        ListNode leftSortedList=sortList(head);
+        ListNode rightSortedList=sortList(nhead);
+        return mergeTwoSortedLists(leftSortedList,rightSortedList);
     }
     public static void main(String[] args)
     {

@@ -324,4 +324,62 @@ public class linkedList {
             ans.addFirst(carry);
             return ans;
           }
+          //is linkedlist a pallindrome
+          public Node midNode(Node head)
+          {
+              Node slow=head;
+              Node fast=head;
+              while(fast.next!=null &&fast.next.next!=null)
+              {
+                  fast=fast.next.next;
+                  slow=slow.next;
+              }
+              return slow;
+          }
+          public boolean IsPalindrome() {
+            // write your code here
+            Node mid=midNode(this.head);
+            Node nhead=mid.next;
+            mid.next=null;
+            nhead=reverse(nhead);
+                Node p1=head;
+                Node p2=nhead;
+                boolean flag=true;
+                while(p2!=null)
+                {
+                    if(p1.data!=p2.data)
+                    {
+                        flag=false;
+                        break;
+                    }
+                    p1=p1.next;
+                    p2=p2.next;
+                }
+                nhead=reverse(nhead);
+                mid.next=nhead;
+                return flag;
+          }
+          //is linkedlist a pallindrome by recursion
+          Node ptr;
+          private boolean IsPalindromeRecursive(Node curr)
+          {
+              if(curr==null)
+              return true;
+              
+              if(!IsPalindromeRecursive(curr.next))
+              return false;
+      
+              if(ptr.data!=curr.data)
+              return false;
+              
+              ptr=ptr.next;
+              return true;
+          }
+          public boolean IsPalindromeRecursive()
+          {
+              ptr=this.head;
+              return IsPalindromeRecursive(this.head);
+          }
+          //intersection of a linked list
+          
     }
