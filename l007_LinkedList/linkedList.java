@@ -284,5 +284,44 @@ public class linkedList {
               return head;
           }
           //add two lists using recursion
-          
+          public static int addTwoListsRecursion(Node first,int s1,Node second,int s2,linkedList ans)
+          {
+              
+              int carry=0;
+              if(first==null && second==null) 
+              {
+              return 0;
+              }
+              else if(s1>s2)
+              {
+                  carry=addTwoListsRecursion(first.next,--s1,second,s2,ans);
+                  int sum=first.data+carry;
+                  carry=sum/10;
+                  sum=sum%10;
+                  ans.addFirst(sum);
+              }
+              else
+              {
+                  carry=addTwoListsRecursion(first.next,--s1,second.next,--s2,ans);
+                  int sum=first.data+carry+second.data;
+                  carry=sum/10;
+                  sum=sum%10;
+                  ans.addFirst(sum);
+              }
+              return carry;
+          }
+          public static linkedList addTwoLists(linkedList one, linkedList two) {
+            // write your code here
+            linkedList ans=new linkedList();
+            if(one.size()<two.size())
+            {
+                linkedList temp=one;
+                one=two;
+                two=temp;
+            }
+            int carry=addTwoListsRecursion(one.head,one.size(),two.head,two.size(),ans);
+            if(carry!=0)
+            ans.addFirst(carry);
+            return ans;
+          }
     }
