@@ -94,6 +94,45 @@ public class questions {
         dp.next=curr;
         return dummy.next;
     }
+    //leetcode 21. merge two sorted linked lists.
+    //   time O(n) and space O(1) and inplace
+    public ListNode mergeTwoLists(ListNode l1, ListNode l2) {
+        if(l1==null && l2==null)
+        {
+            return null;
+        }
+        ListNode dummy=new ListNode(-1);
+        ListNode dp=dummy,p1=l1,p2=l2;
+        while(p1!=null && p2!=null)
+        {
+            if(p1.val<=p2.val)
+            {
+                dp.next=p1;
+                dp=p1;
+                p1=p1.next;
+            }
+            else
+            {
+                dp.next=p2;
+                dp=p2;
+                p2=p2.next;
+            }
+        }
+        while(p1!=null)
+        {
+                dp.next=p1;
+                dp=p1;
+                p1=p1.next;
+        }
+        while(p2!=null)
+        {
+                dp.next=p2;
+                dp=p2;
+                p2=p2.next;
+            
+        }
+        return dummy.next;
+    }
     public static void main(String[] args)
     {
 
