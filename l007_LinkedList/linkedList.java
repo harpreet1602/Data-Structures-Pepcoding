@@ -174,6 +174,8 @@ public class linkedList {
             return -1;
             return getNodeAt(idx).data;
         }
+        //=====================Questions=============================
+
         //odd even nodes in Linked list
         public void oddEven(){
         
@@ -381,5 +383,73 @@ public class linkedList {
               return IsPalindromeRecursive(this.head);
           }
           //intersection of a linked list
-          
+        
+    private static int getlength(Node start)
+    {
+        Node node=start;
+        int count=0;
+        while(node!=null)
+        {
+            node=node.next;
+            count++;
+        }
+        return count;
+    }
+    private static int findIntersection(Node first,Node second)
+    {
+        int a=getlength(first);
+        int b=getlength(second);
+        Node biggerListHead=a>b?first:second;
+        Node smallerListHead=a<b?first:second;
+        int diff=Math.abs(a-b);
+        while(diff-->0)
+        {
+            biggerListHead=biggerListHead.next;
+        }
+        while(biggerListHead!=smallerListHead)
+        {
+            biggerListHead=biggerListHead.next;
+            smallerListHead=smallerListHead.next;
+        }
+        return smallerListHead!=null?smallerListHead.data:-1;
+    }
+    public static int findIntersection(linkedList one, linkedList two){
+      // write your code here
+      return findIntersection(one.head,two.head);
+    }
+    //Kth node from the end
+    //Not optimized , brute force
+    public int kthFromLast1(int k){
+      // write your code here
+      if(this.head==null)
+      return -1;
+      int len=getlength(this.head);
+      Node curr=this.head;
+      int diff=(len-k-1);
+      while(diff-->0)
+      {
+          curr=curr.next;
+      }
+      return curr.data;
+    }
+    //iterative,O(n) single traversal,cannot use size directly or indirectly
+    public int kthFromLast(int k)
+    {
+        Node prev,curr;
+        prev=curr=this.head;
+        int i=0;
+        while(i<k)
+        {
+            curr=curr.next;
+            i++;            
+        }
+        while(curr.next!=null)
+        {
+            curr=curr.next;
+            prev=prev.next;
+        }
+        return prev.data;
+    }
+    
+
     }

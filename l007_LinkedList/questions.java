@@ -25,24 +25,78 @@ public class questions {
     return slow;
     }
     //leetcode 19
-    public static ListNode removeNthFromEnd(ListNode head, int n) {
+    public ListNode removeNthFromEnd(ListNode head, int n) {
+        if(head==null || head.next==null)
+            return null;
         ListNode curr=head;
         int count=0;
         while(curr!=null)
         {
+            curr=curr.next;
             count++;
         }
         int trav=1;
         curr=head;
+        if(count-n==0)
+        {
+            ListNode p=head;
+            head=head.next;
+            p.next=null;
+            return head;
+        }
         while(trav<count-n)
         {
             curr=curr.next;
+            trav++;
         }
         ListNode main=curr.next;
-        curr=main.next;
+        curr.next=main.next;
         main.next=null;
         return head;
     }
+    //leetcode 19 could you do in one pass ?
+    public int getlength(ListNode h)
+    {
+        ListNode curr=h;
+        int count=0;
+        while(curr!=null)
+        {
+            count++;
+            curr=curr.next;
+        }
+        return count;
+    }
+       public ListNode removeNthFromEnd(ListNode head, int n)
+       {
+           if(head==null || head.next==null)
+           {
+               return null;
+           }
+           if(getlength(head)-n==0)
+           {
+               ListNode t=head;
+               head=head.next;
+               t.next=null;
+               return head;
+           }
+           ListNode slow,fast;
+           slow=fast=head;
+           
+          for(int i=0;i<n;i++)
+           {
+               // if(fast!=null)
+               fast=fast.next;
+           }
+           while(fast!=null &&fast.next!=null)
+           {
+               slow=slow.next;
+               fast=fast.next;
+           }
+           ListNode p=slow.next;
+           slow.next=p.next;
+           p.next=null;
+           return head;
+       }
     //gfg 
     //https://practice.geeksforgeeks.org/problems/segregate-even-and-odd-nodes-in-a-linked-list5035/1
     ListNode divide(int N, ListNode head){
@@ -94,6 +148,7 @@ public class questions {
         dp.next=curr;
         return dummy.next;
     }
+    
     //leetcode 21. merge two sorted linked lists.
     //   time O(n) and space O(1) and inplace
     public ListNode mergeTwoSortedLists(ListNode l1,ListNode l2)
