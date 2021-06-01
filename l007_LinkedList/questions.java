@@ -66,37 +66,44 @@ public class questions {
         }
         return count;
     }
-       public ListNode removeNthFromEnd(ListNode head, int n)
-       {
-           if(head==null || head.next==null)
-           {
-               return null;
-           }
-           if(getlength(head)-n==0)
-           {
-               ListNode t=head;
-               head=head.next;
-               t.next=null;
-               return head;
-           }
-           ListNode slow,fast;
-           slow=fast=head;
-           
-          for(int i=0;i<n;i++)
-           {
-               // if(fast!=null)
-               fast=fast.next;
-           }
-           while(fast!=null &&fast.next!=null)
-           {
-               slow=slow.next;
-               fast=fast.next;
-           }
-           ListNode p=slow.next;
-           slow.next=p.next;
-           p.next=null;
-           return head;
-       }
+    public ListNode removeNthFromEndOpt(ListNode head, int n)
+    {
+        if(head==null || head.next==null)
+        {
+            return null;
+        }
+        // if(getlength(head)-n==0)
+        // {
+        //     ListNode t=head;
+        //     head=head.next;
+        //     t.next=null;
+        //     return head;
+        // }
+        ListNode slow,fast;
+        slow=fast=head;
+        
+       for(int i=0;i<n;i++)
+        {
+            // if(fast!=null)
+            fast=fast.next;
+        }
+        if(fast==null)
+        {
+             ListNode t=head;
+            head=head.next;
+            t.next=null;
+            return head;
+        }
+        while(fast!=null &&fast.next!=null)
+        {
+            slow=slow.next;
+            fast=fast.next;
+        }
+        ListNode p=slow.next;
+        slow.next=p.next;
+        p.next=null;
+        return head;
+    }
     //gfg 
     //https://practice.geeksforgeeks.org/problems/segregate-even-and-odd-nodes-in-a-linked-list5035/1
     ListNode divide(int N, ListNode head){
