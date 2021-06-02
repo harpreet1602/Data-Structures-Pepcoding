@@ -205,6 +205,88 @@ public class questions {
         ListNode rightSortedList=sortList(nhead);
         return mergeTwoSortedLists(leftSortedList,rightSortedList);
     }
+    //leetcode 234 is a linked list a pallindrome
+    //leetcode 206 reverse a linked list 
+    public ListNode reverse(ListNode head)
+    {
+        ListNode prev=null,curr=head;
+        while(curr!=null)
+        {
+            ListNode forw=curr.next;
+            curr.next=prev;
+            prev=curr;
+            curr=forw;
+        }
+        return prev;
+    }
+    public boolean isPalindrome(ListNode head) {
+        ListNode mid=midNode(head);
+        ListNode nhead=mid.next;
+        mid.next=null;
+        nhead=reverse(nhead);
+        ListNode p1=head,p2=nhead;
+        boolean ispalindrome=true;
+        while(p2!=null)
+        {
+            if(p1.val!=p2.val)
+            {
+                ispalindrome=false;
+                break;
+            }
+                p1=p1.next;
+                p2=p2.next;
+        }
+        nhead=reverse(nhead);
+        mid.next=nhead;
+        return ispalindrome;
+    }
+    //leetcode 234 Recursive is linkedlist a pallindrome using static variable
+    ListNode ptr;
+    public boolean isPalindromeR(ListNode head)
+    {
+        ptr=head;
+       return isPalindromeRecursive(head);
+    }
+    public boolean isPalindromeRecursive(ListNode node)
+    {
+        if(node==null)
+        return true;
+        
+        if(!isPalindromeRecursive(node.next))
+        {
+            return false;
+        }
+        if(ptr.val!=node.val)
+        {
+            return false;
+        }
+        ptr=ptr.next;
+        return true;
+    }
+    //leetcode 206 reverse a linked list recursively
+    public ListNode reverseListRecursive(ListNode curr) {
+        if(curr==null || curr.next==null)
+            return curr;
+         ListNode node=reverseListRecursive(curr.next);
+         node.next=curr;
+         return curr;
+     }
+    public ListNode traverse(ListNode curr)
+    {
+        while(curr!=null &&curr.next!=null)
+        {
+            curr=curr.next;
+        }
+        return curr;
+    }
+     public ListNode reverseList(ListNode head) {
+         if(head==null || head.next==null)
+             return head;
+         ListNode nhead=traverse(head);
+        ListNode curr=reverseListRecursive(head);
+         curr.next=null;
+             return nhead;
+     } 
     public static void main(String[] args)
     {
 

@@ -246,6 +246,40 @@ public class linkedList {
               tail=this.head;
               this.head=prev;
           }
+          
+    //Kth node from the end
+    //Not optimized , brute force
+    public int kthFromLast1(int k){
+        // write your code here
+        if(this.head==null)
+        return -1;
+        int len=getlength(this.head);
+        Node curr=this.head;
+        int diff=(len-k-1);
+        while(diff-->0)
+        {
+            curr=curr.next;
+        }
+        return curr.data;
+      }
+      //iterative,O(n) single traversal,cannot use size directly or indirectly
+      public int kthFromLast(int k)
+      {
+          Node prev,curr;
+          prev=curr=this.head;
+          int i=0;
+          while(i<k)
+          {
+              curr=curr.next;
+              i++;            
+          }
+          while(curr.next!=null)
+          {
+              curr=curr.next;
+              prev=prev.next;
+          }
+          return prev.data;
+      }
           //add two linked list
           public static Node reverse(Node head)
           {
@@ -326,7 +360,41 @@ public class linkedList {
             ans.addFirst(carry);
             return ans;
           }
-          //is linkedlist a pallindrome
+            //Recursive reverse the linked list
+    private void reversePRHelper(Node node){
+        // write your code here
+        if(node.next==null)
+        {
+            return;
+        }
+        reversePRHelper(node.next);
+        //node.next.next=node;
+        Node forw=node.next;
+        forw.next=node;
+      }
+  
+      public void reversePR(){
+        // write your code here
+        reversePRHelper(this.head);
+        this.head.next=null;
+        Node temp=this.head;
+        this.head=this.tail;
+        this.tail=temp;
+      }
+      //recursive display the reverse linked list only without reversing it
+      private void displayReverseHelper(Node node){
+        // write your code here
+        if(node==null)
+        return;
+        displayReverseHelper(node.next);
+        System.out.print(node.data+" ");
+      }
+  
+      public void displayReverse(){
+        displayReverseHelper(head);
+        System.out.println();
+      }
+      //is linkedlist a pallindrome
           public Node midNode(Node head)
           {
               Node slow=head;
@@ -416,39 +484,6 @@ public class linkedList {
     public static int findIntersection(linkedList one, linkedList two){
       // write your code here
       return findIntersection(one.head,two.head);
-    }
-    //Kth node from the end
-    //Not optimized , brute force
-    public int kthFromLast1(int k){
-      // write your code here
-      if(this.head==null)
-      return -1;
-      int len=getlength(this.head);
-      Node curr=this.head;
-      int diff=(len-k-1);
-      while(diff-->0)
-      {
-          curr=curr.next;
-      }
-      return curr.data;
-    }
-    //iterative,O(n) single traversal,cannot use size directly or indirectly
-    public int kthFromLast(int k)
-    {
-        Node prev,curr;
-        prev=curr=this.head;
-        int i=0;
-        while(i<k)
-        {
-            curr=curr.next;
-            i++;            
-        }
-        while(curr.next!=null)
-        {
-            curr=curr.next;
-            prev=prev.next;
-        }
-        return prev.data;
     }
     
 
