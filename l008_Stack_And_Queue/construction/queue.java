@@ -23,7 +23,7 @@ public class queue {
         throw new Exception("queueIsEmptyException: -1");
    }
    private void queueIsOverflowException() throws Exception{
-       if(this.size==this.maxsize)
+       if(this.size==this.maxSize)
        throw new Exception("queueIsOverflowException: -1");
    }
     
@@ -52,8 +52,9 @@ public class queue {
        this.arr[this.front]=0;
        this.front++;
        this.size--;
+       return data;
    }
-   public int remove(){
+   public int remove()throws Exception{
     queueIsEmptyException();
     return remove_();
    }
