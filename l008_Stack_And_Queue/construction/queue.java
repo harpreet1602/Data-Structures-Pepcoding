@@ -9,8 +9,8 @@ public class queue {
         this.arr=new int[len];
         this.maxSize=len;
         this.size=0;
-        this.front=-1;
-        this.rear=-1;
+        this.front=0;
+        this.rear=0;
    }
    public queue(){
     initialize(5);
@@ -26,7 +26,20 @@ public class queue {
        if(this.size==this.maxSize)
        throw new Exception("queueIsOverflowException: -1");
    }
-    
+    public String toString()
+    {
+        StringBuilder sb=new StringBuilder();
+        sb.append("[");
+        for(int i=0;i<this.size;i++)
+        {
+            int idx=(i+this.front)%this.maxSize;
+            sb.append(this.arr[idx]);
+            if(i!=this.size-1)
+            sb.append(", ");
+        }
+        sb.append("]");
+        return sb.toString();
+    }
    public int size(){
     return this.size;
    }
@@ -35,7 +48,8 @@ public class queue {
    }
    private void add_(int data)
    {
-    this.arr[++this.rear]=data;
+    this.arr[this.rear]=data;
+    this.rear=(this.rear+1)%this.maxSize;
     this.size++;
    }
    public void add(int data) throws Exception{
@@ -44,13 +58,13 @@ public class queue {
    }
    public int peek()throws Exception{
     queueIsEmptyException();
-    return this.arr[this.rear];
+    return this.arr[this.front];
    }
    private int remove_()
    {
        int data=this.arr[this.front];
        this.arr[this.front]=0;
-       this.front++;
+       this.front=(this.front+1)%this.maxSize;
        this.size--;
        return data;
    }
