@@ -78,6 +78,7 @@ public class BinaryTree{
     return node==null?-1:Math.max(height(node.left),height(node.right))+1;
   }
   //gfg count leaf nodes in a binary tree
+  //https://practice.geeksforgeeks.org/problems/count-leaves-in-binary-tree/1
   int countLeaves(Node node) 
     {
          // Your code  
@@ -93,6 +94,26 @@ public class BinaryTree{
         //  return count;
         return countLeaves(node.left)+countLeaves(node.right);
     }
-
-    
+    public static void exactlyOneChild(Node node,ArrayList<Integer> ans)
+    {
+        if(node==null || (node.left==null && node.right==null))
+        return;
+        exactlyOneChild(node.left,ans);
+        
+        exactlyOneChild(node.right,ans);
+        if(node.left==null || node.right==null)
+        ans.add(node.data);
+    }
+    //https://www.geeksforgeeks.org/print-the-nodes-having-exactly-one-child-in-a-binary-tree/
+    public static int countExactlyOneChild(Node node)
+    {
+        if(node==null || (node.left==null&&node.right==null))
+        return 0;
+        int count=0;
+        count+=countExactlyOneChild(node.left);
+        count+=countExactlyOneChild(node.right);
+        if(node.left==null || node.right==null)
+        count+=1;
+        return count;
+    }
 }
