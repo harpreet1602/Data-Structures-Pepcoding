@@ -116,4 +116,97 @@ public class BinaryTree{
         count+=1;
         return count;
     }
+    public static boolean findData(Node node,int data){
+        if(node==null)
+        return false;
+        
+        if(node.data==data)
+        return true;
+
+        return findData(node.left,data) || findData(node.right,data);
+    }
+    public static boolean nodeToRootPath(Node node,int data,ArrayList<Node> ans)
+    {
+        if(node==null)
+        return false;
+
+        if(node.data==data)
+        {
+            ans.add(node);
+            return true;
+        }
+
+        boolean res=nodeToRootPath(node.left,data,ans) || nodeToRootPath(node.right,data,ans);
+        if(res)
+        {
+            ans.add(node);
+        }
+        return res;
+    }
+    public static ArrayList<Node> nodeToRootPath(Node root, int data)
+    {
+            ArrayList<Node> ans=new ArrayList<>();
+            boolean check=nodeToRootPath(root,data,ans);
+            return ans;
+    }
+    public static ArrayList<Node> nodeToRootPath01(Node node,int data)
+    {
+        if(node==null)
+        return null;
+
+        if(node.data==data)
+        {
+            ArrayList<Node> ans=new ArrayList<>();
+            ans.add(node);
+            return ans;
+        }
+
+        ArrayList<Node> left=nodeToRootPath01(node.left,data);
+        if(left!=null)
+        {
+            left.add(node);
+            return left;
+        }
+        ArrayList<Node> right=nodeToRootPath01(node.right,data);
+        if(right!=null)
+        {
+            right.add(node);
+            return right;
+        }
+        return null;
+    }
+    public static ArrayList<Node> nodeToRootPath02(Node node, int data){
+        ArrayList<Node> ans=nodeToRootPath01(node,data);
+        return (ans!=null)?ans:new ArrayList<>();
+        }
+    public static void KLevelsDown(Node node , int k,Node block,ArrayList<Integer> ans)
+    {
+        if(node==null || k<0 || node==block)
+        return;
+
+        if(k==0)
+        {
+            ans.add(node.data);
+            return;
+        }
+
+        KLevelsDown(node.left,k--,block,ans);
+        KLevelsDown(node.right,k--,block,ans);
+    }
+    public static ArrayList<Integer> printKNodesFar(Node node, int data, int k) {
+        // write your code here
+        ArrayList<Node> list=new ArrayList<>();
+        nodeToRootPath(node, data, list);
+        
+        Node block=null;
+        ArrayList<Integer> ans=new ArrayList<>();
+
+        for(int i=0;i<list.size();i++)
+        {
+            KLevelsDown(list.get(i), k-i ,block, ans);
+            block=list.get(i);
+        }
+        return ans;
+      }
+
 }
