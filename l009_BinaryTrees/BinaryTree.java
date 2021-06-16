@@ -325,7 +325,6 @@ public class BinaryTree{
 
   public static int diameterofBinaryTree(Node root)
   {
-      
   }
 
 }
