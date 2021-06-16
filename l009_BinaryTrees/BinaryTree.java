@@ -233,4 +233,99 @@ public class BinaryTree{
         }
         return -1;
     }
+    
+    //is balanced binary tree
+    public static int height(Node node)
+    {
+        return node==null?-1:Math.max(height(node.left),height(node.right))+1;
+    }
+    public static boolean isBalancedTree(Node node)
+    {
+        if(node==null)
+        return true;
+        
+        if(!isBalancedTree(node.left))
+        return false;
+        
+        if(!isBalancedTree(node.right)){
+            return false;
+        }
+        
+        int left=height(node.left);
+        int right=height(node.right);
+        
+        int diff=Math.abs(left-right);
+        if(diff>1)
+        {
+            return false;
+        }
+        return true;
+    }
+    //is balanced tree
+  //  2nd method O(n) solution baar height nhi nikalni pad rhi that is why linear time mai
+   // ek node ko ek baar visit karte hue kaam hojaega
+    public static class isBalPair{
+        int height=-1;
+        boolean isBal=true;
+    }
+    public static isBalPair bal(Node node)
+    {
+        if(node==null)
+        {
+            return new isBalPair();
+        }
+        isBalPair left=bal(node.left);
+        if(!left.isBal)
+            return left;
+        isBalPair right=bal(node.right);
+        if(!right.isBal)
+            return right;
+        isBalPair myans=new isBalPair();
+        if(Math.abs(left.height-right.height)>1)
+        {
+            myans.isBal=false;
+            return myans;
+        }
+        myans.height=Math.max(left.height,right.height)+1;
+        return myans;
+        
+    }
+    public static boolean isBalanced(Node root) {
+     isBalPair ans=bal(root);
+        return ans.isBal;
+    }
+//3rd method less readable kaam chalau -2 represents ki balanced tree nhi hai to vapsi karlo -2 return karte karte 
+    public static int bal1(Node node)
+{
+    if(node==null)
+    {
+        return -1;
+    }
+    int left=bal1(node.left);
+    if(left==-2)
+    {
+        return left;
+    }
+    int right=bal1(node.right);
+    if(right==-2)
+    {
+        return right;
+    }
+    int diff=Math.abs(left-right);
+    if(diff>1)
+    {
+        return -2;
+    }
+    return Math.max(left,right)+1;
+}
+  public static boolean isBalanced1(Node root) {
+  int res=bal1(root);
+      return res!=-2?true:false;
+  }
+
+  public static int diameterofBinaryTree(Node root)
+  {
+      
+  }
+
 }
