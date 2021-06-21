@@ -166,6 +166,33 @@ public static Node remove(Node node, int data) {
   }
   return node;
 }
+    //https://practice.geeksforgeeks.org/problems/add-all-greater-values-to-every-node-in-a-bst/1#
+    //Add all greater values to every node in a BST
+     // modify the BST and return its root
+     //inorder of some different kind first of all right then parent and then left
+     //making use of an array of size instead of variable because we need to reflect changes
+     // done at one level to another levels also that is in the form of previous sum acheived so
+     //far adding it in current and setting it equal to current for backtracking to previous
+     // positions
+
+     public Node modify1(Node root,int[] a)
+     {
+         if(root==null)
+         return null;
+         //Write your code here
+         root.right=modify1(root.right,a);
+         root.data+=a[0];
+         a[0]=root.data;
+         root.left=modify1(root.left,a);
+         return root;
+     }
+     public Node modify(Node root)
+     {
+         int[] a=new int[1];
+         Node node=modify1(root,a);
+         return node;
+     }
+
 
 
     }
