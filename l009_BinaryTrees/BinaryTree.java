@@ -146,7 +146,7 @@ public class BinaryTree{
     public static ArrayList<Node> nodeToRootPath(Node root, int data)
     {
             ArrayList<Node> ans=new ArrayList<>();
-            boolean check=nodeToRootPath(root,data,ans);
+            nodeToRootPath(root,data,ans);
             return ans;
     }
     public static ArrayList<Node> nodeToRootPath01(Node node,int data)
@@ -235,7 +235,7 @@ public class BinaryTree{
     }
     
     //is balanced binary tree
-    public static int height(Node node)
+    public static int height1(Node node)
     {
         return node==null?-1:Math.max(height(node.left),height(node.right))+1;
     }
@@ -251,8 +251,8 @@ public class BinaryTree{
             return false;
         }
         
-        int left=height(node.left);
-        int right=height(node.right);
+        int left=height1(node.left);
+        int right=height1(node.right);
         
         int diff=Math.abs(left-right);
         if(diff>1)
@@ -325,6 +325,7 @@ public class BinaryTree{
 
   public static int diameterofBinaryTree(Node root)
   {
+      return -1;
   }
 
 }
