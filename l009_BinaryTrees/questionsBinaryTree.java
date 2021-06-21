@@ -1,5 +1,5 @@
 import java.util.*;
-public class questions {
+public class questionsBinaryTree {
     //Definition for a binary tree node.
      public class TreeNode {
          int val;
