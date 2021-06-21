@@ -1,6 +1,20 @@
 import java.util.*;
 public class l002_BST{
     public static class Node{
+        int data;
+        Node left;
+        Node right;
+        Node(int data, Node left, Node right)
+        {
+            this.data = data;
+            this.left = left;
+            this.right = right;
+        }
+        Node(int data)
+        {
+            this(data, null , null);
+        }
+    }
         public static int size(Node node) {
             // write your code here
             return node==null?0:size(node.left)+size(node.right)+1;
@@ -205,6 +219,4 @@ public static Node remove(Node node, int data) {
        sum+=temp;
        rwsol(node.left);
      }
-
-    }
 }
