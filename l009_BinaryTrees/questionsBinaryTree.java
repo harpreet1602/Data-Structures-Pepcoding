@@ -143,4 +143,52 @@ public int bal1(TreeNode node)
   int res=bal1(root);
       return res!=-2?true:false;
   }
+  //leetcode 236  lca
+  public ArrayList<TreeNode> nodeToRootPath(TreeNode root,int data)
+    {
+        if(root==null)
+            return null;
+        if(root.val==data)
+        {
+            ArrayList<TreeNode> base=new ArrayList<>();
+            base.add(root);
+            return base;
+        }
+       
+       ArrayList<TreeNode> myAnsl=nodeToRootPath(root.left,data);
+        if(myAnsl!=null)
+        {
+            myAnsl.add(root);
+            return myAnsl;
+        }
+             
+      ArrayList<TreeNode>  myAnsr=nodeToRootPath(root.right,data);
+            if(myAnsr!=null)
+            {
+            myAnsr.add(root);
+            return myAnsr;
+            }
+        return null;
+    }
+    public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+        if(root==null || p==null || q==null)
+            return null;
+        ArrayList<TreeNode> ansp=nodeToRootPath(root,p.val);
+        
+        ArrayList<TreeNode> ansq=nodeToRootPath(root,q.val);
+        
+        int i=ansp.size()-1;
+        
+        int  j=ansq.size()-1;
+        TreeNode lca=null;
+        while(i>=0 && j>=0 )
+        {
+            if(ansp.get(i)!=ansq.get(j))
+                break;
+            lca=ansp.get(i);
+            i--;
+            j--;
+        }
+        return lca;
+    }
 }

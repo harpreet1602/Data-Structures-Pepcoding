@@ -65,10 +65,6 @@ public class l003_GenericTree {
         }
         return min;
     }
-    public static int minmum(Node root)
-    {
-
-    }
     //mai khud hu kya to return true nhi to children mai hai kya
     //agar hai to vhi sai true hote rahega by using or ya phir if bhi 
     //use kar sakte the
@@ -146,5 +142,23 @@ public static ArrayList<Integer> nodeToRootPath(Node node, int data){
     }
     return myAns;
  }
-
+ //DONO KI NODE TO ROOT PATH PATA KARLO AUR PHIR REVERSE SAI TRAVERSE KARO JAHA PAI UNEQUAL HONGE
+ //USSE JUST PEHLE LCA STORED HI AAPKA LCA HOGA
+ public static int lca(Node node, int d1, int d2) {
+    // write your code here
+    ArrayList<Integer> list1=nodeToRootPath(node,d1);
+    ArrayList<Integer> list2=nodeToRootPath(node,d2);
+    int lca=-1;
+    int i= list1.size()-1;
+    int j= list2.size()-1;
+    while(i>=0 && j>=0)
+    {
+        if(list1.get(i)!=list2.get(j))
+        break;
+        lca=list1.get(i);
+        i--;
+        j--;
+    }
+    return lca;
+  }
 }
