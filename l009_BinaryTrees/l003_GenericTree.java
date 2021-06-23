@@ -1,4 +1,4 @@
-import java.util.ArrayList;
+import java.util.*;
 public class l003_GenericTree {
     public static class Node{
         int data = 0;
@@ -208,4 +208,145 @@ public static ArrayList<Integer> nodeToRootPath(Node node, int data){
     int l=countLca(node,d1,d2);
     return x+y-2*l;
   }
+
+  //similar gerneric tree 
+  //kya mere children ke size equal hai , agar hai to chidren ke individually children ka size equal hai
+  //jaha pai nhi hai to false return karenge aur and operator sai ek baar false hoga to and ke aagge
+  //condition nhi chalegi aur jab ek baar false return hota hai kisi child sai to vo children ka loop 
+  //pura hote hi bahar nikal jaaata hai main ke pass aage ke liye calls nhi lagti
+  public static boolean areSimilar(Node n1, Node n2) {
+    // write your code here
+    if(n1.children.size()!=n2.children.size())
+    {
+        return false;
+    }
+    boolean res=true;
+    for(int i=0;i<n1.children.size();i++)
+    {
+        Node node1=n1.children.get(i);
+        Node node2=n2.children.get(i);
+        
+        res=res && areSimilar(node1,node2);
+    }
+    return res;
+  }
+    //isme ek side sai ek and parli side sai dusre ke children check karenge baaki same as areSimilar
+    //karenge kyuki mirror mai shape palat jati hai na isliye 
+    public static boolean areMirror(Node n1, Node n2) {
+        // write your code here
+        if(n1.children.size()!=n2.children.size())
+        return false;
+        
+        boolean res=true;
+        int n=n1.children.size();
+        for(int i=0;i<n;i++)
+        {
+            Node c1=n1.children.get(i);
+            Node c2=n2.children.get(n-i-1);
+            res=res&&areMirror(c1,c2);
+        }
+        return res;
+      }
+      //data should also match
+      public static boolean areMirrorData(Node n1, Node n2) {
+        // write your code here
+        if(n1.children.size()!=n2.children.size() || n1.data!=n2.data)
+        return false;
+        
+        boolean res=true;
+        int n=n1.children.size();
+        for(int i=0;i<n;i++)
+        {
+            Node c1=n1.children.get(i);
+            Node c2=n2.children.get(n-i-1);
+            res=res&&areMirror(c1,c2);
+        }
+        return res;
+      }
+      //is symmetric 
+      //tree khud sai khud mirror image ho to symetric hoga
+      public static boolean IsSymmetric(Node node) {
+        // write your code here
+        return areMirror(node,node);
+      }
+      //ceil and floor
+      //HUM CEIL AND FLOOR DEKH KE CHALENGE
+        
+  static int ceil;
+  static int floor;
+  
+  public static void ceilAndFloor_(Node node, int data) {
+    if(node.data<data)
+    {
+        floor=Math.max(floor,node.data);
+    }
+    if(node.data>data)
+    {
+        ceil=Math.min(ceil,node.data);
+    }
+    for(Node child:node.children)
+    {
+        ceilAndFloor_(child,data);
+    }
+  }
+  public static void ceilAndFloor(Node node, int data) {
+    // Write your code here
+  //2147483647
+  ceil=Integer.MAX_VALUE;
+  floor=Integer.MIN_VALUE;
+    ceilAndFloor_(node,data);
+  }
+
+  // kth largest
+  //har baari traverse karke upperbound sai kam mai sai maximum nikal ke late raho aur k baari traaverse
+  //karne ke baad upperbound hi kth larggest hojaega
+
+  public static int floor(Node node,int ub)
+  {
+      int maxAns=-(int)1e9;
+      for(Node child:node.children)
+      {
+          int recAns=floor(child,ub);
+          maxAns=Math.max(maxAns,recAns);
+      }
+      return node.data<ub ? Math.max(node.data,maxAns):maxAns;
+  }
+public static int kthLargest(Node node, int k){
+  // write your code here
+  int upperbound=(int)1e9;
+  for(int i=0;i<k;i++)
+  {
+      upperbound=floor(node,upperbound);
+  }
+  return upperbound;
+  
+}
+    //faith ye hai ki niche vale khud ko linearize karke aagye hai
+    //ab mai apne children ke aakhir sai loop run karunga aur 2nd element tak chalunga
+    //aur jispe hu usse pichle kki tail i.e. leaf node utha ke launga and uske arraylist mai children
+    // ke element ko 
+    //dal dunga and current node ke arraylist mai sai us child ko delete kardunga 
+  public static Node getTail(Node node)
+    {
+        while(node.children.size()!=0)
+        {
+            node=node.children.get(0);
+        }
+        return node;
+    }
+  public static void linearize(Node node){
+    // write your code here
+    for(Node child:node.children)
+    linearize(child);
+    
+    for(int i=node.children.size()-1;i>0;i--)
+    {
+        Node tail=getTail(node.children.get(i-1));
+        tail.children.add(node.children.get(i));
+        node.children.remove(node.children.get(i));
+    }
+  }
+
+  
+
 }
