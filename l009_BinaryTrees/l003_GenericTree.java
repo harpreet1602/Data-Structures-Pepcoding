@@ -161,4 +161,51 @@ public static ArrayList<Integer> nodeToRootPath(Node node, int data){
     }
     return lca;
   }
+  // formula for finding the distance between the nodes 
+  //nodeToRoot path1 + nodeToRootPath2 - 2*lca will give the distance in terms of edge.
+
+  public static ArrayList<Integer> nodeToRootPath1(Node node, int data) {
+    if (node.data == data) {
+      ArrayList<Integer> path = new ArrayList<>();
+      path.add(node.data);
+      return path;
+    }
+
+    for (Node child : node.children) {
+      ArrayList<Integer> ptc = nodeToRootPath1(child, data);
+      if (ptc.size() > 0) {
+        ptc.add(node.data);
+        return ptc;
+      }
+    }
+
+    return new ArrayList<>();
+  }
+
+  public static int countLca(Node node, int d1, int d2) {
+    ArrayList<Integer> p1 = nodeToRootPath1(node, d1);
+    ArrayList<Integer> p2 = nodeToRootPath1(node, d2);
+
+    int i = p1.size() - 1;
+    int j = p2.size() - 1;
+
+    int count=0;
+    while(i >= 0 && j >= 0 && p1.get(i) == p2.get(j)){
+      i--;
+      j--;
+      count++;
+    }
+
+    return count;
+  }
+
+  public static int distanceBetweenNodes(Node node, int d1, int d2){
+    // write your code here
+    ArrayList<Integer> list1=nodeToRootPath1(node,d1);
+    ArrayList<Integer> list2=nodeToRootPath1(node,d2);
+    int x=list1.size();
+    int y=list2.size();
+    int l=countLca(node,d1,d2);
+    return x+y-2*l;
+  }
 }
