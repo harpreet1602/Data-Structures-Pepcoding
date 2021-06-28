@@ -346,7 +346,94 @@ public static int kthLargest(Node node, int k){
         node.children.remove(node.children.get(i));
     }
   }
+  //tree ka level order traversal nikalna tha jaha parent then uske child print honge
+  //to algo ye hai 
+  //add the root node
+  //while size is not zero
+  //take the size of current level
+  //while size-- is not zero 
+  //remove the first element
+  //and add its children and neighbours
+  public static void levelOrder(Node node){
+    // write your code here
+    LinkedList<Node> que = new LinkedList<>();
+    que.add(node);
+    int level=0;
+    while(que.size()!=0)
+    {
+        int size=que.size();
+        while(size-->0)
+        {
+            Node rn = que.removeFirst();
+            System.out.print(rn.data+" ");
+            for(Node child:rn.children)
+            {
+                que.addLast(child);
+            }
+            
+        }
+        level++;
+    }
+    System.out.println(".");
+  }
 
-  
+  public static void levelOrderLinewise(Node node){
+    // write your code here
+    LinkedList<Node> que = new LinkedList<>();
+    que.add(node);
+    int level=0;
+    while(que.size()!=0)
+    {
+        int size= que.size();
+        while(size-->0)
+        {
+            Node rn=que.removeFirst();
+            System.out.print(rn.data+" ");
+            for(Node child:rn.children)
+            {
+                que.addLast(child);
+            }
+        }
+        level++;
+        System.out.println();
+    }
+  }
+  //stack ke bina nhi ho sakta yeh best method
+  public static void levelOrderLinewiseZZ(Node node){
+    // write your code here
+    int level=0;
+    LinkedList<Node> que=new LinkedList<>();
+    LinkedList<Node> st=new LinkedList<>();
+    que.add(node);
+    while(que.size()!=0)
+    {
+        int size=que.size();
+        while(size-->0)
+        {
+            Node rn=que.removeFirst();
+            System.out.print(rn.data+" ");
+            if(level%2==0)
+            {
+            for(Node child:rn.children)
+            {
+                st.addFirst(child);
+            }
+            }
+            else
+            {
+                for(int i=rn.children.size()-1;i>=0;i--)
+                {
+                    Node child=rn.children.get(i);
+                    st.addFirst(child);
+                }
+            }
+        }
+        level++;
+        System.out.println();
+        LinkedList<Node> temp=st;
+        st=que;
+        que=temp;
+    }
+  }
 
 }

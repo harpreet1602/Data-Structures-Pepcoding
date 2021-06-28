@@ -191,4 +191,79 @@ public int bal1(TreeNode node)
         }
         return lca;
     }
+
+
+
+    //leetcode 102
+    // Binary Tree Level Order Traversal
+    public List<List<Integer>> levelOrder(TreeNode root) {
+        List<List<Integer>> ans=new ArrayList<>();
+        if(root==null)
+        {
+            return ans;
+        }
+        LinkedList<TreeNode> que = new LinkedList<>();
+       
+        que.addLast(root);
+        while(que.size()!=0)
+        {
+            int size = que.size();
+            List<Integer> smallAns=new ArrayList<>(); 
+            while(size-->0)
+            {
+                TreeNode rn=que.removeFirst();
+                smallAns.add(rn.val);
+                if(rn.left!=null)
+                    que.addLast(rn.left);
+                if(rn.right!=null)
+                    que.addLast(rn.right);
+        }
+            ans.add(smallAns);
+        }
+        return ans;
+    }
+    //leetcode 103
+    //Binary Tree Zigzag Level Order Traversal
+    public List<List<Integer>> zigzagLevelOrder(TreeNode node) {
+        List<List<Integer>> ans=new ArrayList<>();
+    if(node==null)
+        return ans;
+        // write your code here
+    int level=0;
+    LinkedList<TreeNode> que=new LinkedList<>();
+    LinkedList<TreeNode> st=new LinkedList<>();
+    que.addLast(node);
+    while(que.size()!=0)
+    {
+        int size=que.size();
+        List<Integer> smallAns=new ArrayList<>();
+        while(size-->0)
+        {
+            TreeNode rn=que.removeFirst();
+            smallAns.add(rn.val);
+            if(level%2==0)
+            {
+                if(rn.left!=null)
+                st.addFirst(rn.left);
+                if(rn.right!=null)
+                st.addFirst(rn.right);
+            }
+            else
+            {
+                
+                if(rn.right!=null)
+                st.addFirst(rn.right);
+               
+                if(rn.left!=null)
+                st.addFirst(rn.left);
+            }
+        }
+        level++;
+        LinkedList<TreeNode> temp=st;
+        st=que;
+        que=temp;
+        ans.add(smallAns);
+  }
+        return ans;
+    }
 }

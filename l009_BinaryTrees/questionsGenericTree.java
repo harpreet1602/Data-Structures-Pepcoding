@@ -35,4 +35,32 @@ public int maxDepth(Node root){
    return  maxDepth_(root);
 }
 
+//leetcode 429
+//N-ary Tree Level Order Traversal
+
+public List<List<Integer>> levelOrder(Node root) {
+    List<List<Integer>> ans=new ArrayList<>();
+    if(root==null)
+        return ans;
+    LinkedList<Node> que=new LinkedList<>();
+    que.add(root);
+    while(que.size()!=0)
+    {
+        int size=que.size();
+        List<Integer> smallAns=new ArrayList<>();
+        while(size-->0)
+        {
+            Node rn=que.removeFirst();
+            smallAns.add(rn.val);
+            for(Node child:rn.children)
+            {
+                que.addLast(child);
+            }
+        }
+        ans.add(smallAns);
+    }
+    return ans;
+}
+//leetcode 103
+//Binary Tree Zigzag Level Order Traversal
 }
