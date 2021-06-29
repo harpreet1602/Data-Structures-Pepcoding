@@ -103,7 +103,7 @@ public class l001
     
     public static void preOrder(ArrayList<Edge>[] graph, int src, boolean[] vis, int wsf, String psf){
         
-        System.out.println(src + "->"+ psf + "@"+wsf);        
+        System.out.println(src + " -> "+ (psf+src) + " @ "+wsf);        
         vis[src]=true;
         for(Edge e:graph[src]){
             if(!vis[e.nbr])
@@ -117,14 +117,81 @@ public class l001
         vis[src]=true;
         for(Edge e:graph[src]){
             if(!vis[e.nbr])
-            preOrder(graph, e.nbr, vis, wsf+e.wt, psf+src);
+            postOrder(graph, e.nbr, vis, wsf+e.wt, psf+src);
         }
         vis[src]=false;
         
-        System.out.println(src + "->"+ psf+src + "@"+wsf);        
+        System.out.println(src + " -> "+ (psf+src) + " @ "+wsf);        
         
     }
 
+    public static class pathPair{
+        int wsf=-1;
+        String psf="";
+    }
+
+
+    public static pathPair lightiestPath(ArrayList<Edge>[] graph,int src, int dest,boolean[] vis)
+    {
+        if(src==dest)
+        {
+            pathPair base=new pathPair();
+            base.psf+=src;
+            base.wsf=0;
+            return base;
+        }
+
+        vis[src]=true;
+        pathPair myAns=new pathPair();
+        for(Edge e:graph[src]){
+            if(!(vis[e.nbr])){
+            pathPair recAns=lightiestPath(graph, e.nbr, dest, vis);    
+                if(recAns.wsf!=-1 && recAns.wsf+e.wt<myAns.wsf){
+                    myAns.psf=src+recAns.psf;
+                    myAns.wsf=recAns.wsf+e.wt;
+                }
+        
+        }
+        }
+        vis[src]=false;
+        return myAns;
+    }
+    public static void lightiestPath(ArrayList<Edge>[] graph,int src,int dest){
+        boolean[] vis=new boolean[graph.length];
+       pathPair ans=lightiestPath(graph, src, dest, vis);
+       System.out.println("Lightiest path of: "+ans.psf+" of width: "+ans.wsf);
+    }
+
+    public static pathPair heaviestPath(ArrayList<Edge>[] graph,int src, int dest,boolean[] vis)
+    {
+        if(src==dest)
+        {
+            pathPair base=new pathPair();
+            base.psf+=src;
+            base.wsf=0;
+            return base;
+        }
+
+        vis[src]=true;
+        pathPair myAns=new pathPair();
+        for(Edge e:graph[src]){
+            if(!(vis[e.nbr])){
+            pathPair recAns=heaviestPath(graph, e.nbr, dest, vis);    
+                if(recAns.wsf!=-1 && recAns.wsf+e.wt>myAns.wsf){
+                    myAns.psf=src+recAns.psf;
+                    myAns.wsf=recAns.wsf+e.wt;
+                }
+        
+        }
+        }
+        vis[src]=false;
+        return myAns;
+    }
+    public static void heaviestPath(ArrayList<Edge>[] graph,int src,int dest){
+        boolean[] vis=new boolean[graph.length];
+       pathPair ans=heaviestPath(graph, src, dest, vis);
+       System.out.println("Heaviest path of: "+ans.psf+" of width: "+ans.wsf);
+    }
 
     public static void construction(){
         int N=7;
@@ -145,7 +212,10 @@ public class l001
         //  display(graph,N);
         boolean[] vis=new boolean[N];
         // System.out.println(printAllPaths(graph, 0, 6, vis, ""));
-        preOrder(graph, 0, vis, 0, "");
+        // preOrder(graph, 0, vis, 0, "");
+        // postOrder(graph, 0, vis, 0, "");
+        heaviestPath(graph, 0, 6);
+        // lightiestPath(graph, 0, 1);
     }
     public static void main(String[] args)
     {
