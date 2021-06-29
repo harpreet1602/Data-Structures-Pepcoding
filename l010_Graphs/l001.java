@@ -80,8 +80,51 @@ public class l001
             }
         }
         return res;
+    }
+
+    public static int printAllPaths(ArrayList<Edge>[] graph,int src,int dest,boolean[] vis,String psf)
+    {
+        if(src==dest){
+        System.out.println(psf+dest);
+        psf="";
+        return 1;
+        }
+        
+        vis[src]=true;
+        int count=0;
+        for(Edge e:graph[src])
+        {
+            if(!vis[e.nbr])
+            count+=printAllPaths(graph,e.nbr,dest,vis,psf+src);
+        }
+        vis[src]=false;
+        return count;
+    }
+    
+    public static void preOrder(ArrayList<Edge>[] graph, int src, boolean[] vis, int wsf, String psf){
+        
+        System.out.println(src + "->"+ psf + "@"+wsf);        
+        vis[src]=true;
+        for(Edge e:graph[src]){
+            if(!vis[e.nbr])
+            preOrder(graph, e.nbr, vis, wsf+e.wt, psf+src);
+        }
+        vis[src]=false;
+    }
+
+    
+    public static void postOrder(ArrayList<Edge>[] graph, int src, boolean[] vis, int wsf, String psf){
+        vis[src]=true;
+        for(Edge e:graph[src]){
+            if(!vis[e.nbr])
+            preOrder(graph, e.nbr, vis, wsf+e.wt, psf+src);
+        }
+        vis[src]=false;
+        
+        System.out.println(src + "->"+ psf+src + "@"+wsf);        
         
     }
+
 
     public static void construction(){
         int N=7;
@@ -99,7 +142,10 @@ public class l001
         addEdge(graph, 4, 5, 2);
         addEdge(graph, 4, 6, 8);
         addEdge(graph, 5, 6, 3);
-        
+        //  display(graph,N);
+        boolean[] vis=new boolean[N];
+        // System.out.println(printAllPaths(graph, 0, 6, vis, ""));
+        preOrder(graph, 0, vis, 0, "");
     }
     public static void main(String[] args)
     {
