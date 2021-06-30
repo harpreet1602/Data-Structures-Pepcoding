@@ -1,1 +1,3 @@
-Lightiest path of: 03456 of width: 17
+
+Ceil is: 10
+Floor is: 0

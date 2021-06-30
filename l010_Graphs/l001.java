@@ -33,7 +33,7 @@ public class l001
             System.out.println();
         }
     }
-    public static int findIndex(ArrayList<Edge>[] graph,int u,int v)
+    public static int findEdge(ArrayList<Edge>[] graph,int u,int v)
     {
         ArrayList<Edge> list=graph[u];
         for(int i=0;i<list.size();i++)
@@ -197,6 +197,179 @@ public class l001
        System.out.println("Heaviest path of: "+ans.psf+" of width: "+ans.wsf);
     }
 
+    public static class ceilAndFloor{
+        int ceil=(int)1e9;
+        int floor=-(int)1e9;
+    }
+    public static void ceilAndFloor(ArrayList<Edge>[] graph,int data,int src,boolean[] vis,int wsf,ceilAndFloor pair)
+    {
+        if(wsf>data){
+            pair.ceil = Math.min(wsf,pair.ceil);
+        }
+        if(wsf<data){
+            pair.floor = Math.max(wsf,pair.floor);
+        }
+        vis[src]=true;
+        for(Edge e:graph[src])
+        {
+            if(!vis[e.nbr])
+          ceilAndFloor(graph,data,e.nbr,vis,wsf+e.wt,pair);
+        }
+        vis[src]=false;
+    }
+    public static void ceilAndFloor(ArrayList<Edge>[] graph,int src,int data){
+        boolean[] vis=new boolean[graph.length];
+        ceilAndFloor pair = new ceilAndFloor();
+        ceilAndFloor(graph,data,src,vis,0,pair);
+        System.out.println("\nCeil is: " + pair.ceil + "\nFloor is: " + pair.floor);
+    }
+
+      
+    //Get Connected Components Of A Graph
+    //har ek vertexrt pai dfs ko call karo aur jitni baari dfs call hoga jis jis vertex pai
+    //utne hi connected component honge kyuki unme visited[i] mai false hoga to nya component
+    //mil jaega
+
+   public static void dfs(ArrayList<Edge>[] graph,int src,boolean[] visited,ArrayList<Integer> ans){
+    visited[src]=true;
+    ans.add(src);
+    for(Edge e:graph[src])
+    {
+        if(!visited[e.nbr])
+        {
+            
+            dfs(graph,e.nbr,visited,ans);
+     
+        }
+    }
+}
+public static void dfsgcg(ArrayList<Edge>[] graph,ArrayList<ArrayList<Integer>> ans)
+{
+    int n=graph.length,gcc=0;
+    boolean[] visited=new boolean[n];
+   
+    for(int i=0;i<n;i++)
+    {
+        if(!visited[i])
+        {
+             ArrayList<Integer> smallAns=new ArrayList<>();
+            dfs(graph,i,visited,smallAns);
+            gcc++;
+            ans.add(smallAns);
+        }
+    }
+}
+
+//Is Graph Connected
+
+public static void dfsgcg1(ArrayList<Edge>[] graph,ArrayList<ArrayList<Integer>> ans)
+   {
+       int n=graph.length,gcc=0;
+       boolean[] visited=new boolean[n];
+      
+       for(int i=0;i<n;i++)
+       {
+           if(!visited[i])
+           {
+                ArrayList<Integer> smallAns=new ArrayList<>();
+               dfs(graph,i,visited,smallAns);
+               gcc++;
+               ans.add(smallAns);
+           }
+       }
+       if(gcc==1)
+       System.out.println("true");
+       else
+       System.out.println("false");
+   }
+
+   //number of islands
+     
+   public static void dfs(int[][] grid,int[][] dir,int sr,int sc){
+    grid[sr][sc]=1;
+    for(int d=0;d<4;d++)
+    {
+        int r=sr+dir[d][0];
+        int c=sc+dir[d][1];
+        if(r>=0 && c>=0 && r<grid.length && c<grid[0].length && grid[r][c]==0)
+        {
+            dfs(grid,dir,r,c);
+        }
+    }
+}
+
+public static int numIslands(int[][] grid) {
+    int componentcount=0;
+    int m=grid.length;
+    int n=grid[0].length;
+    int[][] dir={{1,0},{-1,0},{0,-1},{0,1}};
+    
+    for(int i=0;i<m;i++)
+    {
+        for(int j=0;j<n;j++)
+        {
+            if(grid[i][j]==0)
+            {
+                dfs(grid,dir,i,j);
+                componentcount++;
+            }
+        }
+    }
+    return componentcount;
+} 
+
+    //Hamiltonian path => har ek vertex ek baar travel hoti hai
+    //Hamiltonian cycle=> hamiltonian path mai hi ek edge agar terminal ki original source sai ho
+    
+   public static void HamiltonianPathCycle(ArrayList<Edge>[] graph,int src,int orsrc,boolean[] vis,int edgeCount,String ans)
+   {
+       if(edgeCount==graph.length-1)
+       {
+           int ind=findEdge(graph,src,orsrc);
+           if(ind!=-1)
+           {
+               System.out.println(ans+src+"*");
+           }
+           else
+           {
+               
+               System.out.println(ans+src+".");
+           }
+           return;
+           
+       }
+       
+       vis[src]=true;
+       
+       for(Edge e:graph[src])
+       {
+           if(!vis[e.nbr])
+           {
+               
+         HamiltonianPathCycle(graph,e.nbr,orsrc,vis,edgeCount+1,ans+src);
+           }
+       }
+       
+       vis[src]=false;
+       
+       
+       
+   }
+
+   public static void HamiltonianPathCycle(ArrayList<Edge>[] graph,int src)
+     {
+         int n=graph.length;
+         boolean[] vis=new boolean[n];
+         int orsrc=src;
+         int edgeCount=0;
+         String ans="";
+         HamiltonianPathCycle(graph,src,orsrc,vis,edgeCount,ans);
+     
+         
+     }
+
+
+
     public static void construction(){
         int N=7;
         ArrayList<Edge>[] graph = new ArrayList[N];
@@ -220,7 +393,8 @@ public class l001
         // preOrder(graph, 0, vis, 0, "");
         // postOrder(graph, 0, vis, 0, "");
         // heaviestPath(graph, 0, 6);
-        lightiestPath(graph, 0, 6);
+        // lightiestPath(graph, 0, 6);
+        ceilAndFloor(graph, 0, 4);
     }
     public static void main(String[] args)
     {
