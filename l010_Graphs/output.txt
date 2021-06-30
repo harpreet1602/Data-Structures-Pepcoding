@@ -1,2 +1,1 @@
-Heaviest path of: 012346 of width: 70
-Lightiest path of:  of width: -1
+Lightiest path of: 03456 of width: 17

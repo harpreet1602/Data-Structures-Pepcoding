@@ -16,7 +16,7 @@ public class l001
     }
     public static void addEdge(ArrayList<Edge>[] graph,int u,int v,int w){
         graph[u].add(new Edge(u, v ,w));
-        graph[v].add(new Edge(u, v ,w));       
+        graph[v].add(new Edge(v, u,w));       
     }
     public static void display(ArrayList<Edge>[] graph,int N)
     {
@@ -111,6 +111,7 @@ public class l001
         }
         vis[src]=false;
     }
+    //not having the output same as sir
 
     
     public static void postOrder(ArrayList<Edge>[] graph, int src, boolean[] vis, int wsf, String psf){
@@ -139,10 +140,12 @@ public class l001
             base.psf+=src;
             base.wsf=0;
             return base;
+
         }
 
         vis[src]=true;
         pathPair myAns=new pathPair();
+        myAns.wsf=(int)1e8;
         for(Edge e:graph[src]){
             if(!(vis[e.nbr])){
             pathPair recAns=lightiestPath(graph, e.nbr, dest, vis);    
@@ -156,6 +159,7 @@ public class l001
         vis[src]=false;
         return myAns;
     }
+    //not working
     public static void lightiestPath(ArrayList<Edge>[] graph,int src,int dest){
         boolean[] vis=new boolean[graph.length];
        pathPair ans=lightiestPath(graph, src, dest, vis);
@@ -209,13 +213,14 @@ public class l001
         addEdge(graph, 4, 5, 2);
         addEdge(graph, 4, 6, 8);
         addEdge(graph, 5, 6, 3);
+    
         //  display(graph,N);
         boolean[] vis=new boolean[N];
         // System.out.println(printAllPaths(graph, 0, 6, vis, ""));
         // preOrder(graph, 0, vis, 0, "");
         // postOrder(graph, 0, vis, 0, "");
-        heaviestPath(graph, 0, 6);
-        // lightiestPath(graph, 0, 1);
+        // heaviestPath(graph, 0, 6);
+        lightiestPath(graph, 0, 6);
     }
     public static void main(String[] args)
     {
