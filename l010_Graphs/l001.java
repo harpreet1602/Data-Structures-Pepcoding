@@ -45,8 +45,8 @@ public class l001
         return -1;
     }
     public static void removeEdge(ArrayList<Edge>[] graph,int u,int v){
-        int i1=findIndex(graph,u,v);
-        int i2=findIndex(graph,v,u);
+        int i1=findEdge(graph,u,v);
+        int i2=findEdge(graph,v,u);
 
         graph[u].remove(i1);         //u sai i1 edge remove 
         graph[v].remove(i2);         //v sai i2 edge remove  
@@ -373,7 +373,7 @@ public static int numIslands(int[][] grid) {
         LinkedList<Integer> que=new LinkedList<>();
         int n=graph.length;
         int level=0;
-        int shortestPath;
+        int shortestPath=0;
         boolean isCyclePresent=false;
         boolean[] vis=new boolean[n];
         que.addLast(src);
@@ -385,7 +385,7 @@ public static int numIslands(int[][] grid) {
                 int rvtx=que.removeFirst();
                 //for cycle ,continue from here by setting a variable to true that cycle is present
                 //but we can't tell how many no. of cycles through this algo
-                
+
 
                 if(vis[rvtx])
                 {
@@ -405,6 +405,9 @@ public static int numIslands(int[][] grid) {
             }
             level++;
         }
+
+        System.out.println("\nCycle is present:" + isCyclePresent);
+        System.out.println("\nShortest Path is : " + shortestPath );
      }
 
     public static void construction(){
@@ -431,7 +434,8 @@ public static int numIslands(int[][] grid) {
         // postOrder(graph, 0, vis, 0, "");
         // heaviestPath(graph, 0, 6);
         // lightiestPath(graph, 0, 6);
-        ceilAndFloor(graph, 0, 4);
+        // ceilAndFloor(graph, 0, 4);
+        BFS(graph, 0, 6);
     }
     public static void main(String[] args)
     {
