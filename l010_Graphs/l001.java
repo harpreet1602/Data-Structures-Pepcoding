@@ -1,5 +1,5 @@
 import java.util.ArrayList;
-
+import java.util.LinkedList;
 public class l001
 {
     public static class Edge{
@@ -368,7 +368,44 @@ public static int numIslands(int[][] grid) {
          
      }
 
+     //BFS
+     public static void BFS(ArrayList<Edge>[] graph,int src,int dest){
+        LinkedList<Integer> que=new LinkedList<>();
+        int n=graph.length;
+        int level=0;
+        int shortestPath;
+        boolean isCyclePresent=false;
+        boolean[] vis=new boolean[n];
+        que.addLast(src);
+        while(que.size()!=0)
+        {
+            int size=que.size();
+            while(size-->0)
+            {
+                int rvtx=que.removeFirst();
+                //for cycle ,continue from here by setting a variable to true that cycle is present
+                //but we can't tell how many no. of cycles through this algo
+                
 
+                if(vis[rvtx])
+                {
+                    isCyclePresent=true;
+                    continue;
+                }       
+                if(rvtx==dest){
+                    shortestPath=level;
+                }         
+
+                vis[rvtx]=true;
+                for(Edge e:graph[rvtx])
+                {
+                    if(!vis[e.nbr])
+                    que.addLast(e.nbr);
+                }
+            }
+            level++;
+        }
+     }
 
     public static void construction(){
         int N=7;
