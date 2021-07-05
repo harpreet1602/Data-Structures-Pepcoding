@@ -68,4 +68,66 @@ public class l001{
         return ans;   
     }
 
+
+    //leetcode 1220. Count Vowels Permutation
+    
+// Dp(bottom-up) time O(n) and space O(n)
+    public int countVowelPermutation1(int n) {
+        long[] acount = new long[n];
+        long[] ecount = new long[n];
+        long[] icount = new long[n];
+        long[] ocount = new long[n];
+        long[] ucount = new long[n];
+        
+        
+        acount[0]=1L;
+        ecount[0]=1L;
+        icount[0]=1L;
+        ocount[0]=1L;
+        ucount[0]=1L;
+        
+        int Mod=1000000007;
+        
+        for(int i=1;i<n;i++)
+        {
+            acount[i] = (ecount[i-1]+icount[i-1]+ucount[i-1])%Mod;
+            ecount[i] = (acount[i-1] + icount[i-1])%Mod;
+            icount[i] = (ecount[i-1]+ocount[i-1])%Mod;
+            ocount[i] = (icount[i-1])%Mod;
+            ucount[i] = (icount[i-1]+ocount[i-1])%Mod;
+        }
+        long result=0L;
+        result = (acount[n-1] + ecount[n-1] + icount[n-1] + ocount[n-1] +ucount[n-1])%Mod;
+        return (int)result;
+    }
+
+
+    //Dp(bottom-up) time O(n) and space O(1)
+    public int countVowelPermutation(int n) {
+    long acount=1,ecount=1,icount=1,ocount=1,ucount=1;
+    
+    int mod=(int)1e9+7;
+    for(int i=1;i<n;i++)
+    {
+        long acountnew=(ecount+icount+ucount)%mod;
+        long ecountnew=(acount+icount)%mod;
+        long icountnew=(ecount+ocount)%mod;
+        long ocountnew=(icount)%mod;
+        long ucountnew=(icount+ocount)%mod;
+        
+        acount=acountnew;
+        
+        ecount=ecountnew;
+        
+        icount=icountnew;
+        
+        ocount=ocountnew;
+        
+        ucount=ucountnew;
+    }
+        long result = (acount +ecount +icount +ocount +ucount )%mod; 
+    return (int)result;
+    }
+
+
 }
