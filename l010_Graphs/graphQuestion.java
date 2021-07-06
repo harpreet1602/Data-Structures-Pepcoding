@@ -80,6 +80,63 @@ public class graphQuestion {
         return size;
         
     } 
+
+
+    //gfg is graph cyclic
+    //https://practice.geeksforgeeks.org/problems/detect-cycle-in-an-undirected-graph/1
+
+    public boolean isCycle(int V, ArrayList<ArrayList<Integer>> adj,int src,boolean[] vis)
+    {
+    LinkedList<Integer> que=new LinkedList<>();
+    que.add(src);
+    boolean cycle=false;
+    while(que.size()!=0)
+    {
+        int size=que.size();
+        while(size-->0)
+        {
+        int rvtx=que.removeFirst();
+        if(vis[rvtx])
+        {
+            cycle=true;
+            break;
+        }
+        vis[rvtx]=true;
+       
+       for(int nbr:adj.get(rvtx))
+       {
+            if(!vis[nbr])
+            {
+                que.addLast(nbr);
+            }
+           
+       }
+            // for(int j=0;j<adj.get(rvtx).size();j++)
+            // {
+            // int nbr=adj.get(rvtx).get(j);
+            
+        }
+        
+        if(cycle)
+        break;
+    }
+    return cycle;
+    }
+    public boolean isCycle(int V, ArrayList<ArrayList<Integer>> adj)
+    {
+        // Code here
+        boolean[] vis=new boolean[adj.size()];
+        boolean res=false;
+        for(int i=0;i<adj.size();i++)
+        {
+            if(!vis[i])
+        res=res||isCycle(V,adj,i,vis);
+        if(res)
+        break;
+            
+        }
+        return res;
+    }
     //leetcode 785. Is Graph Bipartite?
     //colouring ka concept hai 0 for red and 1 for green and pehle for no colour sab mai -1
     //ab isme concept ye hai ki bfs lagate hue jab cycle detect hogi to agar vha pai rvtx vala vis pehle sai koi hor
