@@ -1,5 +1,7 @@
 import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.Arrays;
+
 public class l001
 {
     public static class Edge{
@@ -560,6 +562,57 @@ public static int numIslands(int[][] grid) {
     }
 
     
+    public static boolean isGraphBipartite(ArrayList<Edge>[] graph,int src,int[] vis)
+    {
+        int color=0;
+        LinkedList<Integer> que=new LinkedList<>();
+        boolean isBipartite=true,cycle=false;
+        que.add(src);
+        while(que.size()!=0)
+        {
+            int size=que.size();
+            while(size-->0)
+            {
+                int rvtx=que.removeFirst();
+                if(vis[rvtx]!=-1)   //cycle present
+                {
+                    if(vis[rvtx]!=color)  //not bipartite graph
+                    {
+                        isBipartite=false;
+                        break;
+                    }
+                    else      //bipartite graph but as there is a cycle so continue 
+                    {
+                        continue;
+                    }
+                }
+                
+                vis[rvtx]=color;
+                for(Edge e:graph[rvtx])
+                {
+                    if(vis[e.nbr]==-1)
+                    {
+                       que.addLast(e.nbr); 
+                    }
+                }
+            }
+            color=(color+1)%2;
+        }
+        return isBipartite;
+    }
+
+    public static void isGraphBipartite(ArrayList<Edge>[] graph,int src)
+    {
+        int[] vis=new int[graph.length];
+        Arrays.fill(vis,-1);
+        boolean res=true;
+        for(int i=0;i<graph.length;i++)
+        {
+        if(vis[i]==-1)
+        res=res&&isGraphBipartite(graph,i,vis);
+        }
+        System.out.println(res);
+    }
 
 
     public static void construction(){
