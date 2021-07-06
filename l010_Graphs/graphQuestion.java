@@ -81,7 +81,11 @@ public class graphQuestion {
         
     } 
     //leetcode 785. Is Graph Bipartite?
-
+    //colouring ka concept hai 0 for red and 1 for green and pehle for no colour sab mai -1
+    //ab isme concept ye hai ki bfs lagate hue jab cycle detect hogi to agar vha pai rvtx vala vis pehle sai koi hor
+    //colour leke aaya to ye ek conflict hai to non bipartite graph hai otherwise bi partite graph hai
+    //odd length cycle vala non bipartite graph hota hai
+    //acyclic ya even length cycle vala bipartite graph hota hai
     public boolean isGraphBipartite(int[][] graph,int src,int[] vis)
     {
         int color=0;

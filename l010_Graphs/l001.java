@@ -562,6 +562,11 @@ public static int numIslands(int[][] grid) {
     }
 
     
+    //colouring ka concept hai 0 for red and 1 for green and pehle for no colour sab mai -1
+    //ab isme concept ye hai ki bfs lagate hue jab cycle detect hogi to agar vha pai rvtx vala vis pehle sai koi hor
+    //colour leke aaya to ye ek conflict hai to non bipartite graph hai otherwise bi partite graph hai
+    //odd length cycle vala non bipartite graph hota hai
+    //acyclic ya even length cycle vala bipartite graph hota hai
     public static boolean isGraphBipartite(ArrayList<Edge>[] graph,int src,int[] vis)
     {
         int color=0;
@@ -576,6 +581,7 @@ public static int numIslands(int[][] grid) {
                 int rvtx=que.removeFirst();
                 if(vis[rvtx]!=-1)   //cycle present
                 {
+                    cycle=true;
                     if(vis[rvtx]!=color)  //not bipartite graph
                     {
                         isBipartite=false;
@@ -597,6 +603,18 @@ public static int numIslands(int[][] grid) {
                 }
             }
             color=(color+1)%2;
+        }
+        if(cycle){
+        if(isBipartite)
+        {
+            System.out.println("Even length cycle");
+        }
+        else{
+            System.out.println("Odd length cycle");
+        }
+        }
+        else{
+            System.out.println("Acyclic graph");
         }
         return isBipartite;
     }
