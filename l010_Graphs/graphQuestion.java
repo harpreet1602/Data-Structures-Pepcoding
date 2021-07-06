@@ -14,7 +14,8 @@ public class graphQuestion {
         }
     }
     
-    
+    //1 for land and 0 for water
+
     public int numIslands(char[][] grid) {
         int componentcount=0;
         int m=grid.length;
@@ -52,7 +53,8 @@ public class graphQuestion {
         return size+1;
     }
     
-    
+    //1 for land and 0 for water
+
     public int maxAreaOfIsland(int[][] grid){
         int componentcount=0;
         int m=grid.length;

@@ -210,6 +210,8 @@ public class l001
             pair.floor = Math.max(wsf,pair.floor);
         }
         vis[src]=true;
+        
+        System.out.println("\nCeil is: " + pair.ceil + "\nFloor is: " + pair.floor);
         for(Edge e:graph[src])
         {
             if(!vis[e.nbr])
@@ -217,6 +219,7 @@ public class l001
         }
         vis[src]=false;
     }
+
     public static void ceilAndFloor(ArrayList<Edge>[] graph,int src,int data){
         boolean[] vis=new boolean[graph.length];
         ceilAndFloor pair = new ceilAndFloor();
@@ -224,7 +227,34 @@ public class l001
         System.out.println("\nCeil is: " + pair.ceil + "\nFloor is: " + pair.floor);
     }
 
-      
+    public static void ceilAndFloor(ArrayList<Edge>[] graph,int data,int src,boolean[] vis,int wsf,int floor,int ceil)
+    {
+        if(wsf>data){
+            ceil = Math.min(wsf,ceil);
+        }
+        if(wsf<data){
+           floor = Math.max(wsf,floor);
+        }
+        vis[src]=true;
+        
+        
+        System.out.println("\nCeil is: " + ceil + "\nFloor is: " + floor);
+        for(Edge e:graph[src])
+        {
+            if(!vis[e.nbr])
+          ceilAndFloor(graph,data,e.nbr,vis,wsf+e.wt,floor,ceil);
+        }
+        vis[src]=false;
+        
+    }
+    public static void ceilAndFloorArgument(ArrayList<Edge>[] graph,int data,int src)
+    {
+        boolean[] vis=new boolean[graph.length];
+        int wsf=0,floor=-(int)1e9,ceil=(int)1e9;
+        ceilAndFloor(graph,data,src,vis, wsf,floor,ceil);
+    
+    }
+
     //Get Connected Components Of A Graph
     //har ek vertexrt pai dfs ko call karo aur jitni baari dfs call hoga jis jis vertex pai
     //utne hi connected component honge kyuki unme visited[i] mai false hoga to nya component
@@ -297,6 +327,8 @@ public static void dfsgcg1(ArrayList<Edge>[] graph,ArrayList<ArrayList<Integer>>
         }
     }
 }
+//0 for land and 1 for water
+
 
 public static int numIslands(int[][] grid) {
     int componentcount=0;
@@ -410,6 +442,126 @@ public static int numIslands(int[][] grid) {
         System.out.println("\nShortest Path is : " + shortestPath );
      }
 
+
+
+
+     public static boolean isCyclic(ArrayList<Edge>[] graph,int src)
+     {
+          LinkedList<Integer> que=new LinkedList<>();
+          que.addLast(src);
+          boolean[] vis=new boolean[graph.length];
+          while(que.size()!=0)
+          {
+              int size=que.size();
+              while(size-->0)
+              {
+                  int rvtx=que.removeFirst();
+                  if(vis[rvtx])
+                  {
+                      return true;
+                  }
+                  vis[rvtx]=true;
+                  for(Edge e:graph[rvtx])
+                  {
+                      if(!vis[e.nbr])
+                      {
+                          que.addLast(e.nbr);
+                      }
+                  }
+                  
+              }
+              
+          }
+          return false;
+     }
+      public static void iscyclic(ArrayList<Edge>[] graph,int src)
+      {
+          boolean isCyclic=false;
+          for(int i=src;i<graph.length;i++)
+          {
+          isCyclic=isCyclic||isCyclic(graph,i);
+          }
+          System.out.println(isCyclic);
+      }
+
+
+    //using class show the weights and paths and vertex
+
+    public static class bfsPair{
+        int vtx;
+        String psf;
+        int wsf;
+        bfsPair(int vtx,String psf,int wsf)
+        {
+            this.vtx=vtx;
+            this.psf=psf;
+            this.wsf=wsf;
+        }
+    }
+    public static void printBfsPaths(ArrayList<Edge>[] graph,int src){
+        boolean[] vis=new boolean[graph.length];
+        LinkedList<bfsPair> que=new LinkedList<>();
+        que.add(new bfsPair(src,src+"",0));
+        while(que.size()!=0)
+        {
+            int size=que.size();
+            while(size-->0)
+            {
+                bfsPair rp=que.removeFirst();
+                if(vis[rp.vtx])
+                continue;
+
+                System.out.println(rp.vtx+" -> "+rp.psf+" @ "+rp.wsf);
+                vis[rp.vtx]=true;
+                for(Edge e:graph[rp.vtx])
+                {
+                    if(!vis[e.nbr])
+                    {   
+                        que.add(new bfsPair(e.nbr,rp.psf+e.nbr,rp.wsf+e.wt));
+                    }
+                }
+            }
+        }
+    }
+
+
+    public static void spreadInfection(ArrayList<Edge>[] graph,int infectedPerson,int noOfDays)
+    {
+        boolean[] vis=new boolean[graph.length];
+        LinkedList<Integer> que=new LinkedList<>();
+        que.add(infectedPerson);
+        int day=1;
+        int infectedCount=0;
+        while(que.size()!=0)
+        {
+            if(day>noOfDays)
+            break;
+            int size=que.size();
+            while(size-->0)
+            {
+                int ip=que.removeFirst();
+                if(vis[ip])
+                {
+                    continue;
+                }
+                vis[ip]=true;
+                infectedCount++;
+                for(Edge e:graph[ip])
+                {
+                    if(!vis[e.nbr])
+                    {
+                        que.addLast(e.nbr);
+                    }
+                }
+            }
+            day++;
+        }
+        System.out.println(infectedCount);
+    }
+
+    
+
+
     public static void construction(){
         int N=7;
         ArrayList<Edge>[] graph = new ArrayList[N];
@@ -434,8 +586,10 @@ public static int numIslands(int[][] grid) {
         // postOrder(graph, 0, vis, 0, "");
         // heaviestPath(graph, 0, 6);
         // lightiestPath(graph, 0, 6);
-        // ceilAndFloor(graph, 0, 4);
-        BFS(graph, 0, 6);
+        // ceilAndFloor(graph, 0, 42);
+        // ceilAndFloorArgument(graph, 42, 0);
+        // BFS(graph, 0, 6);
+        printBfsPaths(graph, 0);
     }
     public static void main(String[] args)
     {
