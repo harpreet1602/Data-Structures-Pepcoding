@@ -130,4 +130,49 @@ public class l001{
     }
 
 
+    //leetcode 566. Reshape the Matrix
+
+    public int[][] matrixReshape1(int[][] mat, int r, int c) {
+        int m=mat.length,n=mat[0].length;
+        if((m*n)!=(r*c))
+        {
+            return mat;
+        }
+        
+        int[][] newmat=new int[r][c];
+        int x=0,y=0;
+        for(int i=0;i<r;i++)
+        {
+            for(int j=0;j<c;j++)
+            {
+                newmat[i][j]=mat[x][y];
+                y++;
+                if(y==n)
+                {
+                    x++;
+                    y=0;
+                }
+            }
+        }
+        return newmat;
+    }
+        public int[][] matrixReshape(int[][] mat, int r, int c) {
+        int m=mat.length,n=mat[0].length;
+        if((m*n)!=(r*c))
+        {
+            return mat;
+        }
+        
+        int[][] newmat=new int[r][c];
+        int total = m*n;
+            for(int i=0;i<total;i++)
+            {
+                newmat[i/c][i%c] = mat[i/n][i%n];
+            }
+        
+        return newmat;
+        }
+
+
+
 }
