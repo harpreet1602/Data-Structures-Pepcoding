@@ -1,5 +1,6 @@
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Arrays;
 public class l001{
     //leetcode 89. Gray Code
      //for n=3, copy all the answers for n=2 and then add 2^2 to all the numbers of the answer fro n=2 from the backward and it will work for me to give the gray code 
@@ -172,7 +173,37 @@ public class l001{
         
         return newmat;
         }
+        //leetcode 1338. Reduce Array Size to The Half
 
+        //     =>I will try to explain,  in this solution what we are doing is first of all finding the maximum element of the array because all other elements will lie between 0 to max-1. 
+
+// =>So Make a hash type array which will be used to store the frequency of each number ,How? 
+// =>As we will make the element of the original array as an index in the hash type array and the value in the hash type array will be the frequency of the index number of hash type array.
+
+// =>After that we will sort this hash type array so that the maximum frequency comes to the end of the array , now start maintaining the sum of the elements and maintain a count of the number of elements, when by the time your sum will become greater than or equal to arr.length/2 break the loop and return the count.
+    public int minSetSize(int[] arr) {
+        int max=-(int)1e9;
+        for(int i=0;i<arr.length;i++)
+        {
+            max=Math.max(max,arr[i]);
+        }
+        int[] hash=new int[max+1];
+        for(int i=0;i<arr.length;i++)
+        {
+            hash[arr[i]]++;
+        }
+        Arrays.sort(hash);
+        int sum=0;
+        int count=0;
+        for(int i=hash.length-1;i>=0;i--)
+        {
+            sum+=hash[i];
+            count++;
+            if(sum>=arr.length/2)
+                break;
+        }
+        return count;
+    }
 
 
 }
