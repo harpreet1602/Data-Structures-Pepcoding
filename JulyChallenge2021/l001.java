@@ -247,6 +247,84 @@ public class l001{
         }
         return ans;
     }
+
+
+    //378. Kth Smallest Element in a Sorted Matrix
+
+
+//brute force
+O(N2)
+    public int kthSmallest1(int[][] matrix, int k) {
+        int n=matrix.length;
+        ArrayList<Integer> arr=new ArrayList<>();
+           for(int i=0;i<n;i++)
+            {
+            for(int j=0;j<n;j++)
+                {
+                    arr.add(matrix[i][j]);
+                }
+            }
+        Collections.sort(arr);
+        return arr.get(k-1);
+        
+    }
+    
+//brute force
+// O(n2logk)
+    public int kthSmallest2(int[][] matrix, int k) {
+    int m=matrix.length,n=matrix[0].length;
+    PriorityQueue<Integer> pq=new PriorityQueue<>((a,b)->{
+        return b-a;
+    });
+    for(int i=0;i<m;i++)
+    {
+        for(int j=0;j<n;j++)
+        {
+            pq.add(matrix[i][j]);
+            if(pq.size()>k)
+                pq.remove();
+        }
+    }
+        
+        return pq.peek();
+    }
+    //optimised approach
+    public int lessEqual(int[][] matrix,int target)
+    {
+        int i = matrix.length - 1, j=0,count =0;
+        while(i >= 0 && j< matrix.length)
+        {
+            if(matrix[i][j] > target) i--;
+            else
+            {
+                count = count + i + 1;
+                j++;
+            }
+        }
+        return count;
+    }
+    public int kthSmallest(int[][] matrix, int k) {
+        int n=matrix.length,low = matrix[0][0], high = matrix[n-1][n - 1], count=0;
+        while(low<high)
+        {
+            int mid = low + (high - low)/2;
+            count = lessEqual(matrix, mid);
+            if(count < k) low = mid + 1;
+            else
+            high = mid;
+            
+        }
+        return low;
+    }  
+
+
+
+
+
+
+
+
+
     //longest common substring
     //https://practice.geeksforgeeks.org/problems/longest-common-substring1452/1
     int longestCommonSubstr(String S1, String S2, int n, int m){
