@@ -206,4 +206,65 @@ public class l001{
     }
 
 
+//718. Maximum Length of Repeated Subarray
+    //bottom to top dp
+    public int findLength1(int[] nums1, int[] nums2) {
+        int ans=0;
+        int[][] memo = new int[nums1.length+1][nums2.length+1];
+        for(int i=nums1.length-1;i>=0;i--)
+        {
+            for(int j=nums2.length-1;j>=0;j--)
+            {
+                if(nums1[i]==nums2[j])
+                {
+                    memo[i][j]=memo[i+1][j+1]+1;
+                      if(ans<memo[i][j])
+                    ans=memo[i][j];
+                }
+              
+            }
+        }
+        return ans;
+    }
+// main concept to yehi hai ki first and second arrays ke numbers ke basis par dp vale array mai ans store karvaenge
+//prefix ko consider karke maximum matching suffix ki value store karani hogi
+
+    //top to bottom dp
+    public int findLength(int[] num1,int[] num2)
+    {
+        int[][] dp = new int[num1.length + 1][num2.length + 1];
+        int ans = 0;
+        for(int i = 1; i < dp.length; i++)
+        {
+            for(int j =1; j < dp[0].length;j++)
+            {
+                if(num1[i-1] == num2[j-1])
+                {
+                    dp[i][j] = dp[i-1][j-1] + 1;
+                    ans = Math.max(ans,dp[i][j]);
+                }
+            }
+        }
+        return ans;
+    }
+    //longest common substring
+    //https://practice.geeksforgeeks.org/problems/longest-common-substring1452/1
+    int longestCommonSubstr(String S1, String S2, int n, int m){
+        // code here
+        int[][] dp = new int[S1.length()+1][S2.length()+1];
+        int ans = 0;
+        for(int i = 1; i < dp.length ; i++)
+        {
+            for(int j = 1; j < dp[0].length ; j++)
+            {
+                if(S1.charAt(i-1) == S2.charAt(j-1))
+                {
+                    dp[i][j] = dp[i-1][j-1] + 1;
+                    ans = Math.max(ans,dp[i][j]);
+                }
+            }
+        }
+        return ans;
+    }
+
 }
