@@ -2,6 +2,7 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.PriorityQueue;
+import java.util.HashMap;
 public class l001{
     //leetcode 89. Gray Code
      //for n=3, copy all the answers for n=2 and then add 2^2 to all the numbers of the answer fro n=2 from the backward and it will work for me to give the gray code 
@@ -571,6 +572,50 @@ O(N2)
         }
     }
 
+    }
+
+    //In this approach we have to create two hashmaps in which one is of character to character
+    // type to map one character to the other and the second is for the second string's character
+    // whether they are used or not that is of character to boolean type.
+    // If the first character is mapped then if not mapped to the current value in the second string 
+    //then two strings are not isomorphic strings.If the character in the first string is not mapped but the 
+    //character in the second string is used already then they are not isomorphic strings
+    //If the above mentioned conflicts don't come so the two strings are isomorphic.
+
+
+    public boolean isIsomorphic(String s, String t) {
+        if(s.length()!=t.length())
+            return false;
+        HashMap<Character,Character> map1 = new HashMap<>();
+        HashMap<Character,Boolean> map2 = new HashMap<>();
+        
+        for(int i = 0; i < s.length(); i++)
+        {
+            char ch1 = s.charAt(i);
+            char ch2 = t.charAt(i);
+            
+            if(map1.containsKey(ch1)==true)
+            {
+                if(map1.get(ch1)!=ch2)
+                {
+                    return false;
+                }
+            }
+            else
+            {
+                if(map2.containsKey(ch2)==true)
+                {
+                    return false;
+                }
+                else
+                {
+                    map1.put(ch1,ch2);
+                    map2.put(ch2,true);
+                }
+            }
+        }
+        
+        return true;
     }
 
 }
