@@ -195,6 +195,45 @@ public class l001Basic{
        }
        
 
+       //merge k sorted lists
+       public static class Pair {
+        int li;
+        int di;
+        int val;
+        
+        Pair(int li,int di,int val)
+        {
+            this.li=li;
+            this.di=di;
+            this.val=val;
+        }
+    }
+    public static ArrayList<Integer> mergeKSortedLists(ArrayList<ArrayList<Integer>> lists){
+     ArrayList<Integer> rv = new ArrayList<>();
+     PriorityQueue<Pair> pq = new PriorityQueue<>((a,b)->{
+         return a.val-b.val;
+     });
+     
+     for(int i =0 ; i<lists.size();i++){
+         pq.add(new Pair(i,0,lists.get(i).get(0)));
+     }
+     while(pq.size()!=0)
+     {
+         Pair remEle = pq.remove();
+         rv.add(remEle.val);
+         remEle.di++;
+         if(remEle.di < lists.get(remEle.li).size())
+         {
+             remEle.val=lists.get(remEle.li).get(remEle.di);
+             pq.add(remEle);
+         }
+     }
+                 
+       
+     return rv;
+    }
+ 
+
 
 
     public static void main(String[] args)
