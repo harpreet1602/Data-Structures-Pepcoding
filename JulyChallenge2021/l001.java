@@ -618,4 +618,29 @@ O(N2)
         return true;
     }
 
+    //leetcode 162. Find Peak Element
+
+        //time O(n) space O(1)
+        public int findPeakElement(int[] nums) {
+            int max=0;
+            int left=0,right=0;
+            for(int i=0;i<nums.length;i++)
+            {
+                left=i>0?nums[i-1]:Integer.MIN_VALUE;
+                right=i<nums.length-1?nums[i+1]:Integer.MIN_VALUE;
+                if(nums[i]>left && nums[i]>right)
+                {
+                    max=i;
+                    break;
+                }
+            }
+            return max;
+        }
+    
+    //[1,2,3,1]
+    // [1,2,1,3,5,6,4]
+    // [-2147483648]
+    //
+    // [-2147483648,-2147483647]
+
 }
