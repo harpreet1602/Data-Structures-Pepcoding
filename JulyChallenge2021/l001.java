@@ -665,6 +665,54 @@ O(N2)
 
 
 
+     
+     
+//O(n^3) time and space O(1)
+public int triangleNumber1(int[] nums) {
+    int count =0 ;
+    for(int i = 0;i<nums.length;i++)
+    {
+        for(int j=i+1;j<nums.length;j++)
+        {
+            for(int k=j+1;k<nums.length;k++)
+            {
+                if(nums[i]+nums[j]>nums[k] && nums[j] + nums[k]>nums[i] && nums[i]+nums[k]>nums[j])
+                {
+                    count++;
+                }
+            }
+        }
+    }
+    return count;
+}
+    public int triangleNumber(int[] nums) {
+        Arrays.sort(nums);
+        int i = nums.length-1,l,r,count=0;
+            
+        while(i>=2)
+        {
+            l=0;
+            r=i-1;
+        while(l<r)
+        {
+        if(nums[l]+nums[r]>nums[i])
+        {
+            count=count+r-l;
+            r--;
+        }
+        else
+        {
+            l++;
+        }
+        }    
+        i--;
+        }
+        return count;
+        
+    }
+
+
+
     //[1,2,3,1]
     // [1,2,1,3,5,6,4]
     // [-2147483648]
