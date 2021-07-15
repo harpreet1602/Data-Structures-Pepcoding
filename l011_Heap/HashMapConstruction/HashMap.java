@@ -14,7 +14,7 @@ public class HashMap {
 //Data Members ===============================
     
     private LinkedList<Node>[] Buckets;
-    private int TotalNoOfNodes = 0;
+    private int totalNoOfNodes = 0;
     private int bucketLen = 0;
 
     //Constructor ===========================
@@ -27,7 +27,7 @@ public class HashMap {
         {
             Buckets[i] = new LinkedList<>();
         } 
-        TotalNoOfNodes = 0;
+        totalNoOfNodes = 0;
     }
     public HashMap(){
         initialize(10);
@@ -35,70 +35,102 @@ public class HashMap {
     //Basic Functions======================
 
     public int size(){
-        return this.bucketLen;
+        return this.totalNoOfNodes;
     }
 
     public boolean isEmpty(){
-            return this.size()==0;
+            return this.totalNoOfNodes==0;
     }
 
 
     //Ds Functions
 public void put(Integer key,Integer value)
 {
+    boolean res = containsKey(key);
     LinkedList<Node> group = getGroup(key);
+    if(res)
+    {
+        group.getFirst().key = value;
+    }
+    else
+    {
     group.addLast(new Node(key,value));
+    totalNoOfNodes++;
+    }
 }
 public Integer get(Integer key)
 {
-    LinkedList<Node> group = getGroup(key);
-    int gs = group.size();
-    Integer val = null;
-    while(gs-- > 0)
-    {
-        if(group.getFirst().key == key)
-        {
-            val = group.getFirst().value;
-            break;
-        }
+    // LinkedList<Node> group = getGroup(key);
+    // int gs = group.size();
+    // Integer val = null;
+    // while(gs-- > 0)
+    // {
+    //     if(group.getFirst().key.equals(key))
+    //     {
+    //         val = group.getFirst().value;
+    //         break;
+    //     }
 
-        group.addLast(group.removeFirst());
-    }
-    return val;
+    //     group.addLast(group.removeFirst());
+    // }
+    // return val;
+
+
+    // another method
+    boolean res = containsKey(key);
+    LinkedList<Node> group = getGroup(key);
+
+    return res==true?group.getFirst().value:null;
 }
 public Integer getOrDefault(Integer key, Integer DefaultValue)
 {
-    LinkedList<Node> group = getGroup(key);
-    int gs = group.size();
-    Integer val = DefaultValue;
-    while(gs-- > 0)
-    {
-        if(group.getFirst().key == key)
-        {
-            val = group.getFirst().value;
-            break;
-        }
+    // LinkedList<Node> group = getGroup(key);
+    // int gs = group.size();
+    // Integer val = DefaultValue;
+    // while(gs-- > 0)
+    // {
+    //     if(group.getFirst().key == key)
+    //     {
+    //         val = group.getFirst().value;
+    //         break;
+    //     }
 
-        group.addLast(group.removeFirst());
+    //     group.addLast(group.removeFirst());
+    // }
+    // return val;
+
+    boolean res = containsKey(key);
+    LinkedList<Node> group = getGroup(key);
+    if(res)
+    {
+        totalNoOfNodes++;
+       return group.getFirst().value;
     }
-    return val;
+    return DefaultValue;
 }
 public Integer remove(Integer key)
 {
-    LinkedList<Node> group = getGroup(key);
-    int gs = group.size();
-    Node node = null;
-    while(gs-- > 0)
-    {
-        if(group.getFirst().key == key)
-        {
-            node = group.removeFirst();
-            break;
-        }
+    // LinkedList<Node> group = getGroup(key);
+    // int gs = group.size();
+    // Node node = null;
+    // while(gs-- > 0)
+    // {
+    //     if(group.getFirst().key == key)
+    //     {
+    //         node = group.removeFirst();
+    //         break;
+    //     }
 
-        group.addLast(group.removeFirst());
-    }
-    return node.value;
+    //     group.addLast(group.removeFirst());
+
+    
+    // }
+    // return node.value;
+
+        //another method
+        boolean res = containsKey(key);
+        LinkedList<Node> group = getGroup(key);
+        return res==true?group.removeFirst().value:null;        
 }
 public boolean containsKey(Integer key)
 {
@@ -107,7 +139,7 @@ public boolean containsKey(Integer key)
     boolean res = false;
     while(gs-- > 0)
     {
-        if(group.getFirst().key == key)
+        if(group.getFirst().key.equals(key))
         {
             res = true;
             break;
@@ -126,9 +158,5 @@ private LinkedList<Node> getGroup(Integer key)
 private int getHashCode(Integer key)
 {
     return Math.abs(key.hashCode()) % bucketLen;
-}
-public static void main(String[] args)
-{
-
 }
  }
