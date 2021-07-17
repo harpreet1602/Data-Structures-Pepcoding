@@ -770,4 +770,67 @@ public int triangleNumber1(int[] nums) {
         return list;
     }
 
+    // time O(n) space: O(1)
+    // in this ques, I have to see the total no of 1s first if it is not divisible by 3 then there not a possible answer 
+    // if there are all zeroes return {0,2} because that will indicate the cut after 0 and after 1 and three equal parts are zero
+    // then divide the noOf1s by 3 and run a loop over the array and check if whenever you get a 1 which one 1 it is 
+    // of which part by the conditions implied once you get the indexOfFirst1InEachPart then run a loop till
+    // indexOfFirst1Part2 goes out of array and checking the condition whether the numbers equal in each part if not 
+    // return {-1,-1} if yes then after the loop return the value {indexOfFirst1Part0 - 1,indexOfFirst1Part1} 
+    // because we have come up one step ahead of a cut. 
+    public int[] threeEqualParts(int[] arr) {
+        int noOf1s=0;
+        for(int i = 0;i < arr.length;i++)
+        {
+            noOf1s+=arr[i];
+        }
+        if(noOf1s%3!=0)
+        {
+            return new int[]{-1,-1};
+        }
+        if(noOf1s == 0)
+        {
+            return new int[]{0,2};
+        }
+        
+        int indexOfFirst1Part0=-1,indexOfFirst1Part1=-1,indexOfFirst1Part2=-1;
+        int noOf1sInEachPart = noOf1s/3;
+        noOf1s=0;
+        for(int i = 0 ; i< arr.length;i++)
+        {
+            if(arr[i]==1)
+            {
+            noOf1s+=arr[i];
+            if(noOf1s==noOf1sInEachPart+1)
+            {
+                indexOfFirst1Part1=i;
+            }
+            else if(noOf1s== 2 * noOf1sInEachPart + 1)
+            {
+                indexOfFirst1Part2=i;
+            }
+            else if(noOf1s==1)
+            {
+                indexOfFirst1Part0=i;
+            }
+            }
+        }
+        
+        
+        while(indexOfFirst1Part2 < arr.length)
+        {
+            if(arr[indexOfFirst1Part2] == arr[indexOfFirst1Part0] && arr[indexOfFirst1Part2] == arr[indexOfFirst1Part1])
+            {
+                indexOfFirst1Part2++;
+                indexOfFirst1Part1++;
+                indexOfFirst1Part0++;
+            }
+            else 
+                return new int[]{-1,-1};
+        }
+        return new int[]{indexOfFirst1Part0 - 1,indexOfFirst1Part1};
+        
+        
+    }
+
 }
