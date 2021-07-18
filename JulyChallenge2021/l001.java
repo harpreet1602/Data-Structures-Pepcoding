@@ -833,4 +833,73 @@ public int triangleNumber1(int[] nums) {
         
     }
 
+    public class ListNode {
+         int val;
+         ListNode next;
+         ListNode() {}
+         ListNode(int val) { this.val = val; }
+         ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+         }
+
+        //leetcode 256 time:O(n) space: O(1)
+        //k group karke th tt oh ot ka concept use karke reverse karte chalo 
+    public int size(ListNode node)
+    {
+        ListNode curr=node;
+        int count=0;
+        while(curr!=null)
+        {
+            count++;
+            curr=curr.next;
+        }
+        return count;
+    }
+    public ListNode th=null,tt=null;
+    public void addFirst(ListNode node)
+    {
+        if(th==null)
+            tt=node;
+        
+        node.next=th;
+        th=node;
+    }
+    public ListNode reverseKGroup(ListNode head, int k) {
+        if(head==null || head.next==null || k<1)
+            return head;
+        int size = size(head);
+        ListNode oh,ot,c,f;
+        oh=ot=null;
+        c=head;
+        f=head.next;
+        while(size>=k)
+        {
+            int smallSize=k;
+            while(smallSize>0)
+            {   
+                // f=c.next;
+                c.next=null;
+                addFirst(c);
+                c=f;
+                if(c!=null)
+                f=c.next;
+                smallSize--;
+            }
+            if(oh==null)
+            {
+                oh=th;
+                ot=tt;
+            }
+            else
+            {
+                ot.next=th;
+                ot=tt;
+            }
+            tt=th=null;
+            size-=k;
+        }
+        ot.next=c;
+        return oh;
+    }
+
+
 }
