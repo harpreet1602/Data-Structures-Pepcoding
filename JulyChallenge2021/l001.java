@@ -841,7 +841,7 @@ public int triangleNumber1(int[] nums) {
          ListNode(int val, ListNode next) { this.val = val; this.next = next; }
          }
 
-        //leetcode 256 time:O(n) space: O(1)
+        //leetcode 25 time:O(n) space: O(1)
         //k group karke th tt oh ot ka concept use karke reverse karte chalo 
     public int size(ListNode node)
     {
@@ -899,6 +899,35 @@ public int triangleNumber1(int[] nums) {
         }
         ot.next=c;
         return oh;
+    }
+
+
+    public class TreeNode {
+             int val;
+             TreeNode left;
+             TreeNode right;
+             TreeNode(int x) { val = x; }
+         }
+
+        //  235. Lowest Common Ancestor of a Binary Search Tree
+    // pehli essi node o range mai  aajaye bst mai vohi answer hoga
+    public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+        
+        if(root.val>p.val && root.val>q.val)
+        {
+            return lowestCommonAncestor(root.left, p, q);
+        }
+        
+        
+        else if(root.val<p.val && root.val<q.val)
+        {
+           return lowestCommonAncestor(root.right, p, q);
+        }
+        else
+        {
+            return root;
+        }
+        
     }
 
 
