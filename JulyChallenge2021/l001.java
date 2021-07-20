@@ -3,6 +3,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.PriorityQueue;
 import java.util.HashMap;
+import java.util.Random;
+
 public class l001{
     //leetcode 89. Gray Code
      //for n=3, copy all the answers for n=2 and then add 2^2 to all the numbers of the answer fro n=2 from the backward and it will work for me to give the gray code 
@@ -929,6 +931,44 @@ public int triangleNumber1(int[] nums) {
         }
         
     }
+
+    //Random class is used to get a random number
+    public int[] original; 
+    public Random random;
+    
+ public l001(int[] nums) {
+    this.original = nums;
+     this.random = new Random();
+      
+}
+  
+  public void swap(int[] arr,int i,int j)
+  {
+      int temp = arr[i];
+      arr[i] = arr[j];
+      arr[j] = temp;
+  }
+      
+          /** Resets the array to its original configuration and return it. */
+  public int[] reset() {
+      return original;
+  }
+
+  //here fisher yarts algorithm is used
+  //Time complexity is O(n)
+  
+  /** Returns a random shuffling of the array. */
+  public int[] shuffle() {
+      if(original.length==0)
+          return original;
+      int[] a = original.clone();
+      for(int i = original.length-1;i>0;i--)
+      {
+          int j = random.nextInt(i+1);    //0 uptil original.length  (one higher index is needed)
+          swap(a,i,j);
+      }
+      return a;
+  }
 
 
 }
