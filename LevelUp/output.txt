@@ -1,1 +1,1 @@
-[, a, b, ab, c, ac, bc, abc]
+[, c, b, bc, a, ac, ab, abc]

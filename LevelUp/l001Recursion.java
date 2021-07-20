@@ -244,9 +244,11 @@ public class l001Recursion {
         char ch = str.charAt(idx);
         int count = 0;
         count += subsequence(str, idx+1, asf, ans);
-        count += subsequence(str, idx+1, ch+asf, ans);
+        count += subsequence(str, idx+1, asf + ch, ans);
         return count;
     }
+
+
 
     public static void main(String[] args) {
         // recursionPattern(1, 6);
@@ -285,6 +287,9 @@ public class l001Recursion {
     // System.out.println(ans[i]);
     
     
-   System.out.println(subsequence("abc", 0));
+//  System.out.println(subsequence("abc", 0));
+    ArrayList<String> ans = new ArrayList<>();
+    subsequence("abc", 0, "", ans);
+    System.out.println(ans);
 }
 }
