@@ -970,5 +970,78 @@ public int triangleNumber1(int[] nums) {
       return a;
   }
 
+  //in this question we will calculate left influence index and then right influence index
+  // of a particular character of the string and then will make the answer accordingly 
+  // when the . comes then we check from which side it is getting the closest influence
+  // when we are able to figure it out we put that side in answer and if they are equal then 
+  // it is still and if any side comes then that will be the direct part of the answer
+  public String pushDominoes(String dominoes) {
+    int n = dominoes.length();
+    int[] left =new int[n];
+      int leftIndex = -1;
+    for(int i=n-1;i>=0;i--)
+    {
+        char ch = dominoes.charAt(i);
+      
+        if(ch == 'L')
+        {
+            leftIndex = i;
+        }
+        else if(ch=='R')
+        {
+            leftIndex = -1;
+        }
+        left[i] = leftIndex;
+    }
+    
+    int[] right =new int[n];
+     int rightIndex = -1;
+    for(int i=0;i<n;i++)
+    {
+        char ch = dominoes.charAt(i);
+       
+        if(ch == 'L')
+        {
+            rightIndex = -1;
+        }
+        else if(ch=='R')
+        {
+            rightIndex = i;
+        }
+        right[i] = rightIndex;
+    }
+    
+    
+    
+    char[] ans = new char[n];
+    for(int i = 0 ;i<n;i++)
+    {
+        char ch = dominoes.charAt(i);
+        if(ch == '.'){
+            
+        int leftDifference = left[i]==-1?(int)1e9:Math.abs(left[i]-i);
+        
+        int rightDifference = right[i]==-1?(int)1e9:Math.abs(right[i]-i);
+        
+        if(leftDifference == rightDifference)
+        {
+            ans[i] = '.';
+        }
+        else if(leftDifference < rightDifference)
+        {
+            ans[i] = 'L';
+        }
+        else{
+            ans[i] = 'R';
+        
+        }
+        }
+        else
+        {
+            ans[i] = ch;
+        }
+    }
+    return new String(ans);
+}
 
 }
