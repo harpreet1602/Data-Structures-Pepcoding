@@ -278,6 +278,215 @@ public class l001Recursion {
     }
 
 
+    public static String[] nokiaKeys = { ".;", "abc", "def", "ghi", "jkl", "mno", "pqrs", "tu", "vwx", "yz" };
+
+    public static int nokiaKeyPad(String str, String ans) {
+        if (str.length() == 0) {
+            System.out.println(ans);
+            return 1;
+        }
+
+      
+
+    }
+
+    // public static int stairPath(int n, String psf,ArrayList<String> ans) {
+
+    // }
+
+    // public static int boardPath(int n, String psf,ArrayList<String> ans) {
+
+    // }
+
+    // public static int boardPath(int[] arr, int n, String ans) {
+
+    // }
+
+        
+    public static ArrayList<String> stairPath(int n) {
+        if (n == 0) {
+            ArrayList<String> base = new ArrayList<>();
+            base.add("");
+            return base;
+        }
+
+        ArrayList<String> myAns = new ArrayList<>();
+        for (int jump = 1; jump <= 3 && n - jump >= 0; jump++) {
+            ArrayList<String> smallAns = stairPath(n - jump);
+            for (String s : smallAns) {
+                myAns.add(jump + s);
+            }
+        }
+
+        return myAns;
+    }
+
+    public static int stairPath(int n, String psf, ArrayList<String> ans) {
+        if (n == 0) {
+            ans.add(psf);
+            return 1;
+        }
+
+        int count = 0;
+        for (int jump = 1; jump <= 3 && n - jump >= 0; jump++) {
+            count += stairPath(n - jump, psf + jump, ans);
+        }
+
+        return count;
+    }
+
+    public static int boardPath(int n, String psf, ArrayList<String> ans) {
+        if (n == 0) {
+            ans.add(psf);
+            return 1;
+        }
+
+        int count = 0;
+        for (int dice = 1; dice <= 6 && n - dice >= 0; dice++) {
+            count += boardPath(n - dice, psf + dice, ans);
+        }
+
+        return count;
+    }
+
+    public static int boardPath(int[] arr, int n, String psf, ArrayList<String> ans) {
+        if (n == 0) {
+            ans.add(psf);
+            return 1;
+        }
+
+        int count = 0;
+        for (int i = 1; i < arr.length && n - arr[i] >= 0; i++) {
+            count += boardPath(arr, n - arr[i], psf + arr[i], ans);
+        }
+
+        return count;
+    }
+
+
+
+
+
+
+    //https://practice.geeksforgeeks.org/problems/rat-in-a-maze-problem/1#
+    public static int mazePath(int[][] m,int sr,int sc,int er,int ec,String psf,int[][] dir,String[] dirS,ArrayList<String> ans){
+        if(sr == er && sc == ec)
+        {
+            ans.add(psf);
+            return 1;
+        }
+        
+        m[sr][sc] = 0;
+        int count =0;
+        for(int d = 0;d<dir.length;d++)
+        {
+            int r = sr + dir[d][0];
+            int c = sc + dir[d][1];
+            
+            if(r>=0 && c>=0 && r<=er && c<=ec && m[r][c] == 1)
+            {
+                count+=  mazePath(m,r,c,er,ec,psf+dirS[d],dir,dirS,ans);
+            }
+        }
+        m[sr][sc]=1;
+        return count;
+    }
+    
+    
+    public static ArrayList<String> findPath(int[][] m, int n) {
+        // Your code here
+        int[][] dir = { {1,0},{0,-1},{0,1},{-1,0}};
+        String[] dirS = { "D","L","R","U"};
+        ArrayList<String> ans= new ArrayList<>();
+        if(n== 0 || m[0][0] ==0 || m[n-1][n-1] ==0)
+        return ans;
+        
+        mazePath(m,0,0,n-1,n-1,"",dir,dirS,ans);
+        
+        // Collections.sort(ans);
+        return ans;
+        
+        
+    }
+    //https://practice.geeksforgeeks.org/problems/special-matrix4201/1#
+    public static int mod = (int)1e9 +7;
+    public static int mazePath(int[][] m,int sr,int sc,int er,int ec,int[][] dir){
+        if(sr == er && sc == ec)
+        {
+            return 1;
+        }
+        
+        int count =0;
+        for(int d = 0;d<dir.length;d++)
+        {
+            int r = sr + dir[d][0];
+            int c = sc + dir[d][1];
+            
+            if(r>=0 && c>=0 && r<=er && c<=ec && m[r][c] == 0)
+            {
+                count= count%mod  + mazePath(m,r,c,er,ec,dir)%mod;
+            }
+        }
+        return count;
+    }
+    
+    
+    
+    
+    
+    
+    
+    public int FindWays(int n, int m, int[][] blocked_cells)
+    {
+        // Code here
+        int[][] arr = new int[n][m];
+        for(int[] cell : blocked_cells)
+        {
+            int i  = cell[0] - 1;
+            int j =cell[1] - 1;
+            arr[i][j] = 1;
+        }
+        
+        if(n==0 || m==0 || arr[0][0] == 1 || arr[n-1][m-1] ==1)
+        return 0;
+        
+        int[][] dir ={{0,1},{1,0}};
+        return mazePath(arr,0,0,n-1,m-1,dir);
+    }
+
+
+
+
+    public static int mazePath_HVD_multi(int[][] m,int sr, int sc, int er, int ec,  String psf,int[][] dir,String[] dirS,ArrayList<String> ans) {
+        if(sr == er && sc == ec)
+        {
+            ans.add(psf);
+            return 1;
+        }
+        
+        m[sr][sc] = 0;
+        int count =0;
+        for(int d = 0;d<dir.length;d++)
+        {
+            for(int radius=0; radius<=Math.max(er,ec);radius++)
+            {
+            int r = sr + radius*dir[d][0];
+            int c = sc + radius*dir[d][1];
+            
+            if(r>=0 && c>=0 && r<=er && c<=ec && m[r][c] == 1)
+            {
+                count+=  mazePath_HVD_multi(m,r,c,er,ec,psf+dirS[d],dir,dirS,ans);
+            }
+            }
+        }
+        m[sr][sc]=1;
+        return count;
+
+    }
+
+
+    // https://www.geeksforgeeks.org/a-variation-of-rat-in-a-maze-multiple-steps-or-jumps-allowed/?ref=rp
+// ISE BHI KARNA KABHI
 
     public static void main(String[] args) {
         // recursionPattern(1, 6);
@@ -310,10 +519,10 @@ public class l001Recursion {
     //   System.out.println(maximum(arr, index));
     //   System.out.println(); 
     //   System.out.println(minimum(arr, index));
-    int[] ans = new int[2];
-        System.out.println(firstAndLastIndex(arr,data,0,ans,false));
-        for(int  i = 0;i<ans.length;i++)
-        System.out.println(ans[i]);
+    // int[] ans = new int[2];
+    //     System.out.println(firstAndLastIndex(arr,data,0,ans,false));
+    //     for(int  i = 0;i<ans.length;i++)
+    //     System.out.println(ans[i]);
     // int[] ans = allIndex(arr, data, index, count);
     // for(int i =0 ;i <ans.length ; i++)
     // System.out.println(ans[i]);
@@ -323,5 +532,13 @@ public class l001Recursion {
     // ArrayList<String> ans = new ArrayList<>();
     // subsequence("abc", 0, "", ans);
     // System.out.println(ans);
+
+
+
+    mazePath_HVD_multi(m,0, 0,2, 2, "",dir, dirS, ans);
+
+
+
+
 }
 }
