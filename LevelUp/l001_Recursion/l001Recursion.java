@@ -488,6 +488,49 @@ public class l001Recursion {
     // https://www.geeksforgeeks.org/a-variation-of-rat-in-a-maze-multiple-steps-or-jumps-allowed/?ref=rp
 // ISE BHI KARNA KABHI
 
+
+    //gold mine 2
+    //isme sabka sum banana hota hai component ka 
+    static int max = 0;
+	
+	public static void travelAndCollect(int[][] arr,int sr ,int sc,int[][] dir,boolean[][] vis,ArrayList<Integer> bag){
+        for(int d = 0;d<dir.length;d++)
+        {
+            int r = sr+dir[d][0];
+            int c = sc + dir[d][1];
+            if(r>=0 && c>=0 && r<arr.length && c<arr[0].length && arr[r][c]!=0 && vis[r][c] == false)
+            {
+                vis[r][c] = true;
+                bag.add(arr[r][c]);
+                travelAndCollect(arr, r , c , dir, vis,bag);
+            }
+        }
+	}
+	public static void getMaxGold(int[][] arr){
+		//write your code here
+		int[][] dir = {{0,-1},{0,1},{-1,0},{1,0}};
+		boolean[][] vis = new boolean[arr.length][arr[0].length];
+		for(int  i = 0 ;i <arr.length; i++)
+		{
+		    for(int j = 0;j <arr[0].length;j++)
+		    {
+		         ArrayList<Integer> bag = new ArrayList<>();
+		        if(arr[i][j]!= 0 && vis[i][j] == false)
+		        {
+		           
+		            travelAndCollect(arr, i , j , dir, vis, bag);
+		        }
+		        int sum =0 ;
+		        for(int val : bag)
+		        {
+		            sum+=val;
+		        }
+		        if(sum>max)
+		        max=sum;
+		    }
+		}
+		
+	}
     public static void main(String[] args) {
         // recursionPattern(1, 6);
         int[] arr = {1,2,3,4,5,1};
