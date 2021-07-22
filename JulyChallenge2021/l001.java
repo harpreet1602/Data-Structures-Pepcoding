@@ -975,6 +975,8 @@ public int triangleNumber1(int[] nums) {
   // when the . comes then we check from which side it is getting the closest influence
   // when we are able to figure it out we put that side in answer and if they are equal then 
   // it is still and if any side comes then that will be the direct part of the answer
+
+  // time O(n) space O(n)
   public String pushDominoes(String dominoes) {
     int n = dominoes.length();
     int[] left =new int[n];
@@ -1043,5 +1045,41 @@ public int triangleNumber1(int[] nums) {
     }
     return new String(ans);
 }
+
+//915. Partition Array into Disjoint Intervals
+//time: O(n) space: O(n)
+//in this question, I have created two arrays for storing leftMax and rightMin till the element
+// encountered in the array by the time when the leftMax till previous becomes less than or equal to
+//the  rightMin till current then  that index tells the minimum size of left array
+public int partitionDisjoint(int[] nums) {
+    int n = nums.length;
+    int[] leftMax = new int[n];
+    int[] rightMin = new int[n];
+    
+    int m = nums[0];
+    for(int i = 0 ; i< n;i++)
+    {
+        m = Math.max(m,nums[i]);
+        leftMax[i] = m;
+    }
+    
+    m = nums[n-1];
+    for(int i = n-1; i>=0;i--)
+    {
+        m = Math.min(m,nums[i]);
+        rightMin[i] = m;
+    }
+    
+    for(int i = 1;i <n;i++)
+    {
+        if(leftMax[i-1] <= rightMin[i])
+        {
+            return i;
+        }
+    }
+    return 0;
+}
+
+
 
 }
