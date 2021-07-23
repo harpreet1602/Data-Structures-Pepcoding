@@ -1079,6 +1079,37 @@ public int partitionDisjoint(int[] nums) {
     }
     return 0;
 }
+//It is a very great question, we need to think here of postorder traversal of a binary tree and what we will do
+// while traversing in a postorder traversal is we will come at node and will check if its left child and right child
+// is null and the node's current value is zero then in that case we will return null so that from its parent the 
+//current node can be removed otherwise we return the node so that the tree can remain as it is in the false case
+//of above condition
+ //tc O(n)  sc O(n) in worst case of skew tree
+ public TreeNode pruneTree(TreeNode root) {
+    if(root==null)
+        return null;
+   
+    
+    root.left = pruneTree(root.left);
+    root.right = pruneTree(root.right);
+    if(canDeleteNode(root)) 
+    {
+            return null;
+    }
+    
+    return root;        
+}
+private boolean canDeleteNode(TreeNode root)
+{
+    if(root.left==null && root.right==null && root.val==0)
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
 
 
 
