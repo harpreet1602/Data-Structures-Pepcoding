@@ -394,6 +394,30 @@ public class linkedList {
         displayReverseHelper(head);
         System.out.println();
       }
+      //fold a linkedlist
+      public void fold() {
+        // write your code here
+        if(this.head==null || this.head.next==null)
+        return;
+       Node mid=midNode(this.head); 
+       Node nhead=mid.next;
+       mid.next=null;
+       nhead=reverse(nhead);
+       Node c1,c2,f1=head,f2=nhead;
+       while(f2!=null)
+       {
+           c1=f1;
+           c2=f2;
+           f1=f1.next;
+           f2=f2.next;
+           c1.next=c2;
+           c2.next=f1;
+       }
+       if(this.size%2==0)
+       this.tail=mid.next;
+       else
+       this.tail=mid;
+      }
       //is linkedlist a pallindrome
           public Node midNode(Node head)
           {

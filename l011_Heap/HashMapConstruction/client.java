@@ -8,7 +8,8 @@ public class client {
         map.put(30,300);
         map.put(40,400);
 
-        System.out.println(map.get(10));
+        // System.out.println(map.remove(40));
+        System.out.println(map.get(40));
     }
 public static void main(String[] args)
 {

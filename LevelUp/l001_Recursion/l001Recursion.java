@@ -528,9 +528,87 @@ public class l001Recursion {
 		        if(sum>max)
 		        max=sum;
 		    }
-		}
-		
+		}	
 	}
+
+
+    //leetcode 1219 Path with Maximum Gold
+    public int getMaxGold(int[][] grid,int sr,int sc,int[][] dir)
+    {
+        int maxGold = 0,n=grid.length,m=grid[0].length;
+        grid[sr][sc] = -grid[sr][sc];
+        for(int d=0;d<dir.length;d++)
+        {
+            int r = sr + dir[d][0];
+            int c = sc + dir[d][1];
+            if(r>=0 && c >=0 && r<n && c<m && grid[r][c]>0)
+            {
+                int recGold = getMaxGold(grid,r,c,dir);
+                if(recGold>maxGold)
+                    maxGold = recGold;
+            }
+        }
+        grid[sr][sc] = -grid[sr][sc];
+     return maxGold + grid[sr][sc];
+    }
+
+    
+    public int getMaximumGold(int[][] grid) {
+           int maxGold = 0,n=grid.length,m=grid[0].length;
+        int[][] dir = {{-1,0},{0,1},{1,0},{0,-1}};
+        for(int i = 0 ; i < n; i++)
+        {
+            for(int j = 0 ; j< m;j++)
+            {
+                maxGold = Math.max(maxGold,getMaxGold(grid,i,j,dir));
+            }
+        }
+        return maxGold;
+    }
+//gfg
+//https://practice.geeksforgeeks.org/problems/gold-mine-problem2608/1#
+static int maxGold(int n, int m, int grid[][])
+{
+    // code here
+    int maxGold = 0;
+    int[][] dir = {{-1,1},{0,1},{1,1}};
+    for(int i = 0 ; i < n; i++)
+    {
+        // for(int j = 0 ; j< m;j++)
+        // {
+            maxGold = Math.max(maxGold,getMaxGold1(grid,i,0,dir));
+        // }
+    }
+    return maxGold;
+}
+
+   
+static int getMaxGold1(int[][] grid,int sr,int sc,int[][] dir)
+{
+    int maxGold = 0,n=grid.length,m=grid[0].length;
+    grid[sr][sc] = -grid[sr][sc];
+    for(int d=0;d<dir.length;d++)
+    {
+        int r = sr + dir[d][0];
+        int c = sc + dir[d][1];
+        if(r>=0 && c >=0 && r<n && c<m && grid[r][c]>0)
+        {
+            int recGold = getMaxGold1(grid,r,c,dir);
+            if(recGold>maxGold)
+                maxGold = recGold;
+        }
+    }
+    grid[sr][sc] = -grid[sr][sc];
+ return maxGold + grid[sr][sc];
+}
+
+
+
+    
+
+
+
+
     public static void main(String[] args) {
         // recursionPattern(1, 6);
         int[] arr = {1,2,3,4,5,1};

@@ -369,8 +369,7 @@ public static int kthLargest(Node node, int k){
             for(Node child:rn.children)
             {
                 que.addLast(child);
-            }
-            
+            }          
         }
         level++;
     }
@@ -435,5 +434,7 @@ public static int kthLargest(Node node, int k){
         que=temp;
     }
   }
+
+  
 
 }

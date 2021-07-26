@@ -106,13 +106,29 @@ public int peek() throws Exception{
 //log(n)
 public int remove() throws Exception{
     UnderFlowPointerException();
-
+    int rEle = this.arr.get(0);
+    swap(0,this.noOfEle-1);
+    this.arr.remove(this.noOfEle-1);
+    this.noOfEle--;
+    downHeapify(0);
+    
+    return rEle;
 
 }
-
-
-public void add(){
-
+//O(log(n))
+public void upHeapify(int ci)
+{
+    int pi = (ci - 1)/2;
+    if(compareTo(ci,pi)>0)
+    {
+        swap(ci,pi);
+        upHeapify(pi);
+    }
+}
+public void add(int data){
+this.arr.add(data);
+this.noOfEle++;
+upHeapify(this.noOfEle-1);
 }
 
 

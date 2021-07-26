@@ -62,6 +62,84 @@ public class questionsBinaryTree {
         myAns.add(root.val);
         return myAns;
     }
+        //leetcode 98
+        // Validate Binary Search Tree
+       public TreeNode prev;
+       public boolean isBst(TreeNode node)
+       {
+           if(node==null)
+           return true;
+           
+           if(!(isBst(node.left)))
+           {
+           return false;
+           }
+           
+           if(prev!=null && prev.val>=node.val)
+           {
+               return false;
+           }
+           prev=node;
+   
+           if(!(isBst(node.right)))
+           return false;
+           
+           return true;
+       }
+       
+            public boolean isValidBST(TreeNode root) {
+       prev=null;
+       return (isBst(root));
+       }
+
+       //2nd method that is better to show in interview
+       
+    public class isBstPair{
+        boolean isbst=true;
+        long maxele=Long.MIN_VALUE;
+        long minele=Long.MAX_VALUE;
+    }
+  
+    public isBstPair isBST(TreeNode node){
+        if(node==null)
+        return new isBstPair();
+        
+        isBstPair left = isBST(node.left);
+        if(!(left.isbst))
+        return left;
+        
+        isBstPair right = isBST(node.right);
+        if(!(right.isbst))
+        return right;
+        
+        isBstPair self = new isBstPair();
+        self.isbst=false;
+        if(left.maxele<node.val && right.minele>node.val)
+        {
+            self.minele=Math.min(left.minele,node.val);
+            self.maxele=Math.max(right.maxele,node.val);
+            self.isbst=true;
+        }
+        return self;
+    }
+    
+        public boolean isValidBST1(TreeNode root){
+            if(root.left==null && root.right==null)
+                return true;
+            isBstPair ans=isBST(root);
+            return ans.isbst;
+        }
+    
+
+
+
+
+
+
+
+
+
+
         //leetcode 110 balanced binary tree
     public int height(TreeNode node)
     {

@@ -234,6 +234,70 @@ public class BinaryTree{
         return -1;
     }
     
+    //is tree a binary search tree
+    public static Node prev;
+    public static boolean isBst(Node node)
+    {
+        if(node==null)
+        return true;
+        
+        if(!(isBst(node.left)))
+        {
+        return false;
+        }
+        
+        if(prev!=null && prev.data>node.data)
+        {
+            return false;
+        }
+        prev=node;
+
+        if(!(isBst(node.right)))
+        return false;
+        
+        return true;
+    }
+    //2nd method that is better of is Bst
+    //agar mere left vala and right vala bst hai to mera check karo ki mai bst hu ki nhi
+    
+    public static class isBstPair{
+        boolean isbst=true;
+        int minele=(int)1e9;
+        int maxele=-(int)1e9;
+    }
+  
+    public static isBstPair isBST(Node node){
+        if(node==null)
+        return new isBstPair();
+        
+        isBstPair left = isBST(node.left);
+        if(!(left.isbst))
+        return left;
+        
+        isBstPair right = isBST(node.right);
+        if(!(right.isbst))
+        return right;
+        
+        isBstPair self = new isBstPair();
+        self.isbst=false;
+        if(left.maxele<node.data && right.minele>node.data)
+        {
+            self.minele=Math.min(left.minele,node.data);
+            self.maxele=Math.max(right.maxele,node.data);
+            self.isbst=true;
+        }
+        return self;
+    }
+
+
+
+    public static void isbst(Node node)
+    {
+    prev=null;
+    System.out.println(isBst(node));
+    }
+
+
     //is balanced binary tree
     public static int height1(Node node)
     {
