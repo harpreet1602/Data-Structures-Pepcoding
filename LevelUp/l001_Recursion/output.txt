@@ -1,9 +1,36 @@
-235
-253
-325
-352
-37
-523
-532
-73
-8
+b1q1 b2q2 b3q3 b4q4 
+b1q1 b2q2 b3q3 b5q4 
+b1q1 b2q2 b3q3 b6q4 
+b1q1 b2q2 b3q3 b7q4 
+b1q1 b2q2 b4q3 b5q4 
+b1q1 b2q2 b4q3 b6q4 
+b1q1 b2q2 b4q3 b7q4 
+b1q1 b2q2 b5q3 b6q4 
+b1q1 b2q2 b5q3 b7q4 
+b1q1 b2q2 b6q3 b7q4 
+b1q1 b3q2 b4q3 b5q4 
+b1q1 b3q2 b4q3 b6q4 
+b1q1 b3q2 b4q3 b7q4 
+b1q1 b3q2 b5q3 b6q4 
+b1q1 b3q2 b5q3 b7q4 
+b1q1 b3q2 b6q3 b7q4 
+b1q1 b4q2 b5q3 b6q4 
+b1q1 b4q2 b5q3 b7q4 
+b1q1 b4q2 b6q3 b7q4 
+b1q1 b5q2 b6q3 b7q4 
+b2q1 b3q2 b4q3 b5q4 
+b2q1 b3q2 b4q3 b6q4 
+b2q1 b3q2 b4q3 b7q4 
+b2q1 b3q2 b5q3 b6q4 
+b2q1 b3q2 b5q3 b7q4 
+b2q1 b3q2 b6q3 b7q4 
+b2q1 b4q2 b5q3 b6q4 
+b2q1 b4q2 b5q3 b7q4 
+b2q1 b4q2 b6q3 b7q4 
+b2q1 b5q2 b6q3 b7q4 
+b3q1 b4q2 b5q3 b6q4 
+b3q1 b4q2 b5q3 b7q4 
+b3q1 b4q2 b6q3 b7q4 
+b3q1 b5q2 b6q3 b7q4 
+b4q1 b5q2 b6q3 b7q4 
+35
