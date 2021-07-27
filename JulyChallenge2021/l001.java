@@ -1110,7 +1110,35 @@ private boolean canDeleteNode(TreeNode root)
         return false;
     }
 }
+//108. Convert Sorted Array to Binary Search Tree
+//tc O(n) as each element in array is traversed only once
+    //Make the middle element as root
+    //then recursively build the bst by calling foe the subtrees
+    //first left subtree from low to mid -1
+    //second right subtree from mid+1 to high
+    
+    
+    public TreeNode getBst(int[] nums,int low,int high){
+        if(low>high)
+            return null;
+        
+            int mid = (low+high)/2;
+             TreeNode root = new TreeNode(nums[mid]);
+             root.left = getBst(nums,low,mid-1);
+             root.right = getBst(nums,mid+1,high);
+        return root;
+    } 
+     
+     
+     
+     
+     public TreeNode sortedArrayToBST(int[] nums) {
+        
+     return getBst(nums,0,nums.length-1);
+     }
 
+     
+ 
 
 
 
