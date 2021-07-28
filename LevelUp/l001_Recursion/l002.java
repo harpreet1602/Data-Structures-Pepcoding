@@ -371,6 +371,7 @@ public class l002 {
    }
 
    //2d reh gye hw vale
+   //1365
     
    public static int queenCombination2D(boolean[][] vis,int bno, int tnq,String asf)
    {
@@ -389,8 +390,8 @@ public class l002 {
         }
         return count;
    }
-   
-   public static int queenPermutations2D(boolean[][] vis, int tnq,String asf)
+   //43680
+   public static int queenPermutations2D(boolean[][] box, int tnq,String asf,boolean[][] vis)
    {
         if(tnq==0)
         {
@@ -398,7 +399,7 @@ public class l002 {
             return 1;
         }
         int count = 0;
-        int n=vis.length,m=vis[0].length;
+        int n=box.length,m=box[0].length;
         for(int b = 0;b<n*m;b++)
         {
             int r=b/m;
@@ -406,20 +407,89 @@ public class l002 {
             if(!vis[r][c])
             {
                 vis[r][c]=true;
-            count+= queenPermutations2D(vis, tnq-1, asf + "("+r+","+c+") "); 
-                vis[r][c]=false;
-        }
+            if(!box[r][c])
+            {
+                box[r][c]=true;
+            count+= queenPermutations2D(box, tnq-1, asf + "("+r+","+c+") ",vis); 
+                box[r][c]=false;
+            }
+            vis[r][c]=false;
+            }
         }
         return count;
    }
 
 
+   public static int queenCombination2Dsub(boolean[][] box,int bno,int tnq,String asf)
+   {
+        int n = box.length,m=box[0].length;
+        if(tnq==0 || bno>=n*m)
+        {
+            if(tnq==0)
+            {
+                System.out.println(asf);
+                return 1;
+            }
+            return 0;
+        }
+         
+        int count=0;
 
+        int r = bno/m;
+        int c = bno%m;
+        
+        if(r>=0 && c>=0 && r<n && c<m){
+        if(!box[r][c])
+        {
+            box[r][c]=true;
+        count+=queenCombination2Dsub(box, bno+1, tnq-1, asf+"("+r+","+c+") ");
+            box[r][c]=false;
+        }
+        }   
+        count+=queenCombination2Dsub(box, bno+1, tnq, asf);
+
+        return count;
+   }
+
+   public static int queenPermutation2Dsub(boolean[][] box,int bno,int tnq,String asf)
+   {
+       int n = box.length,m=box[0].length;
+
+        if(tnq==0 || bno>=n*m)
+        {
+            if(tnq==0)
+            {
+                System.out.println(asf);
+                return 1;
+            }            
+            return 0;
+        }
+        
+       int count=0;
+       
+       int r =bno/m;
+       int c = bno%m;
+       if(r>=0 && c>=0 && r<n && c<m)
+       {
+           if(!box[r][c])
+           {
+                box[r][c] =true;
+                count+=queenPermutation2Dsub(box, 0, tnq-1, asf+"("+r+","+c+") ");
+                box[r][c] =false;
+           }
+       }
+       count+=queenPermutation2Dsub(box, bno+1, tnq, asf);
+       return count;
+   }
 
    public static void queen2D(){
        int tnq=4;
        boolean[][] box = new boolean[4][4];
-       System.out.println(queenCombination2D(box, 1, tnq, ""));
+       boolean[][] vis = new boolean[4][4];
+    //    System.out.println(queenCombination2D(box, 0, tnq, ""));
+        // System.out.println(queenCombination2Dsub(box, 0, tnq, ""));  
+    // System.out.println(queenPermutations2D(box, tnq, "",vis));
+    System.out.println(queenPermutation2Dsub(box, 0, tnq, ""));
    }
    
 
@@ -448,7 +518,7 @@ public static void queen(){
     // System.out.println(singlePermutation(coins,10,"",vis));
     // System.out.println(singlePermutation1(coins,10,""));
     // System.out.println(singlePermutation_subseq(coins,10,0,"",vis));
-        queen();
-        // queen2D();
+        // queen();
+        queen2D();
 }
 }
