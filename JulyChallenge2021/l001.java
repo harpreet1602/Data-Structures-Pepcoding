@@ -4,7 +4,7 @@ import java.util.Arrays;
 import java.util.PriorityQueue;
 import java.util.HashMap;
 import java.util.Random;
-
+import java.util.LinkedList;
 public class l001{
     //leetcode 89. Gray Code
      //for n=3, copy all the answers for n=2 and then add 2^2 to all the numbers of the answer fro n=2 from the backward and it will work for me to give the gray code 
@@ -1137,7 +1137,50 @@ private boolean canDeleteNode(TreeNode root)
      return getBst(nums,0,nums.length-1);
      }
 
-     
+
+    //  542. 01 Matrix
+      public int[][] updateMatrix(int[][] mat) {
+        LinkedList<int[]> queue = new LinkedList<>();
+        int n = mat.length, m=mat[0].length;
+        for(int  i =0 ; i < n ; i++)
+        {
+            for(int  j = 0 ; j < m;j++)
+            {
+                if(mat[i][j] == 0)
+                {
+                    queue.addLast(new int[]{i,j});
+                }
+                else
+                {
+                    mat[i][j] = -1;
+                }
+            }
+        }
+        int[][] dirs = {{0,-1},{-1,0},{0,1},{1,0}};
+        int level = 0;
+        while(!queue.isEmpty())
+        {
+            int size = queue.size();
+            level++;
+            while(size-->0)
+            {
+                int[] cell = queue.removeFirst();
+                for(int[] dir:dirs)
+                {
+                    int r = cell[0] + dir[0];
+                    int c = cell[1] + dir[1];
+                    if(r>=0 && c>=0 && r<n && c<m && mat[r][c]==-1)
+                    {
+                        
+                        mat[r][c] = level;
+                        queue.addLast(new int[]{r,c});
+                    }
+                }
+            }
+        }
+        return mat;
+    
+    }
  
 
 
