@@ -1137,7 +1137,13 @@ private boolean canDeleteNode(TreeNode root)
      return getBst(nums,0,nums.length-1);
      }
 
-
+    //  in this question the brute force could be to see for each 1 the minimum distance of zero present
+    // but its time complexity will be O((r.c)^2)
+    // optimization can be done through bfs where we can start by adding all the zeroes in a queue and then
+    // and other places as -1
+    // then the bfs can be applied and we are going in four directions and then updating the value of (i,j) of matrix 
+    // where -1 is present add there the level's value which will give the distance of the nearest zero from that value
+    // add its neighbours and repeat the process.
     //  542. 01 Matrix
       public int[][] updateMatrix(int[][] mat) {
         LinkedList<int[]> queue = new LinkedList<>();
