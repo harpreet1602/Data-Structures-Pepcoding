@@ -370,6 +370,113 @@ public class l002 {
         return count;
    }
 
+   // k value can be decreased at every call whenever it reaches zero means we have got
+   // the combination of size k we can return from there after adding the answer in the list
+    // in the end we will get the answer 
+   public int combinations(int n, int k, int val, List<Integer> smallAns, List<List<Integer>> ans )
+   {
+       if(k==0)
+       {
+           List<Integer> base = new ArrayList<Integer>(smallAns);
+           ans.add(base);
+           return 1;
+       }
+       int count = 0;
+       for(int  i = val; i<=n;i++)
+       {
+           smallAns.add(i);
+        count+=combinations(n, k-1, i+1, smallAns,ans);
+           smallAns.remove(smallAns.size()-1);
+       }
+       return count;
+       
+   }
+   
+   public List<List<Integer>> combine(int n, int k) {
+       List<List<Integer>> ans = new ArrayList<>();
+       List<Integer> smallAns = new ArrayList<>();
+       combinations(n,k,1,smallAns,ans);
+       return ans;
+   }
+
+
+
+//    216. Combination Sum III
+// here both the things need to be fulfiled one is target and one is length
+// so it will be managed like this
+   public int combinationsum3(int k , int n , int idx, List<Integer> smallAns, List<List<Integer>> ans)
+   {
+       if(n==0 || k==0){
+           if(n==0 && k==0)
+           {
+           List<Integer> base = new ArrayList<>(smallAns);
+           ans.add(base);
+           return 1;
+           }
+           return 0;
+       }
+       int count=0;
+       for(int i = idx ; i <= 9 ; i++)
+       {
+           smallAns.add(i);
+           count+=combinationsum3(k-1 , n - i , i+1, smallAns, ans);
+           smallAns.remove(smallAns.size()-1);
+       }
+       return count;
+       
+       
+   }
+       public List<List<Integer>> combinationSum3(int k, int n) {
+       List<List<Integer>> ans = new ArrayList<>();
+       List<Integer> smallAns = new ArrayList<>();
+    combinationsum3(k ,  n , 1 , smallAns,  ans);
+           return ans;
+   }
+
+//    322. Coin Change
+//     tle for recursion
+//     will be done by dp
+    
+public int min = (int)1e9;
+public int combinationCoinChange(int[] coins , int amount , int idx, List<Integer> smallAns, List<List<Integer>> ans)
+{
+ if(amount==0){
+     List<Integer> base = new ArrayList<>(smallAns);
+     if(base.size()<min)
+         min=base.size();
+     ans.add(base);
+     return 1;
+ }
+ int count=0;
+ for(int i = idx ; i < coins.length ; i++)
+ {
+     if(amount-coins[i]>=0)
+     {
+     smallAns.add(coins[i]);
+     count+=combinationCoinChange(coins , amount - coins[i] , i, smallAns, ans);
+     smallAns.remove(smallAns.size()-1);
+     }
+ }
+ return count;
+ 
+ 
+}
+
+
+
+
+public int coinChange(int[] coins, int amount) {
+ if(amount==0)
+     return 0;
+ List<List<Integer>> ans = new ArrayList<>();
+ List<Integer> smallAns = new ArrayList<>();
+ combinationCoinChange(coins,amount,0,smallAns,ans);
+ return min==(int)1e9?-1:min;
+}
+
+
+
+
    //2d reh gye hw vale
    //1365
     

@@ -602,11 +602,38 @@ static int getMaxGold1(int[][] grid,int sr,int sc,int[][] dir)
  return maxGold + grid[sr][sc];
 }
 
+// Friends Pairing - 2
+static int counter = 1;
 
-
+public static void solution(int i, int n, boolean[] used, String asf) {
+  // write your code here
+  if(i==n+1)
+  {
+      System.out.println(counter++ + "." + asf);
+      return;
+  }
+  
+  int fup = 1; //first unused person
+  while(fup<=n && used[fup])
+  fup++;
+  used[fup]=true;
+  solution(i+1,n,used, asf+ "(" + fup +") ");
+  
+  for(int pp = fup+1;pp<=n;pp++)
+  {
+      if(!used[pp])
+      {
+          used[pp]=true;
+          solution(i+2,n,used,asf+"("+fup+","+pp+") ");
+          used[pp]=false;
+      }
+  }
+  used[fup]=false;
+  
+}
     
 
-
+    
 
 
     public static void main(String[] args) {

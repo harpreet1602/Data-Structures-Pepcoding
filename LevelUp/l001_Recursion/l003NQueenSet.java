@@ -311,8 +311,7 @@ public class l003NQueenSet {
 //     base case new ArrayList of string will be made and there we will copy our ArrayList of 
 //     string and that copy would be added to the final answer ArrayList<ArrayList<String>>.
     
-    
-static boolean[] col,diag,adiag;
+
 public static int nqueen_04FurtherOptimizeCombination(int n,int m,int floor,int tnq,List<String> smallAns,List<List<String>> ans)
 {
     if(tnq==0)
