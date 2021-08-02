@@ -303,6 +303,61 @@ public class l003NQueenSet {
   //leetcode 51  N-Queens
 
   
+// In this queston we have made the answer of a floor in a StringBuilder and then
+//  added it  into the ArrayList of string by converting it to string and
+//  then in the return of the call at the time of backtracking remove the last answer of the queen
+//   because it is not placed correctly from the ArrayList of strings ans when all the queens
+//    will be placed ArrayList of strings will be containing the answer of each row and at the
+//     base case new ArrayList of string will be made and there we will copy our ArrayList of 
+//     string and that copy would be added to the final answer ArrayList<ArrayList<String>>.
+    
+    
+static boolean[] col,diag,adiag;
+public static int nqueen_04FurtherOptimizeCombination(int n,int m,int floor,int tnq,List<String> smallAns,List<List<String>> ans)
+{
+    if(tnq==0)
+    {
+        ans.add(new ArrayList<>(smallAns));
+        // System.out.println(asf);
+        return 1;
+    }
+    int count=0;
+    //ek floor pai ek queen hi assigned hai 
+    //it will reduce the no. of calls
+    for(int room=0;room<m;room++)
+    {
+        int r = floor;
+        int c = room;
+     
+        if( !col[c] && !diag[r+c] && !adiag[r-c+m-1])
+        {
+            StringBuilder sb = new StringBuilder();
+            for(int i = 0 ;i < c;i++) sb.append(".");
+            sb.append("Q");
+            for(int i =c+1;i<m;i++) sb.append(".");
+            smallAns.add(sb.toString());
+            col[c] = diag[r+c] = adiag[r-c+m-1] = true;
+            count+=nqueen_04FurtherOptimizeCombination(n,m,floor+1,tnq-1,smallAns,ans);
+            col[c] = diag[r+c] = adiag[r-c+m-1] = false;
+            smallAns.remove(smallAns.size()-1);
+        }
+    }
+    return count;
+}
+
+
+
+public List<List<String>> solveNQueens(int n) {
+ List<String> smallAns = new ArrayList<>();
+ List<List<String>> ans = new ArrayList<>();
+    int m=n,tnq=n,floor=0;
+    col = new boolean[m];
+    diag = new boolean[m+n-1];
+    adiag = new boolean[m+n-1];
+    
+       nqueen_04FurtherOptimizeCombination(n,m,floor,tnq,smallAns,ans);
+    return ans;
+}
 
 
 
