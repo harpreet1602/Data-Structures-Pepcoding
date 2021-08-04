@@ -58,7 +58,55 @@ public int subsetsDup(int[] nums,int idx,List<Integer> smallAns, List<List<Integ
         return ans;
     }
 
-
+    // Path Sum II
+    public class TreeNode {
+             int val;
+             TreeNode left;
+             TreeNode right;
+             TreeNode() {}
+             TreeNode(int val) { this.val = val; }
+             TreeNode(int val, TreeNode left, TreeNode right) {
+                 this.val = val;
+                 this.left = left;
+                 this.right = right;
+             }
+         }
+        //    Path Sum II 
+        // Just apply the same technique of recursion to reach the target
+        // traverse the tree and add the current val till leaf then check if
+        //  it matches the target then add otherwise 
+        // don't add.
+        // then the recursive calls for both side
+        // remove the current val at the end 
+    public void path(TreeNode root,int targetSum,List<Integer> smallAns,List<List<Integer>> ans)
+    {
+        if(root==null)
+            return;
+        
+        smallAns.add(root.val);
+        if(root.left==null & root.right==null)
+        {
+            if(targetSum == root.val)
+            {
+            List<Integer> base = new ArrayList<>(smallAns);
+                ans.add(base);
+            }
+        }
+          path(root.left,targetSum-root.val,smallAns,ans);
+        path(root.right,targetSum-root.val,smallAns,ans);
+       
+       
+        smallAns.remove(smallAns.size()-1);
+    }
+    
+    public List<List<Integer>> pathSum(TreeNode root, int targetSum) {
+        List<Integer> smallAns = new ArrayList<>();
+        List<List<Integer>> ans = new ArrayList<>();
+        if(root==null)
+            return ans;
+        path(root,targetSum,smallAns,ans);
+        return ans;
+    }
 
 
 
