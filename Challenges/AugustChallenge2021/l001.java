@@ -72,6 +72,7 @@ public int subsetsDup(int[] nums,int idx,List<Integer> smallAns, List<List<Integ
              }
          }
         //    Path Sum II 
+        // TC O(nlogn) SC O(logn) recursive space
         // Just apply the same technique of recursion to reach the target
         // traverse the tree and add the current val till leaf then check if
         //  it matches the target then add otherwise 
