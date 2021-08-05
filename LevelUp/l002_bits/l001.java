@@ -175,6 +175,18 @@ public class l001{
     }
 
     // 137. Single Number II
+    // mask at every point will be calculated and then with that mask which will be 1 at a
+    // particular bit we will be traversing the whole array nums and will take & if the result 
+    // is 1 then we increment the count by 1.
+    // If we get some remainder left after dividing the count by k times repetition of the 
+    // numbers the take the or of ans with the mask so that the bit at  mask can bwe included
+    // in the ans otherwise take or with as there is a zero at that bit 
+
+
+
+
+
+
     public int singleNumber2(int[] nums) {
         int k = 3;
         int ans=0;
