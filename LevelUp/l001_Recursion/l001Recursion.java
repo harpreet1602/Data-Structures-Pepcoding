@@ -285,8 +285,8 @@ public class l001Recursion {
             System.out.println(ans);
             return 1;
         }
-
-      
+        int count=0;
+      return count;
 
     }
 
@@ -638,8 +638,8 @@ public static void solution(int i, int n, boolean[] used, String asf) {
 
     public static void main(String[] args) {
         // recursionPattern(1, 6);
-        int[] arr = {1,2,3,4,5,1};
-        int a=2,b=3,data=1,index=0,n=5,count=0;
+        // int[] arr = {1,2,3,4,5,1};
+        // int a=2,b=3,data=1,index=0,n=5,count=0;
     //     printIncreasing(a, b);
     //     System.out.println();
     //     printDecreasing(a, b);
@@ -683,7 +683,7 @@ public static void solution(int i, int n, boolean[] used, String asf) {
 
 
 
-    mazePath_HVD_multi(m,0, 0,2, 2, "",dir, dirS, ans);
+    // mazePath_HVD_multi(m,0, 0,2, 2, "",dir, dirS, ans);
 
 
 

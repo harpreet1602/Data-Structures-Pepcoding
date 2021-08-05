@@ -613,6 +613,58 @@ public static void queen(){
     // System.out.println(queenCombination1d_sub(tnb, 1, tnq, 1, ""));
 }
 
+int co=0,di=0,adi=0;
+public int nqueensBits(int n,int floor,List<String> smallAns,List<List<String>> ans){
+    if(floor==n)
+    {
+        List<String> base = new ArrayList<>(smallAns);
+        ans.add(base);
+        return 1;
+    }
+    
+        int count=0;
+    for(int room = 0;room<n;room++)
+    {
+        int r = floor;
+        int c = room;
+        if( (co&(1<<c))==0 && (di&(1<<(r+c)))==0 && (adi&(1<<(r-c+n-1))) == 0)
+        {
+           StringBuilder sb = new StringBuilder();
+            for(int i =0;i<c;i++)
+                sb.append(".");
+            sb.append("Q");
+            for(int i=c+1;i<n;i++)
+                sb.append(".");
+            smallAns.add(sb.toString());
+            // co = (co|(1<<c));
+            // di = (di | (1<<(r+c)));
+            // adi = (adi | (1<<(r-c+n-1)));
+             co ^= (1<<c);
+            di ^= (1<<(r+c));
+            adi ^=  (1<<(r-c+n-1));
+            count+=nqueensBits(n,floor+1,smallAns,ans);
+            smallAns.remove(smallAns.size()-1);
+            // co = (co&(~(1<<c)));
+            // di = (di & (~(1<<(r+c))));
+            // adi = (adi & (~(1<<(r-c+n-1))));
+             co ^= (1<<c);
+            di ^= (1<<(r+c));
+            adi ^=  (1<<(r-c+n-1));
+        }
+    }
+    return count;
+    
+}
+  
+
+
+  public List<List<String>> solveNQueens(int n) {
+  List<String> smallAns = new ArrayList<>();
+  List<List<String>> ans = new ArrayList<>();
+  nqueensBits(n,0,smallAns,ans);
+  return ans;
+  }
+
 
     public static void main(String[] args)
     {
