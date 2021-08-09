@@ -109,6 +109,32 @@ public int subsetsDup(int[] nums,int idx,List<Integer> smallAns, List<List<Integ
         return ans;
     }
 
-
+    // 1331. Rank Transform of an Array
+// Copy arr into sortedArray and sort it.
+// Iterate sortedArray and record the rank for each element in hashmap map.
+// Iterate arr again, and assign map[arr[i]] to arr[i].
+// return the final result arr.
+// Easy Java explanation Code | HashMap time: O(nlogn), space: O(n)
+    public int[] arrayRankTransform(int[] arr) {
+        int[] sortedArray = new int[arr.length];
+        for(int i=0;i<arr.length;i++)
+            sortedArray[i] = arr[i];
+        
+        Arrays.sort(sortedArray);
+        
+        HashMap<Integer,Integer> map = new HashMap<>();
+        
+        for(int ele:sortedArray)
+        {
+            map.putIfAbsent(ele,map.size()+1);
+        }
+        
+        for(int i=0;i<arr.length;i++)
+        {
+            arr[i] = map.get(arr[i]);
+        }
+        return arr;
+        
+    }
 
 }
