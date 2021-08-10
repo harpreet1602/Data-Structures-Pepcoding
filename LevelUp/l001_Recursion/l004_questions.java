@@ -114,7 +114,106 @@ public class l004_questions {
         solveSudoku(board,0,spaces);        
     }
 
+    // 36. Valid Sudoku
+    
+
+    public int[] rows,cols;
+    public int[][] mat;
+    
+    public boolean isValidSudoku(char[][] board) {
+         ArrayList<Pair> spaces = new ArrayList<>();
+         rows = new int[9];
+         cols = new int[9];
+         mat = new int[3][3];
+        
+        for(int  i = 0 ; i < board.length; i++)
+        {
+            for(int j = 0 ; j < board[0].length ;j++)
+            {
+                if(board[i][j] == '.')
+                {
+                    continue;
+                }else{
+                    int mask = (1<<(board[i][j] - '0'));
+                    if((rows[i] & mask) == 0 && (cols[j] & mask) == 0 && (mat[i/3][j/3] & mask) ==0 ){
+                    
+                    rows[i] ^= mask;
+                    cols[j] ^= mask;
+                    mat[i/3][j/3] ^= mask;
+            }
+                    else
+                    {
+                        return false;
+                    }
+                    
+                }
+            }
+        }
+       return true;      
+    }
 
 
+    // 37. Sudoku Solver
+
+ 
+    
+    public boolean solveSudoku1(char[][] board, int idx, ArrayList<Pair> spaces)
+    {
+        if(idx==spaces.size())
+        {
+            return true;
+        }
+        Pair p = spaces.get(idx);
+        int r = p.r;
+        int c = p.c;
+        
+        for(int num = 1 ; num <= 9; num++)
+        {
+            int mask = (1 << num);
+            if((rows[r] & mask) == 0 && (cols[c] & mask) == 0 && (mat[r/3][c/3] & mask) ==0 )
+            {
+                board[r][c] = (char)(num + '0');
+                rows[r] ^= mask;
+                cols[c] ^= mask;
+                mat[r/3][c/3] ^= mask;
+                if(solveSudoku1(board,idx+1,spaces))
+                {
+                    return true;
+                }
+                
+                board[r][c] = '.';
+                rows[r] ^= mask;
+                cols[c] ^= mask;
+                mat[r/3][c/3] ^= mask;
+            }
+        }
+        return false;
+    }
+    
+    
+public void solveSudoku2(char[][] board) { 
+         ArrayList<Pair> spaces = new ArrayList<>();
+         rows = new int[9];
+         cols = new int[9];
+         mat = new int[3][3];
+        
+        for(int  i = 0 ; i < board.length; i++)
+        {
+            for(int j = 0 ; j < board[0].length ;j++)
+            {
+                if(board[i][j] == '.')
+                {
+                    spaces.add(new Pair(i,j));
+                }else{
+                    int mask = (1 << (board[i][j] - '0'));
+                    rows[i] ^= mask;
+                    cols[j] ^= mask;
+                    mat[i/3][j/3] ^= mask;
+                }
+            }
+        }
+     solveSudoku1(board,0,spaces);      
+    }
+    
 
 }
