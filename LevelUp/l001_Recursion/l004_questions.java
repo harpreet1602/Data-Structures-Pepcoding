@@ -215,5 +215,49 @@ public void solveSudoku2(char[][] board) {
      solveSudoku1(board,0,spaces);      
     }
     
+    
+
+    // K Subsets With Equal Sum portal
+public static ArrayList<ArrayList<ArrayList<Integer>>> res = new ArrayList<>();
+
+public static void solution(int[] arr, int vidx,int[] subsetSum, ArrayList<ArrayList<Integer>> ans) {
+    //write your code here
+    
+    if(vidx==arr.length)
+    {
+        int s = subsetSum[0];
+        for(int ele:subsetSum)
+        {
+            if(ele!=s)
+            return;
+        }
+        
+        ArrayList<ArrayList<Integer>> sa = new ArrayList<>();
+        
+        for(ArrayList<Integer> a:ans){
+             System.out.print(a+" ");
+            sa.add(new ArrayList<>(a));
+        }
+        System.out.println();
+        res.add(sa);
+       
+        return;
+    }
+    
+    for(int k=0;k<subsetSum.length;k++)
+    {
+        ArrayList<Integer> list = ans.get(k);
+        list.add(arr[vidx]);
+        subsetSum[k]+=arr[vidx];
+        solution(arr,vidx+1,subsetSum,ans);
+        subsetSum[k]-=arr[vidx];
+        list.remove(list.size()-1);
+        
+        if(list.size()==0)
+        break;
+    }
+    
+}
+
 
 }
