@@ -137,4 +137,87 @@ public int subsetsDup(int[] nums,int idx,List<Integer> smallAns, List<List<Integ
         
     }
 
+    
+// leetcode 926. Flip String to Monotone Increasing
+// TC:O(n) SC:O(1)
+// Maintain a zero to one count when 0 is seen and one count when 1 is seen 
+// but at each stage we will check if there is minmum no of flips for one ton convert to zero
+// at that stage zero to one count will be updated as one count and after the loop
+// the answer will be contained in the zero to one count irrespective of whether zero is converted to one
+// or one is converted to zero or at some cases both things have happened this function will handle 
+// all such cases because of the answer so far has been tracked in zero to one count
+    
+public int minFlipsMonoIncr(String s) {
+    int oneCount=0,zeroToOne=0;
+    for(int i=0;i<s.length();i++)
+    {
+        char ch = s.charAt(i);
+        if(ch == '0'){
+            zeroToOne++;        
+        }
+        else{
+            oneCount++;
+        }
+        if(zeroToOne>oneCount){
+            zeroToOne = oneCount;
+        }
+    }
+    return zeroToOne;
+}
+
+// 58. Length of Last Word
+// Tc: O(n) SC : O(1)
+// Start traversing from the end and skip of atlast encountered with empty spaces
+// Then when you got the first character from the end that is not the space then start counting till you find
+// the empty space again or the word length has finished and return the count.
+public int lengthOfLastWord(String s) {
+    int n = s.length();
+    int idx=n-1;
+    while(idx>=0 && s.charAt(idx)==' ')
+    {
+        idx--;
+    }
+    int count=0;
+    while(idx>=0 && s.charAt(idx)!=' ')
+    {
+        count++;
+        idx--;
+    }
+    return count;
+}
+
+// 1281. Subtract the Product and Sum of Digits of an Integer
+// Extract every digit from the number and make the sum and product at the same time and decrease the number
+// every time to get the last digit everytime to overall get all the digits of which sum and product 
+// has been calculated and then return product - sum
+public int subtractProductAndSum(int n) {
+    int temp=n,product=1,sum=0;
+    while(temp!=0){
+        int digit = temp % 10;
+        temp = temp/10;
+        product = product * digit;
+        sum = sum + digit;
+    }
+    return product - sum;
+}
+
+
+// 665. Non-decreasing Array
+// we will be ensuring that on the place I am standing all the digits previous me should be smaller or 
+// equal to me, also the check if nums[i-2] < = nums[i] then assign the nums[i-1] = nums[i] because that will
+// be safe option and then if nums[i-2] > nums[i] then nums[i] = nums[i-1] that will be the safe option
+// Everytime manipulation is done then count is increased , if count<=1  then return true otherwise false
+public boolean checkPossibility(int[] nums) {
+    int count = 0;
+    for(int i = 1 ; i< nums.length; i++){
+        if(nums[i-1]>nums[i]){
+            count++;
+            if(i-2<0 || nums[i-2]<=nums[i]) nums[i-1] = nums[i];
+            else{
+                nums[i] = nums[i-1];
+            }
+        }
+    }
+    return count<=1;
+}
 }
