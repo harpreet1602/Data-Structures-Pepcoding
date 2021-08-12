@@ -220,4 +220,48 @@ public boolean checkPossibility(int[] nums) {
     }
     return count<=1;
 }
+
+
+
+// 954. Array of Doubled Pairs
+// Two points to catch here is first of all sort the array by the absolute value because we will only be able
+// to find the target of 2 * current element as element/2 gives problem (15/2 = 7 but 7*2 != 15) 
+// to store the elements and do its pairing we need to start stroing the element's frequency in HashMap.
+// Then put all the frequency of the elements in the HashMap.
+// After that for doing the sorting by absolute value we need to make an array og big Integer.
+// In sorting whosever is small between two elements will be placed first.
+// Start traversing the sorted array and if the frequency of current element is 0 then continue the iteration
+// Decrease the freq of the current ele by 1 and then find the target ele that is 2*ele if it's not present or  // frequncy is zero return false if not decrease the target element's freq by 1 and if the whole array is
+// traversed successfully the return true at the end. 
+public boolean canReorderDoubled(int[] arr) {
+    HashMap<Integer,Integer> freqMap = new HashMap<>();
+    for(int ele:arr) {
+         freqMap.put(ele, freqMap.getOrDefault(ele,0) + 1);
+    }
+    Integer[] ar = new Integer[arr.length];
+    
+    for(int i=0;i<arr.length;i++){
+        ar[i] = arr[i];
+    }
+    Arrays.sort(ar, (a,b)->{
+        return Math.abs(a) - Math.abs(b);
+    });
+    
+    for(Integer ele:ar){
+        if(freqMap.get(ele) == 0){
+            continue;
+        }
+        freqMap.put(ele,freqMap.get(ele) - 1);
+        if(freqMap.getOrDefault(2*ele,0) == 0){
+            return false;
+        }
+        
+        freqMap.put(2*ele,freqMap.get(2*ele) - 1);
+        
+        
+        
+    }
+    return true;
+    
+}
 }
