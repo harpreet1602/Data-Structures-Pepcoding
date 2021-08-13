@@ -264,4 +264,43 @@ public boolean canReorderDoubled(int[] arr) {
     return true;
     
 }
+
+    // 49. Group Anagrams
+    // time: O(str.length*strs.length) space : O(str.length*strs.length) 
+    // Here we need to know this thing that the HashMap value can be anything but HashMap key can aonly be that
+    // which have equals and HashCode function. So we have created a HashMap of HashMap of character,Integer and 
+    // the value will be List<String> why to store the frequency map of characters of every string
+    // Now after that we will create a frequency map everytime while traversing each string of the strings array
+    // in it we will be checking if in the big hashmap small hashmap frequncy map is not present we need to make 
+    // new list add the string and put the small hashmap into big hashmap or if it is already present then 
+    // just get that list and add the string. 
+    // After that traverse on the values of the big hashmap where you will get list<string> and add it into 
+    // list<list<string>> and return the answer after adding all the strings. 
+    public List<List<String>> groupAnagrams(String[] strs) {
+        HashMap<HashMap<Character,Integer>, List<String>> bmap = new HashMap<>();
+        for(String str:strs){
+            HashMap<Character,Integer> fmap = new HashMap<>();
+            for(int  i =0 ;i <str.length(); i++){
+                char ch = str.charAt(i);
+                fmap.put(ch,fmap.getOrDefault(ch,0) + 1);
+            }    
+            if(bmap.containsKey(fmap) == false){
+                List<String> list = new ArrayList<>();
+                list.add(str);
+                bmap.put(fmap,list);
+            }
+            else{
+                List<String> list = bmap.get(fmap);
+                list.add(str);
+            }
+        }
+        
+        List<List<String>> res = new ArrayList<>();
+        for(List<String> list:bmap.values()){
+            res.add(list);
+        }
+        return res;
+    }
+
+
 }
