@@ -303,4 +303,108 @@ public boolean canReorderDoubled(int[] arr) {
     }
 
 
+
+
+    // 73. Set Matrix Zeroes
+    // Approach 1
+// time:O((n*m)+(noOfZeroes*(n+m))  space :O(noOfZeroes)
+    // brute force
+    public class Pair{
+        int r;
+        int c;
+        Pair(int r, int c){
+            this.r = r;
+            this.c = c;
+        }
+    }
+    public void setZeroesBrute(int[][] matrix) {
+    ArrayList<Pair> val = new ArrayList<>();
+        int n=matrix.length, m =matrix[0].length;
+        for(int i = 0; i<n;i++){
+        for(int j = 0 ; j < m; j++){
+            if(matrix[i][j] == 0){
+                val.add(new Pair(i,j));
+            }
+        }
+     }
+        for(Pair p:val){
+            int r = p.r;
+            int c = p.c;
+            for(int i = 0 ; i < m ;i++ )
+            {
+                matrix[r][i] = 0;
+            }
+            for(int i = 0 ; i < n ;i++ )
+            {
+                matrix[i][c] = 0;
+            }
+            
+        }
+    }
+
+
+
+// Approach 2
+
+    // time:O(n*m) space:O(1)
+    //Here we are using first row and column for tracking the other zeroes in the matrix 
+    // for keeping track of first row and first column zeroes we have boolean variables to tell
+    // when we find 0 in the rest of the matrix we keep its row and col no value 0 and then traverse through
+    // first row if it is 0 nullify the entire column and in first col nullify the entire row
+    // and then according to boolean varible if it is true nullify the whatever is true (row or col).
+    public void nullifyRow(int[][] matrix,int i,int n, int m){
+        for(int j =0; j<m ;j++){
+            matrix[i][j] = 0;
+        }
+    }
+    public void nullifyCol(int[][] matrix,int j,int n,int m){
+        for(int i = 0 ;i < n ;i++){
+            matrix[i][j]=0;
+        }
+    }
+   public void setZeroes(int[][] matrix) {
+    boolean firstRowHasZero = false;
+    boolean firstColHasZero = false;
+    int n= matrix.length, m =matrix[0].length;
+       for(int i=0;i<n;i++){
+            if(matrix[i][0] == 0)
+            {
+                firstColHasZero = true;
+                break;
+            }
+        }
+        for(int j = 0; j < m; j++){
+            if(matrix[0][j] == 0){
+                firstRowHasZero = true;
+                break;
+            }
+        }
+       for(int i = 1 ; i< n ;i++){
+           for(int  j = 1 ; j<m ; j++){
+               if(matrix[i][j] == 0){
+                   matrix[i][0] = 0;
+                   matrix[0][j] = 0;
+               }
+           }
+       }
+       for(int j = 1 ; j<m ;j++){
+           if(matrix[0][j] == 0){
+               nullifyCol(matrix,j,n,m);
+           }
+       }
+       for(int i = 1 ;i<n ;i++){
+           if(matrix[i][0] == 0){
+               nullifyRow(matrix,i,n,m);
+           }
+       }
+       if(firstRowHasZero){
+           nullifyRow(matrix,0,n,m);
+       }
+       if(firstColHasZero){
+           nullifyCol(matrix,0,n,m);
+       }
+   }
+        
+
+
 }
