@@ -72,7 +72,7 @@ public class l001{
         return res;
     }
 
-    
+    // 143. Reorder List
 
     public static void fold(ListNode head) {
         ListNode mid = midNode(head);
@@ -135,9 +135,241 @@ c1.next = nhead;
     }
 
 
+    
+    public static ListNode mergeTwoLists(ListNode l1, ListNode l2) {
+        ListNode head = new ListNode(-1), c1 = l1, c2 = l2, c = head;
+        while(c1!=null && c2!=null){
+            if(c1.val<=c2.val){
+                c.next=c1;
+                c1=c1.next;
+            }else{
+                c.next=c2;
+                c2=c2.next;
+            }
+            c=c.next;
+        }        
+        if(c1!=null){
+            c.next=c1;
+        }
+        if(c2!=null){
+            c.next=c2;
+        }
+        return head.next;
+        
+        
+    }
+
+    public static int size(ListNode head){
+        ListNode node = head;
+        int count=0;
+        while(node!=null){
+            node=node.next;
+            count++;
+        }
+        return count;
+    }
+
+    public static ListNode removeNthFromEnd(ListNode head, int n) {
+        int size = size(head);
+        if(size==n){
+            ListNode rnode = head;
+            head = head.next;
+            rnode.next=null;
+                }
+        else{
+            int count = n;
+            ListNode slow,fast;
+            slow=fast=head;
+            while(count-->0){
+                fast=fast.next;
+            }
+            while(fast.next!=null){
+                slow=slow.next;
+                fast=fast.next;
+            }
+            ListNode rnode = slow.next;
+            slow.next=rnode.next;
+            rnode.next=null;
+            
+        }
+        return head;
+    
+      }
+
+      public static ListNode segregate01(ListNode head) {
+        
+        if(head == null || head.next==null){
+            return head;
+        }
+        
+        ListNode zero = new ListNode(-1), one = new ListNode(-1), zp = zero, op = one, curr =head;
+        
+        while(curr!=null){
+            if(curr.val==0){
+                zp.next=curr;
+                zp=zp.next;
+            }
+            else{
+                op.next=curr;
+                op=op.next;
+            }
+            curr=curr.next;
+        }
+        
+        zp.next=op.next=null;
+        zp.next=one.next;
+        return zero.next;
+        
+        
+    }    
+
+    
+    public static ListNode segregate012(ListNode head) {
+        if(head == null || head.next==null){
+       return head;
+   }
+   
+   ListNode zero = new ListNode(-1), one = new ListNode(-1), two = new ListNode(-1), zp = zero, op = one, tp =two, curr =head;
+   
+   while(curr!=null){
+       if(curr.val==0){
+           zp.next=curr;
+           zp=zp.next;
+       }
+       else if(curr.val==1){
+           op.next=curr;
+           op=op.next;
+       }
+       else{
+           tp.next=curr;
+           tp=tp.next;
+       }
+       curr=curr.next;
+   }
+   
+   zp.next=op.next=tp.next=null;
+   op.next=two.next;
+   zp.next=one.next;
+   return zero.next;
+
+}
+
+public static ListNode segregateEvenOdd(ListNode head) {
+    if( head == null || head.next ==null){
+        return head;
+    }
+    
+    ListNode even  = new ListNode(-1), odd = new ListNode(-1), ep =even, op =odd, curr =head;
+    while(curr!=null){
+        if((curr.val & 1)==0)
+        {
+            ep.next = curr;
+            ep = ep.next;
+        }
+        else
+        {
+            op.next = curr;
+            op = op.next;
+            
+        }
+        curr =curr.next;
+    }
+    ep.next = op.next =null;
+    ep.next=odd.next;
+    return even.next;
+    
+    
+}
+
+
+public static ListNode mergeSort(ListNode head) {
+    if(head == null || head.next == null){
+        return head;
+    }
+    
+    ListNode mid = midNode(head);
+    ListNode nhead = mid.next;
+    mid.next = null;
+    
+    return mergeTwoLists(mergeSort(head),mergeSort(nhead));
+}
+
+// 23. Merge k Sorted Lists
+// portal as well
+public static ListNode mergeKLists(ListNode[] lists, int si, int ei){
+    if(si == ei){
+        return lists[si];
+    }
+    
+    int mid = (si + ei )/2;
+    ListNode leftList = mergeKLists(lists,si,mid);
+    ListNode rightList = mergeKLists(lists,mid+1,ei);
+    
+    return mergeTwoLists(leftList,rightList);
+}
+public static ListNode mergeKLists(ListNode[] lists) {
+   if(lists.length == 0){
+       return null;
+   } 
+   
+   return mergeKLists(lists, 0 , lists.length-1);
+}
 
 
 
+public static void printList(ListNode node) {
+    while (node != null) {
+        System.out.print(node.val + " ");
+        node = node.next;
+    }
+}
+
+
+
+public static ListNode th = null, tt =null;
+    
+public static void addFirst(ListNode node){
+    
+    if(th == null){
+        th = node;
+        tt=node;
+    }
+    else{
+        node.next = th;
+        th = node;
+    }
+}
+
+public static ListNode reverseInKGroup(ListNode head, int k) {
+    if(head == null || head.next == null || k<=1){
+        return head;
+    }
+    
+    ListNode curr =head, oh = null ,ot = null;
+    int len = size(head);
+    while(len >= k){
+        int size = k;
+        while(size-->0){
+            ListNode forw = curr.next;
+            addFirst(curr); 
+            curr=forw;
+        }
+        if(oh== null && ot == null){
+            oh = th;
+            ot = tt;
+        }
+        else{
+            ot.next = th;
+            ot = tt;
+        }
+        
+        th = null;
+        tt = null;
+        len-=k;
+    }
+    ot.next = curr;
+    return oh;
+}
 
     public static void main(String[] args){
 
