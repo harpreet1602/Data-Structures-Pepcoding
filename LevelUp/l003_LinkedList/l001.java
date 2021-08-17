@@ -351,6 +351,7 @@ public static ListNode reverseInKGroup(ListNode head, int k) {
         int size = k;
         while(size-->0){
             ListNode forw = curr.next;
+            curr.next=null;
             addFirst(curr); 
             curr=forw;
         }
@@ -370,6 +371,9 @@ public static ListNode reverseInKGroup(ListNode head, int k) {
     ot.next = curr;
     return oh;
 }
+
+
+
 
     public static void main(String[] args){
 
