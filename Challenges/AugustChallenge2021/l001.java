@@ -404,7 +404,59 @@ public boolean canReorderDoubled(int[] arr) {
            nullifyCol(matrix,0,n,m);
        }
    }
+   //    1299. Replace Elements with Greatest Element on Right Side
+   // here if traversed from front then it will cause O(n^2) instead traverse from backward and put the values
+   // of msf in the index of the array 
+   //tc : O(n) , sc:O(n)
+   public int[] replaceElements(int[] arr) {
+       int[] nums=new int[arr.length];
+       nums[arr.length-1] = -1;
+       for(int i = arr.length-2 ;i>=0;i--){
+               nums[i] = Math.max(arr[i+1],nums[i+1]);
+       }
+       
+       return nums;
+   }
+   
+   //tc : O(n) , sc:O(1)
+           public int[] replaceElementsOptimised(int[] arr) {
+           int msf=-1, val = arr[arr.length-1];
+           arr[arr.length-1] = msf;   
+           for(int i = arr.length-2 ;i>=0;i--){
+               int ans = Math.max(arr[i+1],val);
+               val = arr[i];
+               arr[i] = ans;
+           }
+           
+           return arr;
+       }
+
+
+    //    1448. Count Good Nodes in Binary Tree
+// in this ques we will be using the concept of maximum so far which has been seen starting from root to the
+// node and compare current node's value with msf, if node's value is greater then the count of good node will 
+// be incremented by 1 msf will be updated to current node's value. And then ask for the count from left 
+// and right subtree and add their count in the count at the curren level and return the count.In the base case 
+// if the node is null then return 0.
+//     tc:O(n), sc: O(1)
+    public int goodNodes(TreeNode root, int msf){
+        if(root == null)
+            return 0;
+        int count=0;
         
+        if(root.val>=msf){
+            // System.out.println(root.val);
+            count++;
+            msf = root.val;
+        }
+        count+=goodNodes(root.left,msf);
+        count+=goodNodes(root.right,msf);
+        return count;
+    }
+    public int goodNodes(TreeNode root) {
+        // int msf = -(int)1e9;
+        return goodNodes(root,root.val);
+    }
 
-
+    
 }
