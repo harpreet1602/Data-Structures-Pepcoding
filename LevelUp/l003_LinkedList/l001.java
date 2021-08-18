@@ -372,6 +372,178 @@ public static ListNode reverseInKGroup(ListNode head, int k) {
     return oh;
 }
 
+// sir ki approach ko analyse karo
+
+public static ListNode reverseInRange(ListNode head, int n, int m) {
+    if (head == null || head.next == null || n == m)
+        return head;
+
+    ListNode dummy = new ListNode(-1), prev = dummy, curr = head;
+    prev.next = head;
+    int i = 1;
+    while (i <= m) {
+        while (i >= n && i <= m) {
+            ListNode forw = curr.next;
+            curr.next = null;
+            addFirstNode(curr);
+            curr = forw;
+            i++;
+        }
+
+        if (i > m) {
+            prev.next = th;
+            tt.next = curr;
+            break;
+        }
+
+        i++;
+        prev = curr;
+        curr = curr.next;
+    }
+
+    return dummy.next;
+}
+// my solution
+    
+public static ListNode reverseInRange2(ListNode head, int n, int m) {
+    if(head ==null ||head.next==null){
+        return head;
+    }
+    int i = 1;
+    ListNode prev=null,curr=head,forw=head.next;
+    while(curr!=null && i<=m){
+        if(i<n){
+        prev=curr;
+        curr=forw;
+        forw=forw.next;
+        }
+        else if(i>=n && i<=m){
+            addFirst(curr);
+            curr=forw;
+            forw=forw.next;
+        }
+        i++;
+    }
+    if(prev==null){
+        head=th;
+    }
+    else{
+    prev.next = th;
+    }
+    tt.next=curr;
+    return head;
+}
+
+
+
+
+public static ListNode addTwoNumbers(ListNode l1, ListNode l2) {
+    if(l1==null || l2==null) return l1==null?l2:l1;
+    
+    ListNode dummy = new ListNode(-1), prev = dummy, c1 =reverse(l1), c2 =reverse(l2);
+    
+    int carry=0;
+    while(c1!=null || c2!=null){
+        int sum = ((c1==null)?0:c1.val) + ((c2==null)?0:c2.val) + carry;
+        int digit = sum%10;
+        carry = sum/10;
+        ListNode node = new ListNode(digit);
+        prev.next=node;
+        prev=prev.next;
+        
+        if(c1!=null)
+        c1=c1.next;
+        if(c2!=null)
+        c2=c2.next;
+    }
+    dummy.next = reverse(dummy.next);
+    return dummy.next;
+}
+
+        
+    
+    public static int getLength(ListNode head){
+        ListNode node = head;
+        int count=0;
+        while(node!=null){
+            node=node.next;
+            count++;
+        }
+        return count;
+    }
+    
+    public static boolean isBigger(ListNode l1,ListNode l2){
+        int len1 = getLength(l1);
+        int len2 = getLength(l2);
+        if(len1>len2){
+            return true;
+        }
+        else if(len1<len2){
+            return false;
+        }
+        ListNode c1 = l1, c2 =l2;
+        while(c1!=null){
+            if(c1.val>c2.val) return true;
+            else if(c1.val<c2.val) return false;
+            c1=c1.next;
+            c2=c2.next;
+        }
+        return true;
+    }
+
+  public static ListNode subtractTwoNumbers(ListNode l1, ListNode l2) {
+    if(l1==null || l2==null) return l1==null?l2:l1;
+    ListNode c1 =null, c2 =null;
+          boolean res = isBigger(l1,l2);
+          if(!res){
+              c1=reverse(l2);
+              c2=reverse(l1);
+          }
+          else{
+              c1=reverse(l1);
+              c2=reverse(l2);
+          }
+          
+          ListNode dummy = new ListNode(-1), prev = dummy;
+          
+          int borrow=0;
+          while(c1!=null || c2!=null || borrow!=0){
+              int diff = ((c1==null)?0:c1.val) - ((c2==null)?0:c2.val) + borrow;
+              if(diff<0){
+                  borrow=-1;
+                  diff+=10;
+              }
+              else{
+                  borrow=0;
+              }
+              int digit = diff%10;
+              ListNode node = new ListNode(digit);
+              prev.next=node;
+              prev=prev.next;
+              
+              if(c1!=null)
+              c1=c1.next;
+              if(c2!=null)
+              c2=c2.next;
+          }
+          ListNode v1 = reverse(dummy.next);
+          
+          ListNode prev1=dummy;
+          prev1.next=null;
+          ListNode c =v1;
+          while(c!=null){
+              if(c.val!=0){
+                  dummy.next = c;
+                  break;
+              }
+              c=c.next;
+          }
+          
+          
+          return dummy.next!=null?dummy.next:new ListNode(0);
+  }
+
+
 
 
 
