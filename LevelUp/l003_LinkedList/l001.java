@@ -544,8 +544,73 @@ public static ListNode addTwoNumbers(ListNode l1, ListNode l2) {
   }
 
 
+// link nhi todhe
+public static ListNode removeDuplicates1(ListNode head) {
+    if(head == null || head.next==null){
+        return head;
+    }
+    ListNode curr = head, forw=head.next;
+    while(curr!=null){
+        if(forw!=null &&curr.val==forw.val){
+            forw=forw.next;
+        }
+        else{
+            curr.next=forw;
+            curr=curr.next;
+            if(forw!=null)
+            forw=forw.next;
+        }
+    }
+    return head;
+}
+
+// link will be broken
 
 
+public static ListNode removeDuplicates(ListNode head) {
+    if(head == null || head.next==null){
+        return head;
+    }
+    
+    
+    
+    ListNode prev= head,curr=head.next;
+    while(curr!=null){
+        while(curr!=null && prev.val == curr.val){
+            ListNode forw = curr.next;
+            curr.next = null;
+            curr=forw;
+        }
+        
+        prev.next = curr;
+        prev = prev.next;
+        if(curr!=null){
+            curr=curr.next;
+        }
+    }
+    return head;
+}
+// 141. Linked List Cycle
+     public boolean hasCycle(ListNode head) {
+        if(head==null || head.next == null)
+            return false;
+        ListNode slow, fast;
+        slow = fast = head;
+        while(fast!=null){
+            slow= slow.next;
+            fast=fast.next;
+            if(fast!=null)
+                fast=fast.next;
+            
+            if(slow==fast)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    
 
     public static void main(String[] args){
 
