@@ -610,7 +610,56 @@ public static ListNode removeDuplicates(ListNode head) {
         return false;
     }
 
+
+    // 142. Linked List Cycle II
+    public ListNode detectCycle(ListNode head) {
+        boolean flag=false;
+          if(head==null || head.next == null)
+            return null;
+        ListNode slow, fast;
+        slow = fast = head;
+        while(fast!=null && fast.next!=null){
+            slow= slow.next;
+            fast=fast.next;
+                fast=fast.next;
+            
+            if(slow==fast)
+            {
+                flag=true;
+                break;
+            }
+        }
+        if(!flag)
+            return null;
+        
+        slow = head;
+        
+        while(slow!=fast){
+            slow=slow.next;
+            fast=fast.next;
+        }
+        return slow;
+    }
+
+    // 160. Intersection of Two Linked Lists
+    public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
+        if(headA == null || headB == null){
+            return null;
+        }
+        
+        ListNode tail = headA;
+        while(tail.next!=null){
+            tail=tail.next;    
+        }
+        
+        tail.next=headB;
+        ListNode ans = detectCycle(headA);
+        tail.next=null;
+        return ans;
+    }
+
     
+
 
     public static void main(String[] args){
 
