@@ -458,5 +458,21 @@ public boolean canReorderDoubled(int[] arr) {
         return goodNodes(root,root.val);
     }
 
-    
+
+    // 537. Complex Number Multiplication
+    // tc : O(1) sc:O(1)
+    // (a+bi)*(x+yi) = (ax-by) + (ay+bx)
+    //  this is the equation to get an answer
+     public String complexNumberMultiply(String num1, String num2) {
+        String[] a = num1.split("\\+|i");
+        String[] b = num2.split("\\+|i");
+        int aReal = Integer.parseInt(a[0]);
+        int aImag = Integer.parseInt(a[1]);
+        
+        int bReal = Integer.parseInt(b[0]);
+        int bImag = Integer.parseInt(b[1]);
+        
+        
+        return ((aReal*bReal) - (aImag*bImag)) + "+" + ((aReal*bImag) + (aImag*bReal)) + "i";
+    }
 }
