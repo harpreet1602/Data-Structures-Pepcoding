@@ -658,7 +658,63 @@ public static ListNode removeDuplicates(ListNode head) {
         return ans;
     }
 
+    // Segregate Node Of Linkedlist Over Last Index.
+    public static ListNode segregateOnLastIndex(ListNode head) {
+        ListNode small = new ListNode(-1), large = new ListNode(-1), pivotNode = head;
+       
+        ListNode s=small, l=large;
+        while(pivotNode.next!=null){
+            pivotNode = pivotNode.next;
+        }
+        ListNode node = head;
+        while(node!=null){
+            if(node.val <= pivotNode.val){
+                s.next=node;
+                s = s.next;
+            }
+            else{
+                l.next = node;
+                l = l.next;
+            }
+            node = node.next;
+        }
+        l.next=s.next = null;
+        pivotNode.next=large.next;
+        return pivotNode;
+    }
+
+
+    // Segregate Node Of Linkedlist Over Pivot Index
+  public static ListNode segregate(ListNode head, int pivotIdx) {
+    while(head == null || head.next == null){
+        return head;
+    }
+    int idx = 0;
+    ListNode pivotNode = head;
+    while(pivotNode!=null && idx<pivotIdx){
+        pivotNode = pivotNode.next;
+        idx++;
+    }
+      ListNode small = new ListNode(-1), large = new ListNode(-1), sp = small, lp =large, node = head;
+     while(node!=null){
+         if(node!=pivotNode && node.val <= pivotNode.val){
+             sp.next=node;
+             sp = sp.next;
+         }
+         else if(node!=pivotNode) {
+             lp.next = node;
+             lp = lp.next;
+         }
+         node = node.next;
+     }
+     lp.next=sp.next = pivotNode.next = null;
+     sp.next = pivotNode;
+     pivotNode.next = large.next;
+     return small.next;           
+}
+
     
+
 
 
     public static void main(String[] args){
