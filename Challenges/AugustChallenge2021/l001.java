@@ -471,8 +471,6 @@ public boolean canReorderDoubled(int[] arr) {
         
         int bReal = Integer.parseInt(b[0]);
         int bImag = Integer.parseInt(b[1]);
-        
-        
         return ((aReal*bReal) - (aImag*bImag)) + "+" + ((aReal*bImag) + (aImag*bReal)) + "i";
     }
 }
