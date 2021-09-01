@@ -473,4 +473,92 @@ public boolean canReorderDoubled(int[] arr) {
         int bImag = Integer.parseInt(b[1]);
         return ((aReal*bReal) - (aImag*bImag)) + "+" + ((aReal*bImag) + (aImag*bReal)) + "i";
     }
+
+
+    // https://www.codechef.com/CCPR2021/problems/PUBG01
+    public static void solvepubg(){
+        Scanner scn = new Scanner(System.in);
+		int n = scn.nextInt();
+		int prize = scn.nextInt();
+// 		int[][] arr = new int[n][2];
+        int sum = 0;
+		for(int i=0;i<n;i++){
+		    for(int j=0;j<2;j++){
+                sum += scn.nextInt();
+		    }
+		}
+		prize = prize - sum;
+		System.out.println(prize/n);
+    }
+    // https://www.codechef.com/CCPR2021/problems/ALNIVN
+
+    public static void printRotatedString(String str,ArrayList<String> q)
+    {
+        int n = str.length();
+       
+        StringBuffer sb = new StringBuffer(str);
+        // Concatenate str with itself
+        sb.append(str);
+        ArrayList<String> list = new ArrayList<>();
+        // Print all substrings of size n.
+        // Note that size of sb is 2n
+        for (int i = 0; i < n; i++)
+        {
+            StringBuilder smallList = new StringBuilder();    
+            for (int j=0; j != n; j++)
+                smallList.append(sb.charAt(i + j));
+            list.add(smallList.toString());
+        }
+        // System.out.println(list);
+        for(String p : q){
+            if(list.contains(p))
+            {
+                System.out.println(p);
+                break;
+            }
+        }
+    }
+	public static void solveString(){
+        Scanner scn = new Scanner(System.in);
+	    String str = scn.next();
+	    ArrayList<String> sb= new ArrayList<>();
+	    int i=0;
+	    while(i++<4)
+	    {
+	        
+	        sb.add(scn.next());
+	    }
+	    printRotatedString(str,sb);
+    }
+
+    // https://www.codechef.com/CCPR2021/problems/GAMCAF07
+    public static void solveRange(){
+        Scanner scn = new Scanner(System.in);
+		int n = scn.nextInt();
+		int[][] arr =new int[n][2];
+		for(int i = 0 ;i<n;i++){
+		    for(int j=0;j<2;j++){
+		        arr[i][j] = scn.nextInt();
+		    }
+		}
+		int max = -(int)1e9;
+		for(int i = 0 ;i<n;i++){
+		    int count=1;
+		    for(int j=0;j<n;j++){
+		        if(i!=j){
+		            if(arr[i][0]>=arr[j][0] && arr[i][0]<=arr[j][1]){
+		                count++;
+		            }
+		        }
+		    }
+		    if(count>max)
+		    max=count;
+		        
+		    }
+		    System.out.println(max);
+    }
+
+
+
+
 }
