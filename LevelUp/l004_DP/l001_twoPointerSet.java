@@ -82,6 +82,66 @@ public class l001_twoPointerSet{
         mazePath(0,0,m-1,n-1,dp,dir);
         display2D(dp);
     }
+
+
+    // 91. Decode Ways
+    public int numDecodingsDP(String s, int idx, int[] dp){
+        if(idx==s.length()){
+            return dp[idx] = 1; 
+        }
+        if(dp[idx]!=-1) return dp[idx];
+        char ch = s.charAt(idx);
+        if(ch=='0'){
+            return dp[idx] = 0;
+        }
+        int count = numDecodingsDP(s,idx+1,dp);
+        if(idx<s.length()-1){
+            char ch1 = s.charAt(idx+1);
+            int num = (ch-'0')*10 + (ch1-'0');
+            if(num<=26){
+                count+= numDecodingsDP(s,idx+2,dp);
+            }
+        }
+        return dp[idx] = count;
+    }
+
+    // Tabulation of decode ways
+    
+    public int numDecodingsDPTabu(String s, int Idx, int[] dp){
+        for(int idx=s.length();idx>=0;idx--){
+        if(idx==s.length()){
+            dp[idx] = 1; 
+            continue; 
+        }
+        // if(dp[idx]!=-1) return dp[idx];
+        char ch = s.charAt(idx);
+        if(ch=='0'){
+            dp[idx] = 0;
+            continue;
+        }
+        int count = dp[idx+1];
+        if(idx<s.length()-1){
+            char ch1 = s.charAt(idx+1);
+            int num = (ch-'0')*10 + (ch1-'0');
+            if(num<=26){
+                count+= dp[idx+2];
+            }
+        }
+            dp[idx] =count;
+        }
+        
+        return dp[Idx];
+    }
+    
+
+
+    public int numDecodings(String s) {
+        int n = s.length();
+        int[] dp = new int[n+1];
+        Arrays.fill(dp,-1);
+        return numDecodingsDP(s,0,dp);
+    }
+
     public static void main(String[] args){
         // fibo();
         mazePath();
