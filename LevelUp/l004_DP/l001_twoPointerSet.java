@@ -133,7 +133,30 @@ public class l001_twoPointerSet{
         return dp[Idx];
     }
     
-
+    // optimization
+    public int numDecodingsDPopt(String s, int Idx, int[] dp){
+        int a =1, b=0;
+         for(int idx=s.length()-1;idx>=0;idx--){
+        
+            
+        char ch = s.charAt(idx);
+        int sum=0;
+        if(ch!='0'){  
+        sum+= a;
+        if(idx<s.length()-1){
+            char ch1 = s.charAt(idx+1);
+            int num = (ch-'0')*10 + (ch1-'0');
+            if(num<=26){
+                sum+= b;
+            }
+        }
+          
+        }
+            b=a;
+            a=sum;
+         }
+        return a;
+    }
 
     public int numDecodings(String s) {
         int n = s.length();
@@ -142,6 +165,76 @@ public class l001_twoPointerSet{
         return numDecodingsDP(s,0,dp);
     }
 
+    // 639. Decode Ways II
+
+    // galt hai
+    class Solution {
+        // public 
+        public int numDecodings2(String s, int idx,long[] dp){
+            int n = s.length();
+            int mod = (int)1e9 + 7;
+            if(idx == n){
+                return (int)(dp[idx] = 1);
+            }
+            if(dp[idx]!=-1){
+                return (int)dp[idx];
+            }
+            char ch = s.charAt(idx);
+            if(ch=='0'){
+                return (int)(dp[idx]=0);
+            }
+            int count=0;
+            if(ch =='*'){
+                count = (count + 9*numDecodings2(s,idx+1,dp))%mod;
+                if(idx<n-1){
+                char ch1 = s.charAt(idx+1);
+                    if(ch1=='*'){
+                        count = (count + 15*numDecodings2(s,idx+2,dp))%mod;
+            
+                    }
+                    else{
+                        if(ch1>='1' && ch1<='6'){
+                            count = (count + 2*numDecodings2(s,idx+2,dp))%mod;
+                
+                        } else{
+                            count = (count + 1*numDecodings2(s,idx+2,dp))%mod;
+                
+                        }           
+                    }
+                }
+                
+            }else{
+                count = (count + 1 * numDecodings2(s,idx+1,dp))%mod;
+                    if(idx<n-1){
+                        char ch1 = s.charAt(idx+1);
+                        if(ch1=='*' && ch=='1'){
+                            count = (count + 9*numDecodings2(s,idx+2,dp))%mod;
+                
+                        }
+                        else if(ch1=='*' && ch=='2'){
+                            
+                            count = (count + 2*numDecodings2(s,idx+2,dp))%mod;
+                            
+                        }
+                        else{
+                            int num = (ch-'0')*10 + (ch1-'0');
+                            if(num<=26){
+                                
+                            count = (count + 1*numDecodings2(s,idx+2,dp))%mod;
+                            }
+                        }
+                    }            
+            }
+            return (int)(dp[idx] = count);
+            
+        }
+        public int numDecodings(String s) {
+            int n = s.length();
+            long[] dp = new long[n+1];
+            Arrays.fill(dp,-1);
+            return numDecodings2(s,0,dp);
+        }
+    }
     public static void main(String[] args){
         // fibo();
         mazePath();
