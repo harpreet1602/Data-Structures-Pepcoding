@@ -2,6 +2,7 @@ import java.util.HashMap;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Arrays;
+import java.util.Scanner;
 public class l001{
     // 1. Two Sum
 //     So in this brute force will be fixing one and checking with other TC O(n^2) SC O(1)
@@ -556,6 +557,47 @@ public boolean canReorderDoubled(int[] arr) {
 		        
 		    }
 		    System.out.println(max);
+    }
+
+    // https://www.codechef.com/SEPT21C/problems/AIRLINE
+    public void solveAirline(){
+        	// your code goes here
+		Scanner scn = new Scanner(System.in);
+		int t = scn.nextInt();
+		while(t-->0){
+		    int a,b,c,d,e;
+		    a=scn.nextInt();
+		    b=scn.nextInt();
+		    c=scn.nextInt();
+		    d=scn.nextInt();
+		    e=scn.nextInt();
+		        if(a<=e){
+		            if(b+c<=d){
+		                System.out.println("yes");
+		                continue;
+		            }
+		        }
+		        if(b<=e){
+		            if(a+c<=d){
+		                System.out.println("yes");
+		                continue;
+		            }
+		        }
+		        if(c<=e){
+		            if(a+b<=d){
+		                System.out.println("yes");
+		                continue;
+		            }
+		            else{
+		                System.out.println("no");
+		            }
+		            
+		        }
+		        else{
+		            System.out.println("no");
+		        }
+		  }
+		
     }
 
 
