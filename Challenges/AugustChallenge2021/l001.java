@@ -599,7 +599,53 @@ public boolean canReorderDoubled(int[] arr) {
 		  }
 		
     }
-
+    public static Scanner scn = new Scanner(System.in);
+    public static void solveTravel(){
+        int t = scn.nextInt();
+        while(t-->0){
+            int n = scn.nextInt();
+            int a = scn.nextInt();
+            int b = scn.nextInt();
+            String s = scn.next();
+            int sum = 0;
+            for(int i=0;i<s.length();i++)
+            {
+                char ch = s.charAt(i);
+                if(ch=='0'){
+                    sum = sum + a;
+                }
+                else{
+                    sum = sum + b;
+                }
+            }
+            System.out.println(sum);
+        }
+        
+    }
+    // https://www.codechef.com/SEPT21C/problems/SHUFFLIN
+    public static void solveShuffling1(){
+        int t = scn.nextInt();
+        while(t-->0){
+            int n =scn.nextInt();
+            // int[] arr = new int[n];
+            int evencount=0,oddcount=0;
+            for(int i = 0;i<n;i++){
+                int x = scn.nextInt();
+                if(x%2==0){
+                    evencount++;
+                }
+                else{
+                    oddcount++;
+                }
+            }
+            int odd=n/2;
+            int even = n/2;
+            if(n%2==1){
+                odd++;
+            }
+            System.out.println(Math.min(odd,evencount) + Math.min(even,oddcount));
+        }
+    }
 
 
 
