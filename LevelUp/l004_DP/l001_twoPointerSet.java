@@ -167,74 +167,123 @@ public class l001_twoPointerSet{
 
     // 639. Decode Ways II
 
-    // galt hai
-    class Solution {
-        // public 
-        public int numDecodings2(String s, int idx,long[] dp){
-            int n = s.length();
-            int mod = (int)1e9 + 7;
-            if(idx == n){
-                return (int)(dp[idx] = 1);
-            }
-            if(dp[idx]!=-1){
-                return (int)dp[idx];
-            }
-            char ch = s.charAt(idx);
-            if(ch=='0'){
-                return (int)(dp[idx]=0);
-            }
-            int count=0;
-            if(ch =='*'){
-                count = (count + 9*numDecodings2(s,idx+1,dp))%mod;
-                if(idx<n-1){
-                char ch1 = s.charAt(idx+1);
-                    if(ch1=='*'){
-                        count = (count + 15*numDecodings2(s,idx+2,dp))%mod;
-            
-                    }
-                    else{
-                        if(ch1>='1' && ch1<='6'){
-                            count = (count + 2*numDecodings2(s,idx+2,dp))%mod;
-                
-                        } else{
-                            count = (count + 1*numDecodings2(s,idx+2,dp))%mod;
-                
-                        }           
-                    }
+    
+
+    public long numDecodings2(String s, int idx,long[] dp){
+        int n = s.length();
+        int mod = (int)1e9 + 7;
+        if(idx == n){
+            return (dp[idx] = 1);
+        }
+        if(dp[idx]!=-1){
+            return dp[idx];
+        }
+        char ch = s.charAt(idx);
+        if(ch=='0'){
+            return (dp[idx]=0);
+        }
+        long count=0;
+        if(ch =='*'){
+            count = (count + 9*numDecodings2(s,idx+1,dp))%mod;
+            if(idx<n-1){
+            char ch1 = s.charAt(idx+1);
+                if(ch1=='*'){
+                    count = (count + 15*numDecodings2(s,idx+2,dp))%mod;
+        
                 }
-                
-            }else{
-                count = (count + 1 * numDecodings2(s,idx+1,dp))%mod;
-                    if(idx<n-1){
-                        char ch1 = s.charAt(idx+1);
-                        if(ch1=='*' && ch=='1'){
-                            count = (count + 9*numDecodings2(s,idx+2,dp))%mod;
-                
-                        }
-                        else if(ch1=='*' && ch=='2'){
-                            
-                            count = (count + 2*numDecodings2(s,idx+2,dp))%mod;
-                            
-                        }
-                        else{
-                            int num = (ch-'0')*10 + (ch1-'0');
-                            if(num<=26){
-                                
-                            count = (count + 1*numDecodings2(s,idx+2,dp))%mod;
-                            }
-                        }
-                    }            
-            }
-            return (int)(dp[idx] = count);
+                else{
+                    if(ch1>='0' && ch1<='6'){
+                        count = (count + 2*numDecodings2(s,idx+2,dp))%mod;
             
+                    } else{
+                        count = (count + 1*numDecodings2(s,idx+2,dp))%mod;
+            
+                    }           
+                }
+            }
+            
+        }else{
+            count = (count + 1 * numDecodings2(s,idx+1,dp))%mod;
+                if(idx<n-1){
+                    char ch1 = s.charAt(idx+1);
+                    if(ch1=='*' && ch=='1'){
+                        count = (count + 9*numDecodings2(s,idx+2,dp))%mod;
+            
+                    }
+                    else if(ch1=='*' && ch=='2'){
+                        
+                        count = (count + 6*numDecodings2(s,idx+2,dp))%mod;
+                        
+                    }
+                    else if(ch1!='*'){
+                        int num = (ch-'0')*10 + (ch1-'0');
+                        if(num<=26){ 
+                        count = (count + 1*numDecodings2(s,idx+2,dp))%mod;
+                        }
+                    }
+                }            
         }
-        public int numDecodings(String s) {
-            int n = s.length();
-            long[] dp = new long[n+1];
-            Arrays.fill(dp,-1);
-            return numDecodings2(s,0,dp);
-        }
+        return (dp[idx] = count);
+        
     }
+    public int numDecodings2(String s) {
+        int n = s.length();
+        long[] dp = new long[n+1];
+        Arrays.fill(dp,-1);
+        return (int)numDecodings2(s,0,dp);
+    }
+
+    // https://practice.geeksforgeeks.org/problems/friends-pairing-problem5425/1#
+    public int mod = (int)1e9 + 7;
+    public long countFriendsPairings(int n, long[] dp){
+        if(n==0){
+            return dp[n]=1;
+        }
+        if(dp[n]!=-1){
+            return dp[n];
+        }
+        long single = countFriendsPairings(n-1,dp);
+        long pair = n-2>=0?countFriendsPairings(n-2,dp)*(n-1):0;
+        
+        return dp[n] = (single + pair%mod)%mod;
+    }
+    public long countFriendsPairings1(int N, long[] dp){
+        for(int n=0;n<=N;n++){
+        if(n==0){
+            dp[n]=1;
+            continue;
+        }
+        long single = dp[n-1];
+        long pair = n-2>=0?dp[n-2]*(n-1):0;
+        
+        dp[n] = (single + pair%mod)%mod;
+        }
+        return dp[N];
+    }
+
+    public long countFriendsPairings2(int N){
+        long a = 1, b=1;
+        for(int n=2;n<=N;n++){
+            long sum = b + (a*(n-1))%mod;
+            a=b;
+            b=sum%mod;
+        }
+        return b;
+    }
+   
+    public long countFriendsPairings(int n) 
+    { 
+       //code here
+       long[] dp = new long[n+1];
+       Arrays.fill(dp,-1);
+       return countFriendsPairings(n,dp);
+    }
+
+    // https://www.geeksforgeeks.org/count-the-number-of-ways-to-divide-n-in-k-groups-incrementally/
+
+
+
+
     public static void main(String[] args){
         // fibo();
         mazePath();
