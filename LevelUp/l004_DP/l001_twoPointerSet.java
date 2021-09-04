@@ -226,6 +226,123 @@ public class l001_twoPointerSet{
         return (dp[idx] = count);
         
     }
+    
+      public long numDecodings2Tab(String s, int IDX,long[] dp){
+        int n = s.length();
+        int mod = (int)1e9 + 7;
+        for(int idx = n;idx>=IDX;idx--){
+        if(idx == n){
+            dp[idx] = 1;
+            continue;
+        }
+        char ch = s.charAt(idx);
+        if(ch=='0'){
+            dp[idx]=0;
+            continue;
+        }
+        long count=0;
+        if(ch =='*'){
+            count = (count + 9*dp[idx+1])%mod;
+            if(idx<n-1){
+            char ch1 = s.charAt(idx+1);
+                if(ch1=='*'){
+                    count = (count + 15*dp[idx+2])%mod;
+        
+                }
+                else{
+                    if(ch1>='0' && ch1<='6'){
+                        count = (count + 2*dp[idx+2])%mod;
+            
+                    } else{
+                        count = (count + 1*dp[idx+2])%mod;
+            
+                    }           
+                }
+            }
+            
+        }else{
+            count = (count + 1 * dp[idx+1])%mod;
+                if(idx<n-1){
+                    char ch1 = s.charAt(idx+1);
+                    if(ch1=='*' && ch=='1'){
+                        count = (count + 9*dp[idx+2])%mod;
+            
+                    }
+                    else if(ch1=='*' && ch=='2'){
+                        
+                        count = (count + 6*dp[idx+2])%mod;
+                        
+                    }
+                    else if(ch1!='*'){
+                        int num = (ch-'0')*10 + (ch1-'0');
+                        if(num<=26){ 
+                        count = (count + 1*dp[idx+2])%mod;
+                        }
+                    }
+                }            
+        }
+        dp[idx] = count;
+        }
+        return dp[IDX];
+    }
+
+    public long numDecodings2Opt(String s, int IDX,long[] dp){
+        int n = s.length();
+        int mod = (int)1e9 + 7;
+        long a=1,b=0;
+        for(int idx = n-1;idx>=IDX;idx--){
+        long count=0;
+        char ch = s.charAt(idx);
+        if(ch!='0'){
+        
+        if(ch =='*'){
+            count = (count + 9*a)%mod;
+            if(idx<n-1){
+            char ch1 = s.charAt(idx+1);
+                if(ch1=='*'){
+                    count = (count + 15*b)%mod;
+        
+                }
+                else{
+                    if(ch1>='0' && ch1<='6'){
+                        count = (count + 2*b)%mod;
+            
+                    } else{
+                        count = (count + 1*b)%mod;
+            
+                    }           
+                }
+            }
+            
+        }else{
+            count = (count + 1 * a)%mod;
+                if(idx<n-1){
+                    char ch1 = s.charAt(idx+1);
+                    if(ch1=='*' && ch=='1'){
+                        count = (count + 9*b)%mod;
+            
+                    }
+                    else if(ch1=='*' && ch=='2'){
+                        
+                        count = (count + 6*b)%mod;
+                        
+                    }
+                    else if(ch1!='*'){
+                        int num = (ch-'0')*10 + (ch1-'0');
+                        if(num<=26){ 
+                        count = (count + 1*b)%mod;
+                        }
+                    }
+                }            
+        }
+        }
+        b=a;
+        a=count;
+        }
+        return a;
+    }
+
+
     public int numDecodings2(String s) {
         int n = s.length();
         long[] dp = new long[n+1];
