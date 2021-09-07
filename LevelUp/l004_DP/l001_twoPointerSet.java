@@ -399,6 +399,35 @@ public class l001_twoPointerSet{
     // https://www.geeksforgeeks.org/count-the-number-of-ways-to-divide-n-in-k-groups-incrementally/
 
 
+    // pending dp
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
     public static void main(String[] args){
