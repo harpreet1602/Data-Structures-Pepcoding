@@ -1,6 +1,7 @@
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Scanner;
 public class l002_StringSet {
     
 // pending dp
@@ -179,11 +180,6 @@ public class l002_StringSet {
         // return minDistanceMemo(word1,word2,n,m,dp);
         return minDistanceFollow(word1, word2, n, m, cost, dp);
     }
-    public static void main(String[] args){
-
-        System.out.println(minDistance("saturday","sunday"));        
-    }
-
 
     // 1035. Uncrossed Lines
     public int maxUncrossedLines(int[] nums1, int[] nums2, int n, int m,int[][] dp){
@@ -254,6 +250,7 @@ public class l002_StringSet {
         dp[0] = true;
         for(int i = 0;i<=n;i++){
             if(!dp[i]) continue;
+            // ye condition kaise aayi
             for(int l=1;l<=len && i+l<=n;l++){
                 String substr = s.substring(i,i+l);
                 if(set.contains(substr)){
@@ -263,5 +260,28 @@ public class l002_StringSet {
         }
         return dp[n];
     }
+
+    // printing the longest pallindromic subsequence using dp of LPS
+    public static String lpss_backEng(String str, int si, int ei,int[][] dp){
+        if(si>=ei){
+            return si==ei?str.charAt(si)+"":"";
+        }
+        if(str.charAt(si) == str.charAt(ei)){
+            return str.charAt(si) + lpss_backEng(str, si+1, ei-1, dp) + str.charAt(ei);
+        }
+        else{
+            if(dp[si+1][ei] > dp[si][ei-1]){
+                return lpss_backEng(str, si+1, ei, dp);
+            }
+            else{
+                return lpss_backEng(str, si, ei-1, dp);
+            }
+        }
+    }
+    public static Scanner scn = new Scanner(System.in);
+    public static void main(String[] args){
+       
+    }
+
     
 }
