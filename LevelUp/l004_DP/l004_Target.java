@@ -15,21 +15,37 @@ public class l004_Target{
         }
         return dp[target] = count;
     }
-    
-    public static int combinations(int[] arr,int n,int target,int[] dp){
+    public static int permutations_DP(int[] arr,int Target,int[] dp){
+        for(int target=0;target<=Target;target++){            
         if(target==0){
             // System.out.println("base case");
-            return dp[target]=1;
+            dp[target]=1;
+            continue;
         }
-        if(dp[target]!=-1){
-            return dp[target];
+        int count=0;
+        for(int ele:arr){
+            if(target-ele>=0)
+            count+=dp[target-ele]; 
+        }
+         dp[target] = count;
+        }
+        return dp[Target];
+    }
+    
+    public static int combinations(int[] arr,int n,int target,int[][] dp){
+        if(target==0){
+            // System.out.println("base case");
+            return dp[n][target]=1;
+        }
+        if(dp[n][target]!=-1){
+            return dp[n][target];
         }
         int count=0;
         for(int i=n;i>0;i--){
             if(target-arr[i-1]>=0)
             count+=combinations(arr, i, target-arr[i-1],dp); 
         }
-        return dp[target] = count;
+        return dp[n][target] = count;
     }
     public static void print1d(int[] dp){
         for(int ele:dp){
@@ -62,6 +78,37 @@ public class l004_Target{
         
         print1d(dp);
     }
+
+
+
+
+
+    // https://practice.geeksforgeeks.org/problems/knapsack-with-duplicate-items4201/1#
+    public static int knapSack(int N, int W, int val[], int wt[])
+    {
+        // code here
+        int[] dp = new int[W+1];
+        for(int w=0;w<=W;w++){
+            for(int i=0;i<N;i++)
+            {
+                if(w-wt[i]>=0){
+                    dp[w] = Math.max(dp[w],dp[w-wt[i]]+val[i]);
+                }
+            }
+        }
+        return dp[W];
+    }
+    
+
+    // 416 not understandable
+
+    // 494
+
+    
+    // 698
+
+    
+    // 688
 
     public static void main(String[] args){
         solvePerComb();
