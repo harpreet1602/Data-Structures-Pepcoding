@@ -154,7 +154,36 @@ public class l006_cutset {
       int[][] dp =new int[n][n];
       System.out.println(optimalbst(keys,frequency,0,n-1,dp));
       }
-  
+
+
+    //   1039. Minimum Score Triangulation of Polygon
+    public int minScoreTriangulation(int[] values,int si,int ei,int[][] dp){
+        if(ei-si < 2) return 0;
+        if(dp[si][ei]!=-1){
+            return dp[si][ei];
+        }
+        int minCost = (int)1e9;
+        for(int cut=si+1;cut<ei;cut++){
+            int leftcost = minScoreTriangulation(values,si,cut,dp);
+            int rightcost = minScoreTriangulation(values,cut,ei,dp);
+            
+            minCost = Math.min(minCost,leftcost + values[si]*values[cut]*values[ei] + rightcost);
+        }
+        
+        return dp[si][ei] = minCost;
+    }
+    public int minScoreTriangulation(int[] values) {
+        int  n = values.length;
+        int[][] dp =new int[n][n];
+        for(int[] d:dp){
+            Arrays.fill(d,-1);
+        }
+        return minScoreTriangulation(values,0,n-1,dp);
+    }
+    
+    // 95. Unique Binary Search Trees II
+    
+
     public static void main(String[] args){
         mcm();
     }
