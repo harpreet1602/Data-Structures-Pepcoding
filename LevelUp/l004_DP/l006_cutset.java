@@ -182,7 +182,38 @@ public class l006_cutset {
     }
     
     // 95. Unique Binary Search Trees II
-    
+
+    // 1278. Palindrome Partitioning III
+
+
+    // 213. House Robber II
+    public int rob(int[] nums,int si,int ei,int[] dp){
+        if(si>ei) return 0;
+        if(dp[si]!=-1) return dp[si];
+        
+        int robcurrenthouse = nums[si] + rob(nums,si+2,ei,dp);
+        int notrobcurrenthouse = rob(nums,si+1,ei,dp);
+                
+        return dp[si] = Math.max(robcurrenthouse,notrobcurrenthouse);
+    }
+    public int rob(int[] nums) {
+       int n = nums.length;
+        if(n==0 || n==1){
+            return n==1?nums[0]:0;
+        }
+        
+        int[] dp1 = new int[n];
+        Arrays.fill(dp1,-1);
+        
+        int[] dp2 = new int[n];
+        Arrays.fill(dp2,-1);
+        
+        return Math.max(rob(nums,0,n-2,dp1),rob(nums,1,n-1,dp2));
+    }
+
+
+
+
 
     public static void main(String[] args){
         mcm();
