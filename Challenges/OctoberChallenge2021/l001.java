@@ -58,6 +58,58 @@ class l001
     }
     }
 
+	// https://www.codechef.com/OCT21C/problems/ANDSUBAR
+	
+    // O(n^2) and got tle
+    public static void solveArray(){
+        int t=scn.nextInt();
+		while(t-->0)
+	    {
+	     
+	     int n=scn.nextInt();
+	     int[] arr =new int[n];
+	     for(int i=1;i<=n;i++){
+	         arr[i-1]=i;
+	     }
+	     int maxlength=0;
+	     for(int i =0 ;i<n;i++){
+	         int ans=arr[i];
+	         for(int j =i+1;j<n;j++){
+	             ans = (ans&arr[j]);
+	             if(ans>0){
+	                 maxlength= Math.max(maxlength,j-i+1);
+	             }
+	         }
+	     }
+	     if(maxlength!=0)
+	     System.out.println(maxlength);
+	     else
+	     System.out.println(maxlength+1);
+	    }
+    }
+    public static void solveAnd(){
+       
+        int t=scn.nextInt();
+		while(t-->0)
+	    {
+	     
+	     int n=scn.nextInt();
+	     if(n==1)
+	     {
+	         System.out.println(1);
+	         continue;
+	     }
+	     int ans=1;
+	     while(ans*2<=n){
+	         ans = ans*2;
+	     }
+	     int res = n-ans+1;
+	     
+	     System.out.println(Math.max(ans/2,res));
+	    }
+        
+    }
+
 	public static void main (String[] args) throws java.lang.Exception
 	{
 		// your code goes here
