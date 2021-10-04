@@ -110,6 +110,69 @@ class l001
         
     }
 
+
+	    // got correct answer on sample cases but got TLE
+		public static void solveMexOr(){
+			int t=scn.nextInt();
+			while(t-->0)
+			{
+			 int a=scn.nextInt();
+			 int res = 0;
+			 boolean flag=false;
+		   //  ArrayList<Integer> arr = new ArrayList<>();
+			 for(int i=0;i<=a;i++){
+				 if((res | i )>a){
+					 System.out.println(i);
+					flag=true;
+					 break;
+				   //  arr.add(i);
+				 }
+				 
+					 res = (res | i);
+			 }
+			 if(flag==false){
+				 System.out.println(a+1);
+			 }
+			 
+		   //  for(int i=0;i<=(int)1e9;i++){
+		   //      if(!arr.contains(i)){
+		   //          System.out.println(i);
+		   //          break;
+		   //      }
+		   //  }
+			}
+		}
+		
+		public static void solveMexOrOpt(){
+			int t=scn.nextInt();
+			while(t-->0)
+			{
+			 int x=scn.nextInt();
+			 if(x==0){
+				 System.out.println(1);
+				 
+			 }
+			 else if(x==1){
+				 System.out.println(2);
+				 
+			 }
+			 else{
+				 int ans = 1;
+				 while(2*ans<=x){
+					 ans = ans*2;
+				 }
+				 if(x == ((2*ans)-1))
+				 {
+					 System.out.println(x+1);
+				 }
+				 else{
+					 System.out.println(ans);
+				 }
+			 }
+			}
+		}
+
+		
 	public static void main (String[] args) throws java.lang.Exception
 	{
 		// your code goes here
