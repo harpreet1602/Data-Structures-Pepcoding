@@ -172,7 +172,114 @@ class l001
 			}
 		}
 
-		
+		public static void solveDigit(){
+			int t=scn.nextInt();
+			while(t-->0)
+			{
+			 int n=scn.nextInt();
+			 int d = scn.nextInt();
+			 boolean flag=false;
+			 int ind=0;
+			 String str = Integer.toString(n);
+			 StringBuilder num = new StringBuilder(str);
+			 int len = str.length();
+			 
+			 if(d==0){
+			 int ind2 = len;
+			 for(int i=0;i<len;i++){
+			  if(num.charAt(i)=='0'){
+				  num.setCharAt(i,'1');
+				  ind2=i;
+				  break;
+			  }
+			 }
+			 for(int j=ind2+1;j<len;j++){
+				 num.setCharAt(j,'1');
+			 }
+			 }
+			 else if(d==9){
+				 if(num.charAt(0) == '9'){
+					 for(int i =0;i<len;i++){
+						 num.setCharAt(i,'0');
+					 }
+					 num.insert(0,'1');
+				 }
+				 else{
+					 int ind3=len;
+					 for(int i=0;i<len;i++){
+						 flag=false;
+						 if(num.charAt(i) == '9')
+						 {
+							 for(int j=i-1;j>=0;j--){
+							   //  System.out.println(num.charAt(j));
+								 if(num.charAt(j)<='7'){
+								   //  System.out.println((char)(num.charAt(j)+1));
+									 num.setCharAt(j,(char)(num.charAt(j)+1));
+									 ind3 = j;
+									 for(int k=j+1;k<len;k++){
+										 num.setCharAt(k,'0');
+									 }
+									 flag=true;
+									 break;
+								 }
+							  }
+								if(!flag){
+									
+								   for(int p =0;p<len;p++){
+									num.setCharAt(p,'0');
+									}
+									num.insert(0,'1');
+									
+									 }
+									 break;
+						 }
+					 }
+				 }
+			 }
+			 else{
+			   //  1<=d<=8
+			   boolean check=false;
+			   int ind3 =len;
+				 for(int i=0;i<len;i++){
+				   //  System.out.println((int)num.charAt(i)-48);
+					if((int)num.charAt(i) - 48 == d){
+					   // (char)(Character.getNumericValue(num.charAt(i)) + 1)
+					num.setCharAt(i,(char)(num.charAt(i)+1));
+					ind3=i;
+					check=true;
+					break;
+					}
+				 }
+				 if(check){
+				 for(int j =ind3+1;j<len;j++){
+					 num.setCharAt(j,'0');
+				 }
+				 }
+			 }
+			 String s =num.toString();
+			 int res = Integer.parseInt(s);
+			 System.out.println(res - n);
+			}
+		}
+
+
+
+// 12
+// 21 5
+// 8 8
+// 100 0
+// 5925 9
+// 434356 3
+// 98 9
+// 1001 0
+// 758 5
+// 9456 9
+// 27997 9
+// 88997 9
+// 836 8
+
+
+
 	public static void main (String[] args) throws java.lang.Exception
 	{
 		// your code goes here
