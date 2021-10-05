@@ -1,3 +1,4 @@
+import java.util.LinkedList;
 public class stackUsingQueue {
     LinkedList<Integer> q1 = new LinkedList<>();
     LinkedList<Integer> q2 = new LinkedList<>();
