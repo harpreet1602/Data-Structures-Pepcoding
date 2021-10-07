@@ -1,3 +1,5 @@
+import java.util.Arrays;
+import java.util.LinkedList;
 public class l001 {
     
 
@@ -7,7 +9,7 @@ public class l001 {
         int[] ans =new int[n];
         Arrays.fill(ans,n);
         LinkedList<Integer> st = new LinkedList<>();
-        st.addd(-1);
+        st.addFirst(-1);
         for(int i=0;i<n;i++){
             while(st.getFirst()!=-1 && arr[st.getFirst()] < arr[i]){
                 ans[st.removeFirst()] = i;
@@ -18,12 +20,29 @@ public class l001 {
         return ans;
     }
 
+
+    public int[] NGOL(int[] arr){
+        int n = arr.length;
+        int[] ans =new int[n];
+        Arrays.fill(ans,-1);
+        LinkedList<Integer> st = new LinkedList<>();
+        st.addFirst(-1);
+        for(int i=n-1;i>=0;i--){
+            while(st.getFirst()!=-1 && arr[st.getFirst()] < arr[i]){
+                ans[st.removeFirst()] = i;
+            }
+
+            st.addFirst(i);
+        }
+        return ans;
+    }
+   
     public int[] NSOR(int[] arr){
         int n = arr.length;
         int[] ans =new int[n];
         Arrays.fill(ans,n);
         LinkedList<Integer> st = new LinkedList<>();
-        st.addd(-1);
+        st.addFirst(-1);
         for(int i=0;i<n;i++){
             while(st.getFirst()!=-1 && arr[st.getFirst()] > arr[i]){
                 ans[st.removeFirst()] = i;
@@ -34,27 +53,12 @@ public class l001 {
         return ans;
     }
 
-    public int[] NGOL(int[] arr){
+     public int[] NSOL(int[] arr){
         int n = arr.length;
         int[] ans =new int[n];
-        Arrays.fill(ans,n);
+        Arrays.fill(ans,-1);
         LinkedList<Integer> st = new LinkedList<>();
-        st.addd(-1);
-        for(int i=n-1;i>=0;i--){
-            while(st.getFirst()!=-1 && arr[st.getFirst()] < arr[i]){
-                ans[st.removeFirst()] = i;
-            }
-
-            st.addFirst(i);
-        }
-        return ans;
-    }
-    public int[] NSOL(int[] arr){
-        int n = arr.length;
-        int[] ans =new int[n];
-        Arrays.fill(ans,n);
-        LinkedList<Integer> st = new LinkedList<>();
-        st.addd(-1);
+        st.addFirst(-1);
         for(int i=n-1;i>=0;i--){
             while(st.getFirst()!=-1 && arr[st.getFirst()] > arr[i]){
                 ans[st.removeFirst()] = i;
@@ -149,4 +153,15 @@ public int[] asteroidCollision(int[] asteroids) {
         return st.removeFirst();
     }
 
+    // 84. Largest Rectangle in Histogram
+    public int largestRectangleArea(int[] heights) {
+        int[] nsol = NSOL(heights);
+        int[] nsor = NSOR(heights);
+
+        int maxArea = 0;
+        for(int i=0;i<heights.length;i++){
+            maxArea = Math.max(maxArea,heights[i]*(nsor[i] - nsol[i] - 1));
+        }
+        return maxArea;
+    }
 }
