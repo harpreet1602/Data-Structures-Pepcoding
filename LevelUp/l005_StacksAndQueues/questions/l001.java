@@ -165,6 +165,9 @@ public int[] asteroidCollision(int[] asteroids) {
         }
         return maxArea;
     }
+
+    // 84. Largest Rectangle in Histogram
+    // 2m
     public int largestRectangleArea(int[] heights) {
         
         int n=heights.length,maxArea=0;
@@ -188,4 +191,42 @@ public int[] asteroidCollision(int[] asteroids) {
         return maxArea;
     
     }
+
+
+    // 85. Maximal Rectangle
+    // 3mn time and space m
+    public int maximalRectangle(char[][] matrix) {
+        if(matrix.length==0 || matrix[0].length==0) return 0;
+           int n = matrix.length, m = matrix[0].length;
+        
+          int[] heights = new int[m];
+          int maxArea=0;
+          for(int i=0;i<n;i++){       //n
+              for(int j=0;j<m;j++){
+                  heights[j] = matrix[i][j] == '0'? 0:heights[j]+1;       //m
+              }
+              maxArea = Math.max(maxArea,largestRectangleArea(heights));    //2m
+          }
+          return maxArea;
+      }
+
+    //   32. Longest Valid Parentheses
+    public int longestValidParentheses(String s) {
+        LinkedList<Integer> st = new LinkedList<>();
+           st.addFirst(-1);
+           int n = s.length();
+           int maxLen = 0;
+           for(int i=0;i<n;i++){
+               if(st.getFirst()!=-1 && s.charAt(st.getFirst()) == '('&&  s.charAt(i)==')'){
+                   st.removeFirst();
+                   maxLen = Math.max(maxLen,i - st.getFirst());
+               }
+               else{
+                   st.addFirst(i);
+               }
+               
+           }
+           return maxLen;
+       }
+
 }
