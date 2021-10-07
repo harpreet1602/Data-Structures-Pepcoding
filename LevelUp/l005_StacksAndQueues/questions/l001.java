@@ -154,14 +154,38 @@ public int[] asteroidCollision(int[] asteroids) {
     }
 
     // 84. Largest Rectangle in Histogram
-    public int largestRectangleArea(int[] heights) {
-        int[] nsol = NSOL(heights);
-        int[] nsor = NSOR(heights);
+    // 7n
+    public int largestRectangleArea1(int[] heights) {
+        int[] nsol = NSOL(heights);         //3n
+        int[] nsor = NSOR(heights);         //3n
 
         int maxArea = 0;
-        for(int i=0;i<heights.length;i++){
+        for(int i=0;i<heights.length;i++){     //n
             maxArea = Math.max(maxArea,heights[i]*(nsor[i] - nsol[i] - 1));
         }
         return maxArea;
+    }
+    public int largestRectangleArea(int[] heights) {
+        
+        int n=heights.length,maxArea=0;
+        LinkedList<Integer> st = new LinkedList<>();
+        st.addFirst(-1);
+        for(int i=0;i<n;i++){
+            while(st.getFirst()!=-1 && heights[st.getFirst()]>=heights[i]){
+                int h = heights[st.removeFirst()];
+                int w = i - st.getFirst() -1;
+                maxArea = Math.max(maxArea,h*w);
+            }
+            st.addFirst(i);
+        }
+        
+        while(st.getFirst()!=-1){
+            int h = heights[st.removeFirst()];
+            int w = n - st.getFirst()-1;
+            maxArea = Math.max(maxArea,h*w);
+        }
+
+        return maxArea;
+    
     }
 }
