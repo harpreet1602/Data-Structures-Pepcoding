@@ -1,5 +1,6 @@
 import java.util.Arrays;
 import java.util.LinkedList;
+import java.util.ArrayList;
 public class l001 {
     
 
@@ -228,5 +229,94 @@ public int[] asteroidCollision(int[] asteroids) {
            }
            return maxLen;
        }
+
+    //    402. Remove K Digits
+       public String removeKdigits(String num, int k) {
+        ArrayList<Character> st = new ArrayList<>();
+        for(int i =0 ;i<num.length();i++){
+            char ch = num.charAt(i);
+            while(st.size()!=0 && st.get(st.size()-1)>ch && k>0){
+                k--;
+                st.remove(st.size()-1);
+            }
+            st.add(ch);
+        }
+        while(k-->0){
+            st.remove(st.size()-1);
+        }
+
+        StringBuilder sb = new StringBuilder();
+        boolean nonzero = false;
+        for(char ele:st){
+            if(ele=='0' && !nonzero) continue;
+            
+            nonzero = true;
+            sb.append(ele);
+        }
+        return sb.length()==0?"0":sb.toString();
+        }
+            // 316. Remove Duplicate Letters
+            // 1081. Smallest Subsequence of Distinct Characters
+            // Both are same
+            public String removeDuplicateLetters(String s) {
+                StringBuilder st = new StringBuilder();
+                int[] freq = new int[26];
+                int n = s.length();
+                boolean[] vis =new boolean[26];
+            
+                for(int i=0;i<n;i++){
+                    freq[s.charAt(i)-'a']++;
+                }
+
+                for(int i=0;i<n;i++){
+                    char ch = s.charAt(i);
+                    freq[ch-'a']--;
+
+                    if(vis[ch-'a']){
+                        continue;
+                    }
+                    while(st.length()!=0 && st.charAt(st.length()-1)>ch && freq[st.charAt(st.length()-1)-'a']>0){
+                        vis[st.charAt(st.length()-1)-'a']=false;
+                        st.deleteCharAt(st.length()-1);
+                    }
+
+                    vis[ch-'a']=true;
+                    st.append(ch);
+                }            
+                return st.toString();
+
+            }
+
+                
+        // 1249. Minimum Remove to Make Valid Parentheses
+        public String minRemoveToMakeValid(String s) {
+            LinkedList<Integer> st =new LinkedList<>();
+            char[] arr = s.toCharArray();
+            int n = s.length();
+            for(int i=0;i<n;i++){
+                char ch = s.charAt(i);
+                if(ch == ')'){
+                    if(st.size()!=0){
+                        st.removeFirst();
+                    }
+                    else{
+                        arr[i] = '#';
+                    }
+                }
+                else if(ch=='('){
+                    st.addFirst(i);
+                }
+            }
+            while(st.size()>0){
+                arr[st.removeFirst()] ='#';
+            }
+            StringBuilder sb = new StringBuilder();
+            for(char ch:arr){
+                if(ch!='#'){
+                    sb.append(ch);
+                }
+            }
+            return sb.toString();
+        }
 
 }

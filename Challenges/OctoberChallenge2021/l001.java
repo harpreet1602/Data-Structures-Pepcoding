@@ -179,7 +179,6 @@ class l001
 			 int n=scn.nextInt();
 			 int d = scn.nextInt();
 			 boolean flag=false;
-			 int ind=0;
 			 String str = Integer.toString(n);
 			 StringBuilder num = new StringBuilder(str);
 			 int len = str.length();

@@ -211,8 +211,55 @@ public class l006_cutset {
         return Math.max(rob(nums,0,n-2,dp1),rob(nums,1,n-1,dp2));
     }
 
+    // 198. House Robber
+    public int rob01(int[] nums,int si,int ei,int[] dp){
+        if(si>ei) return 0;
+        if(dp[si]!=-1) return dp[si];
+        
+        int robcurrenthouse = nums[si] + rob01(nums,si+2,ei,dp);
+        int notrobcurrenthouse = rob01(nums,si+1,ei,dp);
+                
+        return dp[si] = Math.max(robcurrenthouse,notrobcurrenthouse);
+    }
+    public int rob01(int[] nums) {
+       int n = nums.length;
+        if(n==0 || n==1){
+            return n==1?nums[0]:0;
+        }
+        
+        int[] dp = new int[n];
+        Arrays.fill(dp,-1);
+        
+        
+        return rob01(nums,0,n-1,dp);
+    }
+
+    // or
+    public int rob1(int[] nums,int n,int[] dp){
+        if(n<=0) return 0;
+        if(dp[n]!=-1) return dp[n];
+        
+        int robcurrenthouse = nums[n-1] + rob1(nums,n-2,dp);
+        int notrobcurrenthouse = rob1(nums,n-1,dp);
+                
+        return dp[n] = Math.max(robcurrenthouse,notrobcurrenthouse);
+    }
+    public int rob1(int[] nums) {
+       int n = nums.length;
+        if(n==0 || n==1){
+            return n==1?nums[0]:0;
+        }
+        
+        int[] dp = new int[n+1];
+        Arrays.fill(dp,-1);
+        
+        
+        return rob1(nums,n,dp);
+    }
 
 
+    // 1388. Pizza With 3n Slices
+    
 
 
     public static void main(String[] args){

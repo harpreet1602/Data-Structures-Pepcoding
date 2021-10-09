@@ -714,6 +714,67 @@ public static ListNode removeDuplicates(ListNode head) {
 }
 
     
+// galt hai abhi 
+
+    
+public static ListNode[] segregateNodes(ListNode head, int pivotIndex){
+    ListNode pivot = head;
+    while(pivotIndex-->0){
+        pivot = pivot.next;
+    }
+    
+    ListNode curr = head, small = new ListNode(-1), large = new ListNode(-1), sp = small, lp = large;
+    while(curr!=null){
+        if(curr!=pivot && curr.val <= pivot.val){
+            sp.next = curr;
+            sp = sp.next;
+        }
+        else if(curr!=pivot){
+            lp.next = curr;
+            lp = sp.next;
+        }
+        curr=curr.next;
+    }
+    return new ListNode[]{small.next,pivot,large.next};
+}
+public static ListNode[] mergeLists(ListNode[] left, ListNode pivot, ListNode[] right){
+    ListNode fh = null, ft =null;
+    if(left[0] == null && right[0] ==null){
+        fh = left[0];
+        left[1].next = pivot;
+        pivot.next = right[0];
+        ft = right[1];
+    }
+    else if(left[0] == null && right[0] ==null){
+        fh = ft = pivot;
+    }
+    else if(left[0]==null){
+        fh = pivot;
+        pivot.next=right[0];
+        ft=right[1];
+    }
+    else if(right[0] == null){
+        fh = left[0];
+        left[1].next = pivot;
+        ft = pivot;
+    }
+    return new ListNode[]{fh,ft};
+}
+public static ListNode[] quickSort_(ListNode head){
+    if(head == null)
+   return null;
+   
+   int length = size(head);
+   ListNode[] list = segregateNodes(head,length/2);
+   ListNode[] left = quickSort_(list[0]);
+   ListNode[] right = quickSort_(list[2]);
+   
+   return mergeLists(left,list[1],right);
+}
+public static ListNode quickSort(ListNode head) {
+   ListNode[] list = quickSort_(head);
+   return list[0];
+}
 
 
 
