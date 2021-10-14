@@ -499,8 +499,40 @@ public int[] asteroidCollision(int[] asteroids) {
         // 636. Exclusive Time of Functions
         public int[] exclusiveTime(int n, List<String> logs) {
             class logpair{
-                
+                int id;
+                int timestamp;
+                int sleeptime;
+                boolean isStart = false;
+
+                public logpair(String log){
+                    String[] ar = log.split(":");
+                    this.id = Integer.parseInt(ar[0]);
+                    this.timestamp = Integer.parseInt(ar[2]);
+                    this.sleeptime=0;
+                    this.isStart = ar[1].equals("start");
+                }
             }       
+            LinkedList<logpair> st = new LinkedList<>();
+            int[] ans = new int[n];
+
+            for(String str:logs){
+                logpair log = new logpair(str);
+
+                if(log.isStart){
+                    st.addFirst(log);
+                }
+                else{
+                    logpair rv = st.removeFirst();
+                    ans[rv.id] += log.timestamp - rv.timestamp + 1 - rv.sleeptime;
+                    if(st.size()!=0)
+                    st.getFirst().sleeptime += log.timestamp - rv.timestamp + 1;
+                }
+            }
+            return ans;
         }
-    
+
+        // 853. Car Fleet
+        
+
+
 }

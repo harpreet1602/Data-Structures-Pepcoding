@@ -1,14 +1,15 @@
 import java.util.ArrayList;
 public class heap{
     private ArrayList<Integer> arr;
-
-    public heap(){
+    private boolean isMax;
+    public heap(boolean isMax){
         this.arr = new ArrayList<>();
+        this.isMax = isMax;
     }
 
     // O(n) + O(nlog n)  -> O(n) => proof will be there
-    public heap(int[] arr){
-        this();
+    public heap(int[] arr,boolean isMax){
+        this(isMax);
         for(int i=0;i<arr.length;i++){
             this.arr.add(arr[i]);
         }
@@ -18,7 +19,10 @@ public class heap{
     }
 // O(1)
     public boolean compareTo(int x,int y){
+        if(isMax)
         return this.arr.get(x) > this.arr.get(y);
+
+        return this.arr.get(x) < this.arr.get(y);
     }
 // O(1)
     private void swap(int x, int y){
@@ -61,7 +65,7 @@ public class heap{
 
     // O(log n)
     public int remove(){
-        int re = this.arr.get(this.arr.size()-1);
+        int re = this.arr.get(0);
         swap(0,this.arr.size()-1);
         this.arr.remove(this.arr.size()-1);
         downHeapify(0);
