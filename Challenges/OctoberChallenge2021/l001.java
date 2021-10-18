@@ -278,21 +278,21 @@ class l001
 // 836 8
 
 
-/**
- * Definition for a binary tree node.
- * public class TreeNode {
- *     int val;
- *     TreeNode left;
- *     TreeNode right;
- *     TreeNode() {}
- *     TreeNode(int val) { this.val = val; }
- *     TreeNode(int val, TreeNode left, TreeNode right) {
- *         this.val = val;
- *         this.left = left;
- *         this.right = right;
- *     }
- * }
- */
+
+//   Definition for a binary tree node.
+  public class TreeNode {
+      int val;
+      TreeNode left;
+     TreeNode right;
+ 	     TreeNode() {}
+      TreeNode(int val) { this.val = val; }
+      TreeNode(int val, TreeNode left, TreeNode right) {
+          this.val = val;
+          this.left = left;
+         this.right = right;
+      }
+  }
+ 
 
 
 // 993. Cousins in Binary Tree
@@ -321,6 +321,38 @@ class Solution {
         getDepthAndParent(root.left,x,y,depth+1,root);
         getDepthAndParent(root.right,x,y,depth+1,root);
     }
+	//     bfs
+	public boolean isCousins1(TreeNode root, int x, int y) {
+        LinkedList<TreeNode> que = new LinkedList<>();
+         que.add(root);
+         while(que.size()!=0){
+             int size = que.size();
+             boolean aexist = false;
+             boolean bexist = false;
+             while(size-->0){
+                 TreeNode curr = que.removeFirst();
+                 if(curr.val == x) aexist = true;
+                 if(curr.val == y) bexist = true;
+                 if(curr.left != null && curr.right != null){
+                     if(curr.left.val == x && curr.right.val == y){
+                         return false;
+                     }
+                     if(curr.left.val == y && curr.right.val == x){
+                         return false;
+                     }
+                 }
+                 if(curr.left!=null)
+                     que.addLast(curr.left);
+                 
+                 if(curr.right!=null)
+                     que.addLast(curr.right);
+             }
+             if(aexist == true && bexist == true)
+                 return true;
+         }
+         return false;
+         
+     }
 }
 	public static void main (String[] args) throws java.lang.Exception
 	{
