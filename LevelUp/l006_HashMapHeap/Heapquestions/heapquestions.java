@@ -115,8 +115,104 @@ public static int kthSmallest1(int[] arr, int l, int r, int k)
          * KthLargest obj = new KthLargest(k, nums);
          * int param_1 = obj.add(val);
          */
+        // 2 question pending
 
 
+
+
+
+
+
+
+        // 973. K Closest Points to Origin
+        public int[][] kClosest(int[][] points, int k) {
+            PriorityQueue<Integer> pq = new PriorityQueue<>((a,b)->{
+                int d1 = points[a][0]*points[a][0] + points[a][1]*points[a][1];
+                int d2 = points[b][0]*points[b][0] + points[b][1]*points[b][1]; 
+                return d2-d1;
+    //             other - this => maxheap
+            });
+            
+            for(int i=0;i<points.length;i++){
+                pq.add(i);
+                if(pq.size()>k) pq.remove();
+            }
+            
+            int i=0;
+            int[][] ans = new int[k][];
+            while(pq.size()!=0){
+                int idx = pq.remove();
+                ans[i++] = points[idx];
+            }
+            return ans;
+        }
+
+        // 692. Top K Frequent Words
+        
+    public List<String> topKFrequent(String[] words, int k) {
+        HashMap<String,Integer> map = new HashMap<>();
+        for(String s:words) map.put(s,map.getOrDefault(s,0)+1);
+        
+        PriorityQueue<String> pq = new PriorityQueue<>((a,b)->{
+           if(map.get(a) == map.get(b)){
+               return b.compareTo(a);       //we need the lexicographic higher value at the top
+            } 
+            return map.get(a)-map.get(b);
+        });
+        
+        for(String s:map.keySet()){
+            pq.add(s);
+            if(pq.size()>k) pq.remove();
+        }
+        
+        List<String> list = new LinkedList<>();
+        while(pq.size()!=0){
+            list.add(0,pq.remove());
+        }
+        return list;   
+    }
+
+    // 778. Swim in Rising Water
+    public int swimInWater(int[][] grid) {
+        //         bfs for traversing the four directions 
+        //         priority queue we need the minimum amount of time in the journey and maximum of this
+        //         minimum amount of time journey will be the answer.
+                int n = grid.length, m= grid[0].length;
+                int[][] dir = {{-1,0},{0,-1},{1,0},{0,1}};
+                PriorityQueue<Integer> pq = new PriorityQueue<>((a,b)->{
+                    int i1 = a/m, j1 = a%m;
+                    int i2 = b/m, j2 = b%m;
+                    return grid[i1][j1] - grid[i2][j2];
+                });
+                boolean[][] vis = new boolean[n][m];
+                
+        //         minheap to access the smallest values present in pq first
+                int minheight=0;
+                pq.add(0);
+                vis[0][0] =true;
+                while(pq.size()!=0)
+                {    
+                    int index = pq.remove();
+                    int row = index/m;
+                    int col = index%m;
+                    int height = grid[row][col];
+                    minheight = Math.max(minheight,height);
+                    
+                    if(row==n-1 && col == m-1){
+                    break;
+                    }
+        
+                    for(int[] d:dir){
+                            int r = row + d[0];
+                            int c = col + d[1];
+                            if(r>=0 && c>=0 && r<n && c<m && !vis[r][c]){
+                                vis[r][c] = true;
+                                pq.add(r*m+c);
+                            }
+                        }
+                }
+                return minheight;
+            }
 
 
 
