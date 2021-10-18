@@ -278,7 +278,50 @@ class l001
 // 836 8
 
 
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
 
+
+// 993. Cousins in Binary Tree
+class Solution {
+    TreeNode xparent = null;
+    TreeNode yparent = null;
+    int xdepth = 0;
+    int ydepth = 0;
+    public boolean isCousins(TreeNode root, int x, int y) {
+        getDepthAndParent(root,x,y,0,null);
+        return xdepth == ydepth && xparent!=yparent;
+    }
+    public void getDepthAndParent(TreeNode root, int x, int y, int depth, TreeNode parent){
+        if(root == null){
+            return;
+        }
+        if(root.val == x){
+            xdepth = depth;
+            xparent = parent;
+        }
+        
+        if(root.val == y){
+            ydepth = depth;
+            yparent = parent;
+        }
+        getDepthAndParent(root.left,x,y,depth+1,root);
+        getDepthAndParent(root.right,x,y,depth+1,root);
+    }
+}
 	public static void main (String[] args) throws java.lang.Exception
 	{
 		// your code goes here
