@@ -354,6 +354,27 @@ class Solution {
          
      }
 }
+// 496. Next Greater Element I
+public int[] nextGreaterElement(int[] nums1, int[] nums2) {
+	HashMap<Integer,Integer> map = new HashMap<>();
+	LinkedList<Integer> st = new LinkedList<>();
+	
+	for(int num:nums2){
+		while(st.size()!=0 && st.getFirst()<num){
+			map.put(st.removeFirst(),num);
+		}
+		st.addFirst(num);
+	}
+	int[] ans = new int[nums1.length];
+	int i = 0;
+	for(int ele:nums1){
+		ans[i++] = map.getOrDefault(ele,-1);
+	}
+	return ans;
+}
+
+
+
 	public static void main (String[] args) throws java.lang.Exception
 	{
 		// your code goes here

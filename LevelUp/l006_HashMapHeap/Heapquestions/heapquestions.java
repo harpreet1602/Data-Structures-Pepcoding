@@ -115,15 +115,83 @@ public static int kthSmallest1(int[] arr, int l, int r, int k)
          * KthLargest obj = new KthLargest(k, nums);
          * int param_1 = obj.add(val);
          */
-        // 2 question pending
+        
+        // 347. Top K Frequent Elements
+        public int[] topKFrequent(int[] nums, int k) {
+            HashMap<Integer,Integer> map = new HashMap<>();
+            for(int ele:nums){
+                map.put(ele,map.getOrDefault(ele,0)+1);
+            }
+            PriorityQueue<Integer> pq = new PriorityQueue<>((a,b)->{
+               return map.get(a) - map.get(b); 
+            });
+            for(int ele:map.keySet()){
+                pq.add(ele);
+                if(pq.size()>k){
+                    pq.remove();
+                }
+            }
+            int[] ans = new int[k];
+            int i=0;
+            while(pq.size()!=0){
+                ans[i++] = pq.remove();
+            }
+            return ans;
+        }
+
+        // 378. Kth Smallest Element in a Sorted Matrix
+        public int kthSmallest(int[][] matrix, int k) {
+            int n = matrix.length, m = matrix[0].length;
+            PriorityQueue<Integer> pq = new PriorityQueue<>((a,b)->{
+                int r1 = a/m, c1 =a%m;
+                int r2 = b/m, c2 =b%m;
+                return matrix[r1][c1] - matrix[r2][c2];
+            });
+            
+            for(int i=0;i<n;i++){
+                pq.add(i*m+0);
+            }
+            int r=0,c=0;
+            while(k-->0){
+                int idx = pq.remove();
+                r = idx/m;
+                c = idx%m;
+                if(c+1<m){
+                   pq.add(r*m+(c+1));   
+                }
+            }
+            return matrix[r][c];
+        }
+    
 
 
 
 
 
-
-
-
+        // 451. Sort Characters By Frequency
+        public String frequencySort(String s) {
+            HashMap<Character,Integer> map = new HashMap<>();
+            PriorityQueue<Character> pq = new PriorityQueue<>((a,b)->{
+               return map.get(b) - map.get(a); 
+            });
+            int n = s.length();
+            for(int i=0;i<n;i++){
+                char ch = s.charAt(i);
+                map.put(ch,map.getOrDefault(ch,0)+1);
+            }
+            StringBuilder sb = new StringBuilder();
+            for(char ch:map.keySet()){
+                pq.add(ch);
+            }
+            while(pq.size()!=0){
+                char ch = pq.remove();
+                int freq = map.get(ch);
+                for(int i=0;i<freq;i++){
+                    sb.append(ch);
+                }
+            }
+            return sb.toString();
+        }
         // 973. K Closest Points to Origin
         public int[][] kClosest(int[][] points, int k) {
             PriorityQueue<Integer> pq = new PriorityQueue<>((a,b)->{
@@ -215,7 +283,62 @@ public static int kthSmallest1(int[] arr, int l, int r, int k)
             }
 
 
-
+            // 1642. Furthest Building You Can Reach
+            // I will be having a minheap to ensure that all the ele remaining inside will
+            // be using ladder and when the ele exceed ladder's no then we will remove the ele
+            // try to use brick if succeeded then proceed with same process otherwise return
+            // one previous value where you have reached.
+            // otherwise last index will be the answer 
+            public int furthestBuilding(int[] heights, int bricks, int ladders) {
+                PriorityQueue<Integer> pq = new PriorityQueue<>();
+                int n = heights.length;
+                for(int i = 1 ; i < n ; i++){
+                    int diff = heights[i] - heights[i-1];
+                    if(diff>0){
+                        pq.add(diff);
+                    }
+                    if(pq.size()>ladders){
+                        bricks -= pq.remove();
+                    }
+                    if(bricks < 0)
+                        return i-1;
+                }
+                return n-1;
+            }
+            
+            // 632. Smallest Range Covering Elements from K Lists
+             public int[] smallestRange(List<List<Integer>> nums) {
+//         minheap to get starting point and maintain maxVal as ep
+        int n = nums.size();
+        PriorityQueue<int[]> pq = new PriorityQueue<>((a,b)->{
+           int r1 = a[0], c1 = a[1];
+           int r2 = b[0], c2 = b[1];
+            return nums.get(r1).get(c1) - nums.get(r2).get(c2); 
+        });
+        
+        int maxVal = -(int)1e9, sp = -1, ep = -1, range = (int)1e9;
+        for(int i = 0 ;i < n;i++){
+            pq.add(new int[]{i,0});
+            maxVal = Math.max(maxVal,nums.get(i).get(0));
+            
+        }
+        
+        while(pq.size()==n){
+            int[] minVal = pq.remove();
+            int r = minVal[0], c = minVal[1];
+            if(maxVal - nums.get(r).get(c) <range){
+                range = maxVal - nums.get(r).get(c);
+                sp = nums.get(r).get(c);
+                ep = maxVal;
+            } 
+            if(c+1<nums.get(r).size()){
+            pq.add(new int[]{r,c+1});   
+            maxVal = Math.max(maxVal,nums.get(r).get(c+1));
+            }
+        }
+        return new int[]{sp,ep}; 
+    }
+   
 
 
     
