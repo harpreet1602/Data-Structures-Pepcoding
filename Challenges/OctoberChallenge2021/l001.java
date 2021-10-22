@@ -409,6 +409,9 @@ class RandomizedSet {
         int randomIdx = r.nextInt(list.size());
         return list.get(randomIdx);
     }
+
+
+
 }
 
 /**
@@ -419,6 +422,34 @@ class RandomizedSet {
  * int param_3 = obj.getRandom();
  */
 
+public String frequencySort(String s) {
+	HashMap<Character,Integer> map = new HashMap<>();
+	PriorityQueue<Character> pq = new PriorityQueue<>((a,b)->{
+		return map.get(b) - map.get(a);
+	});
+	int n=s.length();
+	for(int i=0;i<n;i++){
+		char ch = s.charAt(i);
+		map.put(ch,map.getOrDefault(ch,0)+1);
+	}
+	for(char key:map.keySet()){
+		pq.add(key);
+	}
+	StringBuilder sb  = new StringBuilder();
+	while(pq.size()!=0){
+		char remEle = pq.remove();
+		 // while(map.get(remEle)!=0)
+		// {
+		//     sb.append(remEle);
+		//     map.put(remEle,map.getOrDefault(remEle,1)-1);
+		// }
+		int freq = map.get(remEle);
+		for(int i =0;i<freq;i++){
+			sb.append(remEle);
+		}
+	}
+	return sb.toString(); 
+}
 	public static void main (String[] args) throws java.lang.Exception
 	{
 		// your code goes here
