@@ -339,7 +339,46 @@ public static int kthSmallest1(int[] arr, int l, int r, int k)
         return new int[]{sp,ep}; 
     }
    
-
+    // 295. Find Median from Data Stream
+    class MedianFinder {
+        PriorityQueue<Integer> maxpq = new PriorityQueue<>((a,b)->{
+            return b-a;
+        });
+        PriorityQueue<Integer> minpq = new PriorityQueue<>();
+        public MedianFinder() {
+            
+        }
+        
+        public void addNum(int num) {
+            if(maxpq.size()==0 || num <= maxpq.peek()){
+                maxpq.add(num);
+            }else{
+                minpq.add(num);
+            }
+            if(maxpq.size()-minpq.size() == 2){
+                minpq.add(maxpq.remove());
+            }
+            else if(maxpq.size()-minpq.size()==-1){
+                maxpq.add(minpq.remove());     
+            }
+        }
+        
+        public double findMedian() {
+            if(maxpq.size()==minpq.size()){
+                return (maxpq.peek() + minpq.peek())/2.0;
+            }
+            else{
+                return maxpq.peek()*1.0;
+            }
+        }
+    }
+    
+    /**
+     * Your MedianFinder object will be instantiated and called as such:
+     * MedianFinder obj = new MedianFinder();
+     * obj.addNum(num);
+     * double param_2 = obj.findMedian();
+     */
 
     
 
