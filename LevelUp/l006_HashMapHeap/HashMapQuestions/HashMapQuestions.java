@@ -140,5 +140,115 @@ public class HashMapQuestions {
         return true;
     }
     
+    // 380. Insert Delete GetRandom O(1)
+    class RandomizedSet {
+    
+        HashMap<Integer,Integer> map;
+        List<Integer> list;
+        Random r;
+        public RandomizedSet() {
+            map = new HashMap<>();
+            list = new ArrayList<>();
+            r = new Random();
+        }
+        
+        public boolean insert(int val) {
+            if(map.containsKey(val))
+                return false;
+            map.put(val,list.size());
+            list.add(val);
+            return true;
+        }
+        
+        public boolean remove(int val) {
+            if(!map.containsKey(val))
+                return false;
+            
+            int ridx = map.get(val);
+        
+            if(ridx!=list.size()-1){
+            list.set(ridx,list.get(list.size()-1));
+            map.put(list.get(ridx),ridx);
+           
+            }
+             map.remove(val);
+            list.remove(list.size()-1);
+            return true;
+        }
+        
+        public int getRandom() {
+            int ridx = r.nextInt(list.size());
+            return list.get(ridx);
+        }
+    }
+    
+    /**
+     * Your RandomizedSet object will be instantiated and called as such:
+     * RandomizedSet obj = new RandomizedSet();
+     * boolean param_1 = obj.insert(val);
+     * boolean param_2 = obj.remove(val);
+     * int param_3 = obj.getRandom();
+     */
+
+
+    // 447. Number of Boomerangs
+    public int numberOfBoomerangs(int[][] points) {
+        HashMap<Integer,Integer> map = new HashMap<>();
+        int n = points.length, ans=0;
+        for(int i = 0;i<n;i++){
+            for(int j = 0 ; j < n ; j++){
+                if(i==j) continue;
+                
+                int dist = distance(points,i,j);
+                map.put(dist,map.getOrDefault(dist,0)+1);
+                
+            }
+            for(int ele:map.values()){
+                ans += ele*(ele-1);
+            }
+            map.clear();
+        }
+        return ans;
+    }
+    public int distance(int[][] points,int i,int j){
+        int x = points[j][0] - points[i][0];
+        int y = points[j][1] - points[i][1];
+        return x*x + y*y;
+    }
+    // tc: O(n^2)
+    // sc: O(n)
+
+    // 149. Max Points on a Line
+    // Fix one point and see the slope with the next points, the max points with the same slope will be the answer
+    // of the max points on a line.
+    public int maxPoints(int[][] points) {
+        HashMap<String,Integer> map = new HashMap<>();
+        int res = 0, n=points.length;
+        for(int i=0;i<n;i++){
+            int max=0;
+            for(int j=i+1;j<n;j++){
+                int xdiff = points[j][0] - points[i][0];
+                int ydiff = points[j][1] - points[i][1];
+                int gcd = gcd(xdiff,ydiff);
+                xdiff /= gcd;
+                ydiff /= gcd;
+                
+                String s = xdiff + "@" +ydiff;
+                map.put(s,map.getOrDefault(s,0)+1);
+                max = Math.max(max,map.get(s));
+            }
+            res = Math.max(max+1,res);
+            map.clear();
+        }
+        return res;
+    }
+    public int gcd(int a,int b){
+        if(b==0) return a;
+        return gcd(b,a%b);
+    }
+    // tc:O(n^2)
+    // sc:O(n)
+
+
 
 }

@@ -450,6 +450,43 @@ public String frequencySort(String s) {
 	}
 	return sb.toString(); 
 }
+	// 153. Find Minimum in Rotated Sorted Array
+	// tc: O(log n)
+	// sc: O(1)
+	public int findMin(int[] nums) {
+		int n=nums.length,low = 0,high=n-1;
+		while(low<high){
+			int mid = (low+high)/2;
+			if(nums[mid]>nums[high]){
+				low=mid+1;
+			}
+			else if(nums[mid]<nums[high]){
+				high = mid;
+			}
+		}
+		return nums[low];
+	}
+
+	// 154. Find Minimum in Rotated Sorted Array II
+	// tc: O(n)
+	// sc: O(1)
+	public int findMinDup(int[] nums) {
+		int n=nums.length,low = 0,high=n-1;
+			while(low<high){
+				int mid = (low+high)/2;
+				if(nums[mid]>nums[high]){
+					low=mid+1;
+				}
+				else if(nums[mid]<nums[high]){
+					high = mid;
+				}
+				else if(nums[mid] == nums[high]){
+					high=high-1;
+				}
+			}
+			return nums[low];
+		}
+
 	public static void main (String[] args) throws java.lang.Exception
 	{
 		// your code goes here
