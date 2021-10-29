@@ -516,6 +516,40 @@ public int countNodes(TreeNode root) {
 	return leftans+rightans+1;
 	
 }
+
+// 15. 3Sum
+// First of all sort the array then fix the first number and then take indices on the particular position and find the triplet accordingly and also put the conditions because we need not to have the duplicates so we will be skipping that.
+
+public List<List<Integer>> threeSum(int[] nums) {
+        Arrays.sort(nums);
+        int n = nums.length;
+        List<List<Integer>> list = new ArrayList<>();
+        for(int i=0;i<n-2;i++){
+            if(i==0 || nums[i]!=nums[i-1]){
+            int j=i+1;
+            int k=n-1;
+            while(j<k){
+            int sum = nums[i]+nums[j]+nums[k];
+            if(sum == 0){
+                List<Integer> smallList = new ArrayList<>();
+                smallList.add(nums[i]); 
+                smallList.add(nums[j]); 
+                smallList.add(nums[k]);
+                list.add(smallList);
+                while(j<n-1 && nums[j]==nums[j+1]) j++;
+                while(k>=1 && nums[k]==nums[k-1]) k--;
+                j++;
+                k--;
+            }
+            else if(sum<0){
+                j++;
+            }
+            else k--;
+            }
+            }
+        }
+        return list;
+    }
 	public static void main (String[] args) throws java.lang.Exception
 	{
 		// your code goes here
