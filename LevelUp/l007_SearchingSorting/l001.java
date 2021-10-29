@@ -234,36 +234,86 @@ public class l001{
       return new int[]{-1,-1};
   }
 
-    List<List<Integer>> allPairs(int[] nums,int target,int si, int ei){
-        List<List<Integer>> list = new ArrayList<>();
-        Arrays.sort(nums);
-        // int si = 0, ei = nums.length-1;
-        while(si<ei){
-            int currsum = nums[si] + nums[ei];
-            if(currsum == target){
-                // List<Integer> smallAns = new ArrrayList<>();
-                // smallAns.add(nums[si]);
-                // smallAns.add(nums[ei]);
-                // list.add(smallAns);
-                // int first = nums[si];
-                // int second = nums[ei];
-                // while(si<ei && nums[si] == first) si++;
-                // while(si<ei && nums[ei] == second) ei--;
-                list.add(Arrays.asList(nums[si],nums[ei]));
-                si++;
-                ei--;
-                while(si<ei && nums[si] == nums[si-1]) si++;
-                while(si<ei && nums[ei] == nums[ei+1]) ei--;
-            }
-            else if(currsum<target){
-                si++;
-            }
-            else{
-                ei--;
-            }
+//   15. 3Sum
+  List<List<Integer>> allPairs(int[] nums,int target,int si, int ei){
+    List<List<Integer>> list = new ArrayList<>();
+    Arrays.sort(nums);
+    // int si = 0, ei = nums.length-1;
+    while(si<ei){
+        int currsum = nums[si] + nums[ei];
+        if(currsum == target){
+            List<Integer> smallAns = new ArrayList<>();
+            smallAns.add(nums[si]);
+            smallAns.add(nums[ei]);
+            list.add(smallAns);
+            // int first = nums[si];
+            // int second = nums[ei];
+            // while(si<ei && nums[si] == first) si++;
+            // while(si<ei && nums[ei] == second) ei--;
+            // list.add(Arrays.asList(new Integer[]{nums[si],nums[ei]}));
+            si++;
+            ei--;
+            while(si<ei && nums[si] == nums[si-1]) si++;
+            while(si<ei && nums[ei] == nums[ei+1]) ei--;
+        }
+        else if(currsum<target){
+            si++;
+        }
+        else{
+            ei--;
         }
     }
+    return list;
+}
+public void makeAns(List<List<Integer>> list,List<List<Integer>> small,int fix){
+    for(int i=0;i<small.size();i++){
+        List<Integer> sm = small.get(i);
+        System.out.println(sm);
+        sm.add(fix);
+        list.add(sm);
+    }
+    
+}
+public List<List<Integer>> threeSum(int[] nums,int target,int si,int ei)
+{
+    Arrays.sort(nums);
+    List<List<Integer>> list = new ArrayList<>();
+    int n = nums.length;
+    for(int i=si;i<ei-1;){
+        int fix = nums[i];
+        List<List<Integer>> twoSumList = new ArrayList<>();
+        twoSumList =  allPairs(nums,target-fix,i+1, ei);
+        
+        makeAns(list,twoSumList,fix);
+        i++;
+        while(i<ei-1 && nums[i]==nums[i-1]) i++;
+    }
+    return list;
+}
+public List<List<Integer>> threeSum(int[] nums) {
+    return threeSum(nums,0,0,nums.length-1);
+}
 
+// 18. 4Sum
+public List<List<Integer>> fourSum(int[] nums,int target,int si,int ei)
+{
+    Arrays.sort(nums);
+    List<List<Integer>> list = new ArrayList<>();
+    int n = nums.length;
+    for(int i=si;i<ei-2;){
+        int fix = nums[i];
+        // List<List<Integer>> threeSumList = new ArrayList<>();
+        List<List<Integer>> threeSumList =  threeSum(nums,target-fix,i+1, ei);
+        
+        makeAns(list,threeSumList,fix);
+        i++;
+        while(i<ei-1 && nums[i]==nums[i-1]) i++;
+    }
+    return list;
+}
+    public List<List<Integer>> fourSum(int[] nums, int target) {
+         return fourSum(nums,target,0,nums.length-1);
+    }
 
     public static void main(String[] args){
 
