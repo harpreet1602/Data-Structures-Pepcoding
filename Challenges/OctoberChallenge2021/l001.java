@@ -550,6 +550,44 @@ public List<List<Integer>> threeSum(int[] nums) {
         }
         return list;
     }
+	// 994. Rotting Oranges
+	public int orangesRotting(int[][] grid) {
+        LinkedList<int[]> que = new LinkedList<>();
+        int[][] dir = {{-1,0},{0,1},{1,0},{0,-1}};
+        int count=0,time=-1,m=grid.length,n=grid[0].length;
+        for(int i=0;i<m;i++){
+            for(int j=0;j<n;j++){
+                if(grid[i][j] == 2){
+                    que.add(new int[]{i,j});
+                }
+                else if(grid[i][j] ==1)
+                    count++;
+            }
+        }
+        if(count==0)
+            return 0;
+        while(que.size()!=0){
+            time++;
+            int size= que.size();
+            while(size-->0){
+                int[] val = que.remove();
+                for(int[] d:dir){
+                    int r = val[0] + d[0];
+                    int c = val[1] + d[1];
+                    if(r>=0 && c>=0 && r<m && c<n && grid[r][c] ==1){
+                        count--;
+                        grid[r][c]=0;
+                        que.add(new int[]{r,c});
+                    }
+                }
+            }
+        }
+        
+        if(count==0)
+            return time;
+        return -1;
+        
+    }
 	public static void main (String[] args) throws java.lang.Exception
 	{
 		// your code goes here

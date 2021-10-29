@@ -2,6 +2,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 public class l001{
 
     public int binarySearch(int[] arr,int si,int ei,int data){
@@ -215,9 +216,35 @@ public class l001{
         }
         return new int[]{-1,-1};
     }
+    // https://practice.geeksforgeeks.org/problems/count-pairs-with-given-sum5022/1
+    boolean hasArrayTwoCandidates(int nums[], int n, int target) {
+        // code here
+         HashSet<Integer> map = new HashSet<>();
+        for(int i=0;i<nums.length;i++){
+            if(map.contains(target-nums[i])){
+                return true;
+            }else{
+                map.add(nums[i]);
+            }
+        }
+        return false;
+    }
+    // https://practice.geeksforgeeks.org/problems/count-pairs-with-given-sum5022/1#
+    int getPairsCount(int[] nums, int n, int target) {
+        // code here
+         HashMap<Integer,Integer> map = new HashMap<>();
+        int count=0;
+        for(int i=0;i<nums.length;i++){
+            if(map.containsKey(target-nums[i])){
+                count+=map.get(target-nums[i]);
+            }
+                map.put(nums[i],map.getOrDefault(nums[i],0)+1);
+        }
+        return count;
+    }
     // 167. Two Sum II - Input Array Is Sorted
     // optimized -> tc O(log n) sc O(1)
-    public int[] twoSum(int[] nums, int target) {
+    public int[] twoSum2(int[] nums, int target) {
         int si = 0, ei = nums.length-1;
       while(si<ei){
           int currsum = nums[si] + nums[ei];
