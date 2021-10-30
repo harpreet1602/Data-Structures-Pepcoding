@@ -341,7 +341,116 @@ public List<List<Integer>> fourSum(int[] nums,int target,int si,int ei)
     public List<List<Integer>> fourSum(int[] nums, int target) {
          return fourSum(nums,target,0,nums.length-1);
     }
+    
+public List<List<Integer>> kSum(int[] nums,int target,int k,int si,int ei)
+{
+    if(k==2){
+        return allPairs(nums, target, si, ei);
+    }
+    List<List<Integer>> list = new ArrayList<>();
+    int n = nums.length;
+    for(int i=si;i<ei;){
+        int fix = nums[i];
+        // List<List<Integer>> threeSumList = new ArrayList<>();
+        List<List<Integer>> SumList =  kSum(nums,target-fix,k-1,i+1, ei);
+        
+        makeAns(list,SumList,fix);
+        i++;
+        while(i<ei-1 && nums[i]==nums[i-1]) i++;
+    }
+    return list;
+}
 
+    public int countTwoSum(int[] arr1,int[] arr2, int target){
+        HashMap<Integer,Integer> map = new HashMap<>();
+        int count=0;
+        for(int i=0;i<arr1.length;i++){
+            map.put(arr1[i],map.getOrDefault(arr1[i],0)+1);
+        }
+        for(int i=0;i<arr2.length;i++){
+            int newtarget = target - arr2[i];
+            if(map.containsKey(newtarget)){
+                count+=map.get(newtarget);
+            }
+        }
+        return count;
+    }
+    // 454. 4Sum II
+    public int fourSumCount(int[] nums1, int[] nums2, int[] nums3, int[] nums4) {
+        HashMap<Integer,Integer> map = new HashMap<>();
+        for(int e:nums1){
+            for(int f:nums2){
+                map.put(e+f,map.getOrDefault(e+f,0)+1);
+            }
+        }
+        int count=0;
+        for(int e:nums3){
+            for(int f:nums4){
+                if(map.containsKey(0-(e+f)))
+                count+=map.get(0-(e+f));           
+            }
+        }
+        return count;
+    }
+
+    // 33. Search in Rotated Sorted Array
+    public int search(int[] nums, int target) {
+        int si = 0;
+        int ei = nums.length-1;
+        while(si<=ei){
+            int mid = (si+ei)/2;
+            if(nums[mid] == target){
+                return mid;
+            }
+            if(nums[si] <= nums[mid]){
+                if(target>=nums[si] && target<=nums[mid]){
+                    ei = mid-1;
+                }
+                else{
+                    si = mid+1;
+                }
+            }
+            else{
+                if(target>=nums[mid] && target<=nums[ei]){
+                    si = mid+1;
+                }
+                else{
+                    ei = mid-1;
+                }
+            }
+        }
+        return -1;
+    }
+    // 81. Search in Rotated Sorted Array II
+    public boolean search(int[] nums, int target) {
+        int si = 0,ei = nums.length-1;
+        while(si<=ei){
+            int mid = (si+ei)/2;
+            if(nums[mid] == target || nums[si] == target){
+                return true;
+            }
+            if(nums[si] < nums[mid]){
+                if(target>nums[si] && target<nums[mid]){
+                    ei = mid-1;
+                }
+                else{
+                    si = mid+1;
+                }
+            }
+            else if(nums[mid] < nums[ei]){
+                if(target>nums[mid] && target<=nums[ei]){
+                    si = mid+1;
+                }
+                else{
+                    ei = mid-1;
+                }
+            }
+            else{
+                si++;
+            }
+        }
+        return false;
+    }
     public static void main(String[] args){
 
     }
