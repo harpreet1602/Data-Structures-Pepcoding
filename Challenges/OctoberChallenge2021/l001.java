@@ -588,6 +588,34 @@ public List<List<Integer>> threeSum(int[] nums) {
         return -1;
         
     }
+	// 430. Flatten a Multilevel Doubly Linked List
+	 public Node flatten(Node head) {
+        if(head == null){
+            return head;
+        }
+        Node node = head;
+        while(node!=null){
+            if(node.child!=null){
+                Node nextnode = node.next;
+//                 it returns the head of the child
+                node.next = flatten(node.child);
+                node.next.prev = node;
+                node.child = null;
+//                 move to last 
+                while(node.next!=null){
+                    node = node.next;
+                }
+                
+//                 stich
+                if(nextnode!=null){
+                node.next = nextnode;
+                nextnode.prev = node;
+                }
+            }
+            node = node.next;
+        }
+        return head;
+    }
 	public static void main (String[] args) throws java.lang.Exception
 	{
 		// your code goes here
