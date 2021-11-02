@@ -72,8 +72,50 @@ public class l001{
            }
        }
    }
+//    980. Unique Paths III
+// calculate all the zeroes and locate the starting indices
+// after that go for th dfs operations where when you will get 2 then if zeroes has beem reduced
+// to -1 then return 1 for finding one path covering all empty spaces
+// mark the point visited as you don;t have to use one empty space more than one time
+// decrease your one zero as you encountered zero on your path
+// in the dfs just go for the valid calls only check if it is not visited or -1
+// in the end mark the point unvisited 
+// at each cell it will be storing the paths the cell can have to reach the destination
 
-
+   public int dfs(int[][] grid, int sr,int sc,int zero,int[][] dir){
+    int n = grid.length, m= grid[0].length;
+   if(grid[sr][sc] == 2)
+      return zero==-1?1:0;
+   int totalpaths=0;
+   grid[sr][sc] = -1;
+   zero--;
+   for(int[] d:dir){
+       int r = sr+d[0];
+       int c = sc+d[1];
+       if(r>=0 && c>=0 &&r<n && c<m&&grid[r][c]!=-1){
+           totalpaths +=dfs(grid,r,c,zero,dir);
+       }
+   }
+   grid[sr][sc] = 0;
+   return totalpaths;
+}
+public int uniquePathsIII(int[][] grid) {
+   int n = grid.length, m= grid[0].length, zero =0 ,sr=0,sc=0;
+   int[][] dir = {{-1,0},{0,1},{1,0},{0,-1}};
+   for(int i=0;i<n;i++){
+       for(int j=0;j<m;j++){
+           if(grid[i][j] == 0){
+               zero++;
+           }
+           else if(grid[i][j] ==1)
+           {
+               sr = i;
+               sc = j;
+           }
+       }
+   }
+   return dfs(grid,sr,sc,zero,dir);
+}
    public static void main(String[] args){
 
    }

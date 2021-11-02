@@ -422,7 +422,7 @@ public List<List<Integer>> kSum(int[] nums,int target,int k,int si,int ei)
         return -1;
     }
     // 81. Search in Rotated Sorted Array II
-    public boolean search(int[] nums, int target) {
+    public boolean search1(int[] nums, int target) {
         int si = 0,ei = nums.length-1;
         while(si<=ei){
             int mid = (si+ei)/2;
@@ -451,6 +451,117 @@ public List<List<Integer>> kSum(int[] nums,int target,int k,int si,int ei)
         }
         return false;
     }
+
+    // 153. Find Minimum in Rotated Sorted Array
+    public int findMin(int[] nums) {
+        int si = 0, ei = nums.length - 1;
+        while(si<ei){
+            int mid = (si + ei)/2;
+            if(nums[mid] < nums[ei]){
+                ei = mid;
+            }else{
+                si = mid+1;
+            }
+        }
+        return nums[si];
+    }
+    // 154. Find Minimum in Rotated Sorted Array II
+    public int findMin1(int[] nums) {
+        int si = 0, ei = nums.length - 1;
+       while(si<ei){
+           int mid = (si + ei)/2;
+           if(nums[mid] < nums[ei]){
+               ei = mid;
+           }else if(nums[mid]>nums[ei]){
+               si = mid+1;
+           }
+           else{
+               ei--;
+           }
+       }
+       return nums[si];
+   }
+    //    875. Koko Eating Bananas
+    public boolean isPossible(int[] piles,int h,int mid){
+        int totalhours = 0;
+        for(int e:piles){
+            int time = e/mid;
+            if(e%mid!=0){
+                time++;
+            }
+            totalhours +=time;
+        }
+        if(totalhours>h) return false;
+        return true;
+    }
+    public int minEatingSpeed(int[] piles, int h) {
+        int si = 1, ei = (int)1e9;
+        while(si<ei){
+            int mid = (si+ei)/2;
+            if(!isPossible(piles,h,mid)){
+                si = mid+1;
+            }
+            else{
+                ei = mid;
+            }
+        }
+        return si;
+    }
+
+    // one more thing we can do here is to make our ei the max val present in piles 
+    public int minEatingSpeed1(int[] piles, int h) {
+        int si = 1, ei;
+        int max = -(int)1e9;
+        for(int e:piles){
+            max = Math.max(max,e);
+        }
+        ei = max;
+        while(si<ei){
+            int mid = (si+ei)/2;
+            if(!isPossible(piles,h,mid)){
+                si = mid+1;
+            }
+            else{
+                ei = mid;
+            }
+        }
+        return si;
+    }
+    
+    // 1011. Capacity To Ship Packages Within D Days
+    public boolean possible(int[] weights,int days,int capacity){
+        int totaldays = 0;
+        int sum = 0;
+        for(int e:weights){
+            sum+=e;
+            if(e>capacity) return false;
+            if(sum>capacity){
+                totaldays++;
+                sum = e;
+            }
+        }
+        if(totaldays>days) return false;
+        totaldays++;
+        return totaldays<=days;
+    }
+    public int shipWithinDays(int[] weights, int days) {
+        int si =1,ei=0;
+        for(int e:weights){
+            ei+=e;
+        }
+        while(si<ei){
+            int mid = (si+ei)/2;
+            if(!possible(weights,days,mid)){
+                si = mid+1;
+            }
+            else{
+                ei = mid;
+            }
+        }
+        return si;
+    }
+    
+    
     public static void main(String[] args){
 
     }
