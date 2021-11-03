@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+import java.util.Scanner;
 public class l001{
     // 130. Surrounded Regions
     // Time: O(n^2), Space: O(1)
@@ -116,6 +118,223 @@ public int uniquePathsIII(int[][] grid) {
    }
    return dfs(grid,sr,sc,zero,dir);
 }
+
+    // 129. Sum Root to Leaf Numbers
+    public class TreeNode {
+             int val;
+             TreeNode left;
+             TreeNode right;
+             TreeNode() {}
+             TreeNode(int val) { this.val = val; }
+             TreeNode(int val, TreeNode left, TreeNode right) {
+                 this.val = val;
+                 this.left = left;
+                this.right = right;
+             }
+         }
+       
+    public void rootToLeaf(TreeNode root,ArrayList<Integer> smallAns,ArrayList<ArrayList<Integer>> ans)     {      
+        if(root.left==null && root.right==null){
+            
+            smallAns.add(root.val);
+            // if(!ans.contains(smallAns)){
+            ArrayList<Integer> base = new ArrayList<>(smallAns);
+            ans.add(base);
+            // }
+
+        smallAns.remove(smallAns.size()-1);
+            return;
+        }
+        smallAns.add(root.val);
+        if(root.left!=null){
+        rootToLeaf(root.left,smallAns,ans);
+        }
+        if(root.right!=null){
+        rootToLeaf(root.right,smallAns,ans);
+        }
+        smallAns.remove(smallAns.size()-1);
+    }
+    public int sumNumbers1(TreeNode root) {
+        ArrayList<ArrayList<Integer>> ans = new ArrayList<>();
+        ArrayList<Integer> smallAns = new ArrayList<>();
+        rootToLeaf(root,smallAns,ans);
+        int sum=0;
+        for(int i=0;i<ans.size();i++){
+            int number=0;
+            for(int j=0;j<ans.get(i).size();j++)
+            {
+                number = number*10 + ans.get(i).get(j);
+            }
+            sum +=number;
+        }
+        return sum;
+    }
+
+    //     2nd
+    public int sumRootToLeaf(TreeNode root,int sum){
+        if(root==null)
+            return 0;
+        sum = sum*10 + root.val;
+        if(root.left == null && root.right == null){
+            return sum;
+        }
+        int leftsum = sumRootToLeaf(root.left,sum);
+        int rightsum = sumRootToLeaf(root.right,sum);
+        return leftsum+rightsum;
+    } 
+    public int sumNumbers(TreeNode root) {
+        return sumRootToLeaf(root,0);
+    }
+
+    // 70. Climbing Stairs
+    public int climbStairs1(int n, int[] dp) {
+        if(n == 0){
+            return 1;
+        }  
+           
+        int count = 0;
+        if(dp[n-1]!=-1)
+        {
+          count +=dp[n-1];   
+        }  
+        else{
+            count += climbStairs(n-1,dp);
+        }
+        if(n-2>=0)
+        {
+            if(dp[n-2]!=-1){
+                count+=dp[n-2];
+            }
+            else
+            {    
+              count += climbStairs(n-2,dp);  
+            }
+        }
+        return dp[n] = count;
+      }
+      public int climbStairs(int n,int[] dp){
+          if(n==0){
+              return 1;
+          }
+          if(n<0){
+              return 0;
+          }
+          if(dp[n]!=0) return dp[n];
+          int count = 0;
+          count +=climbStairs(n-1,dp);
+          count +=climbStairs(n-2,dp);
+          return dp[n] = count;
+      }
+      public int climbStairsTab(int N,int[] dp){
+          for(int n=0;n<=N;n++){
+              int count = 0;
+              if(n==0) count = 1;
+              else if(n==1){
+                  count = dp[n-1];
+              }
+              else{
+                  count +=dp[n-1];
+                  count +=dp[n-2];
+              }
+              dp[n] = count;
+          }
+          return dp[N];
+      }
+       public int climbStairs(int n) {
+       int[] dp = new int[n+1];
+       return climbStairsTab(n,dp);
+       }
+
+    //     1,2 ,3 jumps
+    // https://www.pepcoding.com/resources/online-java-foundation/dynamic-programming-and-greedy/climb-stairs-official/ojquestion
+    public static Scanner scn = new Scanner(System.in);
+      public static int climbStairs2(int n,int[] dp){
+        if(n==0){
+            return 1;
+        }
+        if(n<0){
+            return 0;
+        }
+        if(dp[n]!=0) return dp[n];
+        int count = 0;
+        count +=climbStairs2(n-1,dp);
+        count +=climbStairs2(n-2,dp);
+        count +=climbStairs2(n-3,dp);
+        return dp[n] = count;
+    }
+    public static int climbStairsTab1(int N,int[] dp){
+        for(int n=0;n<=N;n++){
+            int count = 0;
+            if(n==0) count = 1;
+            else if(n==1){
+                count = dp[n-1];
+            }
+            else if(n==2){
+                count +=dp[n-1];
+                count +=dp[n-2];
+            }
+            else{
+                count += dp[n-1];
+                count += dp[n-2];
+                count += dp[n-3];
+            }
+            dp[n] = count;
+        }
+        return dp[N];
+    }
+    
+    // 746. Min Cost Climbing Stairs
+     public int minCostClimbingStairs(int[] cost,int[] dp,int idx) {
+        if(idx >= cost.length){
+            return 0;
+        }
+        if(dp[idx]!=0){
+            return dp[idx];
+        }
+        int cost1 = minCostClimbingStairs(cost,dp,idx+1);
+        int cost2 = minCostClimbingStairs(cost,dp,idx+2);
+        return dp[idx] = Math.min(cost1,cost2) + cost[idx];
+    }
+    public int minCostClimbingStairs(int[] cost) {
+        int[] dp = new int[cost.length+1];
+        
+        int cost1 = minCostClimbingStairs(cost,dp,0);
+        int cost2 = minCostClimbingStairs(cost,dp,1);
+        return Math.min(cost1,cost2);
+    }
+    // https://www.pepcoding.com/resources/online-java-foundation/dynamic-programming-and-greedy/climb-stairs-with-minimum-moves-official/ojquestion
+    public static int climbStairsMinMoves(int[] arr,int[] dp,int idx){
+        if(idx>=arr.length){
+            return 0;
+        }
+        if(dp[idx]!=0) return dp[idx];
+        int min = (int)1e9;
+        for(int i=1;i<=arr[idx];i++){
+            min = Math.min(min,climbStairsMinMoves(arr,dp,idx+i));
+        }
+        return dp[idx] = min+1;
+    }
+    // Tabulation
+    public static int climbStairsMinMovesTab(int[] arr,Integer[] dp,int idx){
+        for(int i=idx;i>=0;i--){
+            if(i==idx) dp[i] = 0;
+            else{
+                int min = (int)1e9;
+                for(int j=1;j<=arr[i];j++){
+                    if(i+j<=arr.length){
+                        if(dp[i+j]!=null)
+                        min = Math.min(min,dp[i+j]);
+                    }
+                }
+                if(min!=(int)1e9)
+                dp[i] = min+1;
+                else
+                dp[i] = null;
+            }
+        }
+        return dp[0];
+    }
+    
    public static void main(String[] args){
 
    }
