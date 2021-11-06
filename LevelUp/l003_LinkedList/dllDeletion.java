@@ -76,6 +76,7 @@ public class dllDeletion {
       }
       Node curr = head;
       head = head.next;
+      if(head!=null)
       head.prev = null;
       curr.next = null;
       return curr.data;

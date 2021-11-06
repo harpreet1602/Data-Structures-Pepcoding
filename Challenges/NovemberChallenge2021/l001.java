@@ -348,7 +348,59 @@ public int uniquePathsIII(int[][] grid) {
         ans += sumOfLeftLeaves(root.right);
         return ans;
     }
+// 441. Arranging Coins
+    public int arrangeCoins(int n) {
+        int rowcount = 0;
+        while(n>0){
+            rowcount++;
+            n = n - rowcount;
+        }
+        return n==0?rowcount:rowcount-1;
+    }
 
+    // https://www.codechef.com/NOV21C/problems/CHEAPFUEL
+    public static void solveCost(){
+        int t=scn.nextInt();
+		while(t-->0)
+	    {
+	     int x=scn.nextInt();
+	     int y=scn.nextInt();
+	     int a=scn.nextInt();
+	     int b=scn.nextInt();
+	     int k=scn.nextInt();
+	     
+	     x = x + a*k;
+	     y = y + b*k;
+	     if(x==y){
+	         System.out.println("SAME PRICE");
+	     }
+	     else if(x<y){
+	         System.out.println("PETROL");
+	     }
+	     else{
+	         System.out.println("DIESEL");
+	     }
+	    }
+    }
+    
+    // 260. Single Number III
+     public int[] singleNumber(int[] nums) {
+        int x =0,y=0,xor=0,xor_mask=0;
+        for(int ele:nums){
+            xor ^= ele;
+        }
+        xor_mask = (xor & (-xor));
+//         -xor = (~xor + 1)
+        for(int ele:nums){
+            if((ele&xor_mask) == 0){
+                x ^= ele;
+            }
+            else {
+                y ^=ele;
+            }
+        }
+        return new int[]{x,y};
+    }
     
    public static void main(String[] args){
 
