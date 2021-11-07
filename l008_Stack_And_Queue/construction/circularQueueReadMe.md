@@ -1,7 +1,7 @@
 # Circular Queue Explanation Video
-[Youtube Link]()
+[Youtube Link](https://youtu.be/fGJXVFIpAMs)
 ### There are 2 main operations in circular queue:
-1. Enqueue(x)
+1. Enqueue(value)
 2. Dequeue
 
 #### In this video, I have explained what is circular queue and discussed about its implementation through a menu driven program.

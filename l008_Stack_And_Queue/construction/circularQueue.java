@@ -1,5 +1,4 @@
 import java.util.Scanner;
-
 public class circularQueue {
     public static Scanner scn = new Scanner(System.in);
 
