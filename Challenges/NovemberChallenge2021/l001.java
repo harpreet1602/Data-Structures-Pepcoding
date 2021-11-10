@@ -1,4 +1,6 @@
-import java.util.ArrayList;
+import java.util.List;
+import java.util.HashSet;
+import java.util.HashMap;
 import java.util.Scanner;
 public class l001{
     // 130. Surrounded Regions
@@ -459,6 +461,55 @@ public int uniquePathsIII(int[][] grid) {
         }
         return dp[n];
     }
+
+    // 1178. Number of Valid Words for Each Puzzle
+    public List<Integer> findNumOfValidWords(String[] words, String[] puzzles) {
+        HashMap<Character,ArrayList<Integer>> map = new HashMap<>();
+        
+        for(int i=0;i<26;i++){
+            map.put((char)(i+'a'),new ArrayList<>());
+        }
+        
+        HashSet<Character> set = new HashSet<>();
+        for(String word:words){
+            int mask = 0;
+            for(char ch:word.toCharArray()){
+                int bit = (ch-'a');
+                mask = (mask | (1<<bit));
+            }
+            
+            for(char ch:word.toCharArray()){
+                if(set.contains(ch)){
+                   continue;
+                }
+                set.add(ch);
+                map.get(ch).add(mask);
+            }
+            set.clear();
+        }
+        
+        List<Integer> list = new ArrayList<>();
+        for(String puzzle:puzzles){
+            char ch = puzzle.charAt(0);
+            ArrayList<Integer> wordsToCheck = map.get(ch);
+            int pmask = 0, count=0;
+            for(char c:puzzle.toCharArray()){
+                pmask = pmask | (1<<(c-'a'));
+            }
+            
+            for(int wmask:wordsToCheck){
+                if((wmask&pmask) == wmask){
+                    count++;
+                }
+            }
+            
+            list.add(count);
+            
+            
+        }
+        return list;
+    }
+
    public static void main(String[] args){
 
    }
