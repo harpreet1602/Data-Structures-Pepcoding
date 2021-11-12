@@ -510,6 +510,126 @@ public int uniquePathsIII(int[][] grid) {
         return list;
     }
 
+
+    // 122. Best Time to Buy and Sell Stock II       
+    //     tc O(n)
+    //     sc O(1)
+    public int maxProfit(int[] prices) {
+        int i = 0, buy = 0, sell = 0, profit = 0, n = prices.length;
+        while(i<n-1){
+            while(i<n-1 && prices[i]>=prices[i+1]){
+                i++;
+            }
+            buy = prices[i];
+            while(i<n-1 && prices[i]<=prices[i+1]){
+                i++;
+            }
+            sell = prices[i];
+            profit += sell - buy;
+        }
+        return profit;
+        
+    }
+
+    //     1413. Minimum Value to Get Positive Step by Step Sum
+    //     tc O(n), sc O(n)
+    //     this is what I think
+    public int minStartValue1(int[] nums) {
+        int n = nums.length, min;
+        int[] prefix = new int[n];
+        prefix[0] = min = nums[0];
+        for(int i=1;i<n;i++){
+            prefix[i] = prefix[i-1] + nums[i];
+            min = Math.min(min,prefix[i]);
+        }
+        return min>=0?1:(min*-1) + 1;
+    }
+    //     this is what it should be
+    //     tc O(n), sc O(1)
+    public int minStartValue(int[] nums) {
+        int min = 0, prefix=0;
+        for(int ele:nums){
+            prefix += ele;
+            min = Math.min(min,prefix);
+        }
+        return min<0?Math.abs(min)+1:1;
+    }
+
+
+    // https://www.codechef.com/NOV21C/problems/MAKEPAL
+    // If the count of a character is even then there is no problem half of it will be in one side and the other 
+    // will be in the other side but when the count of the character is odd then we need to convert in some cases
+    // So the total count of the characters who have odd count of character is even then by dividing it by 2 gives the
+    // correct conversions but when total count is odd then one of the odd count character can stay in middle without
+    // conversion and the other has to get converted so here also by dividing it with 2 the lowerbound gives the
+    // correct value of conversion
+    public static void solvePal(){
+        int t=scn.nextInt();
+		while(t-->0)
+	    {
+	     int n=scn.nextInt(),count=0;
+	     for(int i=0;i<n;i++){
+	         int ele = scn.nextInt();
+	         if(ele%2!=0){
+	             count++;
+	         }
+	     }
+	     System.out.println(count/2);
+	    }
+    }
+	
+
+    public class ListNode {
+             int val;
+             ListNode next;
+             ListNode() {}
+             ListNode(int val) { this.val = val; }
+             ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+         }
+    // 203. Remove Linked List Elements
+    public ListNode removeElements(ListNode head, int val) {
+        if(head == null)
+            return null;
+        ListNode prev = null, curr = head,forw;
+        while(curr!=null){
+            forw = curr.next;
+            if(curr.val == val){
+                // System.out.println(curr.val);
+                if(prev!=null){
+                    prev.next = curr.next;
+                }
+                else{
+                    head = forw;
+                }
+               
+                curr.next = null;
+            }
+            else{
+            prev = curr;   
+            }
+            curr = forw; 
+        }
+        return head;
+    }
+    // dummy node way
+    public ListNode removeElements1(ListNode head, int val) {
+        ListNode dummy = new ListNode(-1);
+         dummy.next = head;
+        ListNode prev = dummy, curr = head, forw;
+        
+         while(curr!=null){
+             forw = curr.next;
+             if(curr.val == val){
+                 prev.next = forw;
+                 curr.next = null;
+             }
+             else{
+                 prev = curr;
+             }
+             curr = forw;
+         }
+         return dummy.next;
+     }
    public static void main(String[] args){
 
    }
