@@ -589,6 +589,12 @@ public List<List<Integer>> kSum(int[] nums,int target,int k,int si,int ei)
     }
 // O(log(min(n,m)))
 
+// pending
+// 2064
+// pending
+
+
+
 
 
     public static void main(String[] args){
