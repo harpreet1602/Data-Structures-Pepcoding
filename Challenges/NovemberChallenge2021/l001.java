@@ -630,6 +630,77 @@ public int uniquePathsIII(int[][] grid) {
          }
          return dummy.next;
      }
+
+
+    //  2070. Most Beautiful Item for Each Query
+     //     tle
+    public int[] maximumBeauty1(int[][] items, int[] queries) {
+        HashMap<Integer,Integer> map = new HashMap<>();
+        int[] ans = new int[queries.length];
+        for(int[] arr:items){
+            map.put(arr[0],Math.max(arr[1],map.getOrDefault(arr[0],0)));
+        }
+        
+        for(int j=0;j<queries.length;j++){
+            int max = 0;
+            // for(int i=0;i<=queries[j];i++){
+            
+            for(Integer key:map.keySet()){
+                if(key<=queries[j])
+            max = Math.max(map.getOrDefault(key,0),max);
+            }
+            // }
+            ans[j] = max;
+        }
+        return ans;
+    }
+    
+     public int[] maximumBeauty(int[][] items, int[] queries) {
+        Arrays.sort(items,(a,b)->{
+            return a[0]-b[0];
+        });
+//          sort the array on the basis of price
+         int n =items.length;
+        for(int i=1;i<n;i++){
+            items[i][1] = Math.max(items[i][1],items[i-1][1]);             
+        }         
+// store the maximum beauty till that price
+         int[] ans = new int[queries.length];
+         for(int q=0;q<queries.length;q++){
+             int si = 0, ei = n -1;
+             while(si<=ei){
+                 int mid = (si + (ei-si)/2);
+                 if(items[mid][0] <= queries[q]){
+                     si = mid + 1;
+                     ans[q] = Math.max(ans[q],items[mid][1]);
+                 }
+                 else{
+                     ei = mid - 1;
+                 }
+             }
+         }
+         return ans;
+     }
+
+    //  739. Daily Temperatures
+//     brute force check for the next greatest
+//     time O(n^2) space O(1)
+//     optimized: Monotonic Stack
+//    favourite of google 
+    public int[] dailyTemperatures(int[] temperatures) {
+        LinkedList<Integer> st = new LinkedList<>();
+        int n = temperatures.length;
+        int[] ans = new int[n];
+       
+        for(int i=0;i<n;i++){
+            while(st.size()!=0 && temperatures[st.getFirst()] < temperatures[i]){
+                // found the greater element for the st.getFirst() index
+                ans[st.getFirst()] = i- st.removeFirst();
+            }
+            st.addFirst(i);
+        }
+        return ans;
+    }
    public static void main(String[] args){
 
    }
