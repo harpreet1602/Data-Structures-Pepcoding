@@ -120,5 +120,153 @@ public void rotate1(int[] nums, int k) {
         return maxArea;
     }
 
+    // 3. Longest Substring Without Repeating Characters
+    public int lengthOfLongestSubstring(String s) {
+        int si = 0, n = s.length(), ei = 0,count = 0,len = 0;
+        int[] freq = new int[128];
+        // all the ascii characters
+        while(ei<n){
+            if(freq[s.charAt(ei)]==1){
+                count++;
+            }
+            freq[s.charAt(ei)]++;
+            ei++;
+            while(count>0){
+                if(freq[s.charAt(si)] > 1){
+                    count--;
+                }
+                freq[s.charAt(si)]--;
+                si++;
+            }
+            len = Math.max(len,ei-si);
+        }
+        return len;
+    }
+
+    //https://www.lintcode.com/problem/928
+    // 928 · Longest Substring with At Most Two Distinct Characters 
+    public int lengthOfLongestSubstringTwoDistinct(String s) {
+        // Write your code here
+        int si = 0, ei = 0, n = s.length(), count = 0, len = 0;
+        int[] freq = new int[128];
+        while(ei<n){
+            if(freq[s.charAt(ei)] == 0){
+                count++;
+            }
+            freq[s.charAt(ei)]++;
+            ei++;
+
+            while(count>2){
+                if(freq[s.charAt(si)] == 1){
+                    count--;
+                }
+                freq[s.charAt(si)]--;
+                si++;
+            }
+            len = Math.max(len,ei-si);
+        }
+        return len;
+    }
     
+    // https://www.lintcode.com/problem/386
+    // 386 · Longest Substring with At Most K Distinct Characters
+    public int lengthOfLongestSubstringKDistinct(String s, int k) {
+        // write your code here
+         int si = 0, ei = 0, n = s.length(), count = 0, len = 0;
+        int[] freq = new int[128];
+        while(ei<n){
+            if(freq[s.charAt(ei)] == 0){
+                count++;
+            }
+            freq[s.charAt(ei)]++;
+            ei++;
+
+            while(count>k){
+                if(freq[s.charAt(si)] == 1){
+                    count--;
+                }
+                freq[s.charAt(si)]--;
+                si++;
+            }
+            len = Math.max(len,ei-si);
+        }
+        return len;
+    }
+
+    // Longest K unique characters substring 
+    // https://practice.geeksforgeeks.org/problems/longest-k-unique-characters-substring0853/1#
+    public int longestkSubstr(String s, int k) {
+        // code here
+          int si = 0, ei = 0, n = s.length(), count = 0, len = -1;
+        int[] freq = new int[128];
+        while(ei<n){
+            if(freq[s.charAt(ei)] == 0){
+                count++;
+            }
+            freq[s.charAt(ei)]++;
+            ei++;
+
+            while(count>k){
+                if(freq[s.charAt(si)] == 1){
+                    count--;
+                }
+                freq[s.charAt(si)]--;
+                si++;
+            }
+            if(count==k)
+            len = Math.max(len,ei-si);
+        }
+        return len;
+    }
+
+
+    // 76. Minimum Window Substring
+
+    public String minWindow(String s, String t) {
+        int si = 0, ei = 0, n = s.length(), len = (int)1e9, gsi = 0, need=0;
+        int[] requirements = new int[128];
+        for(int i=0;i<t.length();i++){
+            requirements[t.charAt(i)]++;
+            need++;
+        }
+        
+        while(ei<n){
+            if(requirements[s.charAt(ei)] > 0){
+                need--;
+            }
+            requirements[s.charAt(ei)]--;
+            ei++;
+            
+            while(need == 0){
+                if((ei-si)<len){
+                gsi = si;
+                len = ei-si;
+                }
+                if(requirements[s.charAt(si)]==0){
+                    need++;
+                }
+                requirements[s.charAt(si)]++;
+                si++;
+            }
+            
+        }
+        return len==(int)1e9?"":s.substring(gsi,gsi+len);
+    }
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }

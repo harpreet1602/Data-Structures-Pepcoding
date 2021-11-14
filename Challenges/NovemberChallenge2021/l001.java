@@ -2,6 +2,11 @@ import java.util.List;
 import java.util.HashSet;
 import java.util.HashMap;
 import java.util.Scanner;
+import java.util.LinkedList;
+import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.Collections;
+
 public class l001{
     // 130. Surrounded Regions
     // Time: O(n^2), Space: O(1)
@@ -701,6 +706,113 @@ public int uniquePathsIII(int[][] grid) {
         }
         return ans;
     }
+
+    // 1286. Iterator for Combination    
+    class CombinationIterator {
+
+        public List<String> list = new ArrayList<>();
+        
+        public int combinations(String characters,int k,int val,StringBuilder sb){
+            if(k==0){
+                list.add(sb.toString());
+                return 1;
+            }
+            
+            int count=0;
+            for(int i=val;i<characters.length();i++){
+                sb.append(characters.charAt(i));
+                count += combinations(characters,k-1,i+1,sb);
+                sb.deleteCharAt(sb.length()-1);
+            }
+            return count;
+        }
+        public CombinationIterator(String characters, int combinationLength) {
+            combinations(characters,combinationLength,0,new StringBuilder());
+        }
+        
+        
+        
+        public String next() {
+            if(hasNext()){
+                String str = list.get(0);
+                list.remove(0);
+                return str;
+            }
+            return "";
+        }
+        
+        public boolean hasNext() {
+            return list.size()>0;
+        }
+    }
+    
+    /**
+     * Your CombinationIterator object will be instantiated and called as such:
+     * CombinationIterator obj = new CombinationIterator(characters, combinationLength);
+     * String param_1 = obj.next();
+     * boolean param_2 = obj.hasNext();
+     */
+
+    //  https://www.codechef.com/NOV21C/problems/HILLSEQ 
+
+    public static void solvehill(){
+        int t=scn.nextInt();
+		while(t-->0)
+	    {
+	     int n=scn.nextInt();
+	     int[] arr = new int[n];
+	     int max = -(int)1e9;
+	     HashMap<Integer,Integer> map = new HashMap();
+	     boolean flag = true;
+	     for(int i=0;i<n;i++){
+	         arr[i] = scn.nextInt();
+	         map.put(arr[i],map.getOrDefault(arr[i],0)+1);
+	         max = Math.max(max,arr[i]);
+	     }
+	     
+	     for(Integer key:map.keySet()){
+	         if(map.get(key)>2)
+	         {
+	            flag = false;
+	         }
+	     }
+	     if(!flag || map.get(max)>1){
+	         System.out.println(-1);
+	         continue;
+	     }
+	     
+	     
+	     ArrayList<Integer> arr1 = new ArrayList<>();
+	     ArrayList<Integer> arr2 = new ArrayList<>();
+	      for(Integer key:map.keySet()){
+	         if(map.get(key)==1)
+	         {
+	            arr2.add(key);
+	         }
+	         else if(map.get(key)==2){
+	             arr1.add(key);
+	             arr2.add(key);
+	         }
+	         
+	     }
+	    
+	    Collections.sort(arr1);
+	    Collections.sort(arr2, Collections.reverseOrder());
+
+	    for(int ele:arr1){
+	        System.out.print(ele+" ");
+	    }
+	    for(int ele:arr2){
+	        System.out.print(ele+" ");
+	    }
+	     
+	         
+	     
+	     System.out.println();
+	    }
+    }
+
+
    public static void main(String[] args){
 
    }
