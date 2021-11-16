@@ -812,6 +812,92 @@ public int uniquePathsIII(int[][] grid) {
 	    }
     }
 
+    // Maximise the bridges 
+    // https://www.codechef.com/problems/MAXBRIDGE
+    public static void solveBridge(){
+        int t=scn.nextInt();
+		while(t-->0)
+	    {
+	        int n=scn.nextInt();
+	        int m=scn.nextInt();
+	        for(int i=1;i<n;i++){
+	            m--;
+	           System.out.print(i + " " + (i+1) +"\n");
+	        }
+	        
+	        for(int i=3;i<=n;i++){
+	            for(int j=1;j<=i-2;j++){
+	                if(m-->0)
+	                System.out.print(i + " " + j +"\n");
+	                else
+	                break;
+	            }
+	        }
+	    }
+    }
+
+    //   368. Largest Divisible Subset
+    public int getMaximumSubsequence(int[] nums,int[] dp)
+    {
+        int n = nums.length,max = 1;
+        for(int i=1;i<n;i++){
+            for(int j=0;j<i;j++){
+                if(nums[i]%nums[j] == 0){
+                    dp[i] = Math.max(dp[i],dp[j]+1);
+                }
+            }
+            max = Math.max(max,dp[i]);
+        }
+        return max;
+    }
+    public List<Integer> largestDivisibleSubset(int[] nums,int[] dp,int max){
+        int idx = dp.length-1, prev = 0;
+        LinkedList<Integer> list = new LinkedList<>();
+        while(max>0 && idx>=0){
+            if(dp[idx] == max && prev%nums[idx] == 0){
+                list.addFirst(nums[idx]);  
+                max--;
+                prev = nums[idx];
+            }
+            idx--;            
+        }
+        return list;
+    } 
+    public List<Integer> largestDivisibleSubset(int[] nums) {
+        int n = nums.length;
+        int[] dp = new int[n];
+        Arrays.sort(nums);
+        Arrays.fill(dp,1);
+        int max = getMaximumSubsequence(nums,dp);
+        return largestDivisibleSubset(nums,dp,max);
+    }
+
+
+    // 668. Kth Smallest Number in Multiplication Table
+    // time O(mlog(m*n)) space O(1)
+    private int getCount(int mid,int m,int n,int k){
+        int count = 0;
+        for(int i=1;i<=m;i++){
+            count += Math.min(mid/i,n);
+        }
+        return count;
+    }
+    public int findKthNumber(int m, int n, int k) {
+        int low = 1, high = m*n, mid=0, count=0;
+        while(low<high){
+            mid = (low + ((high-low)/2));
+            count = getCount(mid,m,n,k);
+            if(count>=k)
+            {
+                high = mid;
+            }
+            else{
+                low = mid+1;
+            }
+        }
+        return low;
+    }
+
 
    public static void main(String[] args){
 
