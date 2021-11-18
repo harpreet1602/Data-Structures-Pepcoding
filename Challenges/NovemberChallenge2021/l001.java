@@ -898,6 +898,228 @@ public int uniquePathsIII(int[][] grid) {
         return low;
     }
 
+//     tc O(m*n)
+//     sc O(m*n)
+//     as we only have two directions that is why we don't need visited check
+    public int uniquePaths(int sr,int sc,int m, int n,int[][] dir,int[][] dp) {
+        if(sr == m-1 && sc == n-1){
+            return dp[sr][sc] = 1;
+        }
+        if(dp[sr][sc]!=0){
+            return dp[sr][sc];
+        }
+        int count = 0;
+        for(int[] d:dir){
+            int r = sr + d[0];
+            int c = sc + d[1];
+            if(r>=0 && c>=0 && r<m && c<n){
+                count += uniquePaths(r,c,m,n,dir,dp);
+            }
+        }
+        return dp[sr][sc] = count;
+    }
+    
+    public int uniquePaths(int m, int n) {
+        int[][] dir = {{0,1},{1,0}};
+        int[][] dp = new int[m][n];
+        return uniquePaths(0,0,m,n,dir,dp);
+    }
+    
+    // Starters 17
+    // https://www.codechef.com/START17B/problems/NEWPIECE
+    // New Piece
+    public static void solvePiece(){
+        int t=scn.nextInt();
+		while(t-->0)
+	    {
+	     int a=scn.nextInt();
+	     int b=scn.nextInt();
+	     int p=scn.nextInt();
+	     int q=scn.nextInt();
+	     int sum1 = a+b;
+	     int sum2 = p+q;
+	     
+	     if(a==p && b == q){
+	         System.out.println(0);
+	     }
+	     else if(sum1%2==0 && sum2%2==0){
+	         System.out.println(2);
+	     }
+	     
+	     else if(sum1%2!=0 && sum2%2!=0){
+	         System.out.println(2);
+	     }
+	     
+	     else{
+	         System.out.println(1);
+	     }
+	    }
+    }
+
+    // https://www.codechef.com/START17B/problems/GCDPRF
+    // GCD of Prefixes
+    public static void solveGCD(){
+        int t=scn.nextInt();
+		while(t-->0)
+	    {
+	     int n=scn.nextInt();
+	     int[] a = new int[n];
+	     for(int i=0;i<n;i++){
+	         a[i] = scn.nextInt();
+	     }
+	     int div = 1;
+	     for(int i=1;i<n;i++){
+	         if(a[i-1]%a[i]!=0){
+	             div = 0;
+	             break;
+	         }
+	     }
+	     if(div == 0){
+	         System.out.println(-1);
+	     }
+	     else{
+	      
+	     for(int i=0;i<n;i++){
+	           System.out.print(a[i]+" ");
+	     }   
+	     System.out.println();
+	     }
+	    }
+    }
+
+    // https://www.codechef.com/problems/BININV
+    // Binary Inversion 
+    public static int count(String s){
+        int count=0;
+        for(int i=0;i<s.length();i++){
+            if(s.charAt(i) == '1')
+            count++;
+        }
+        return count;
+    }
+    public static long getinvs(String s){
+         long onecount = 0, ans = 0;
+        for(int i=0;i<s.length();i++){
+            char ch = s.charAt(i);
+            if(ch == '1'){
+              onecount++;  
+            }
+            if(ch=='0'){
+                ans += onecount;
+            }
+        }
+        return ans;
+    }
+
+    public static class MyComparator implements Comparator<String> {
+             public int compare(String s1, String s2){
+                return count(s1) - count(s2);
+            }
+    }
+    public static void solveInversion(){
+        int t=scn.nextInt();
+		while(t-->0)
+	    {
+	        int n = scn.nextInt();
+	        int m = scn.nextInt();
+	        ArrayList<String> arr = new ArrayList<>();
+	        for(int i=0;i<n;i++){
+	            arr.add(scn.next());
+	        }
+	        
+            Collections.sort(arr, new MyComparator());
+            StringBuilder sb = new StringBuilder();
+            
+            for(int i=0;i<arr.size();i++){
+                String s = arr.get(i);
+                sb.append(s);
+            }
+            
+            System.out.println(getinvs(sb.toString()));
+	    }
+    }
+
+
+    // https://www.codechef.com/START17B/problems/STRADJ
+    // String Game 
+
+    public static void solveArray(){
+        int t=scn.nextInt();
+		while(t-->0)
+	    {
+            int n=scn.nextInt();
+            String s = scn.next();
+              
+            int c0 = 0, c1 = 0;
+            for(int i=0;i<n;i++){
+               char ch = s.charAt(i);
+               if(ch == '0'){
+                   c0++;
+               }else{
+                   c1++;
+               }
+             }
+    
+           if (Math.min(c0, c1) == 0) {
+                System.out.println("Bob");
+           }
+           
+           else if (Math.min(c0, c1) == 1) {
+                System.out.println("Alice");
+           }
+           else{
+               if(n%2==0){
+                System.out.println("Bob");
+               }
+               else{
+                   System.out.println("Alice");
+               }
+           }
+    	  }
+    }
+
+    // 448. Find All Numbers Disappeared in an Array
+    //     time O(n), space O(n)
+    public List<Integer> findDisappearedNumbers1(int[] nums) {
+        int n = nums.length;
+        List<Integer> list = new ArrayList<>();
+
+        int[] hash = new int[n+1];
+        
+        for(int i=0;i<n;i++){
+            hash[nums[i]]++;
+        }
+        for(int i=1;i<hash.length;i++){
+            if(hash[i]==0){
+                list.add(i);
+            }
+        }
+        return list;
+    }
+
+    //     time O(n) space O(1)
+    // Whatever element is found in the array let us ignore that and only leave those elements in the array which are missing. 
+    public List<Integer> findDisappearedNumbers(int[] nums) {
+        int n = nums.length, idx = 0;
+        List<Integer> list = new ArrayList<>();
+
+        for(int i=0;i<n;i++){
+                idx = Math.abs(nums[i]) - 1;
+                
+                if(nums[idx]>0)
+                nums[idx] = -nums[idx];
+        }
+        
+        for(int i=0;i<n;i++){
+            if(nums[i]>0){
+                list.add(i+1);
+            }
+        }
+        return list;
+    }
+
+
+
 
    public static void main(String[] args){
 
