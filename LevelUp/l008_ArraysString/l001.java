@@ -1,3 +1,7 @@
+import java.util.HashMap;
+import java.util.PriorityQueue;
+import java.util.Deque;
+import java.util.ArrayDeque;
 public class l001{
     
 // Right Rotate Array by k
@@ -253,7 +257,159 @@ public void rotate1(int[] nums, int k) {
         return len==(int)1e9?"":s.substring(gsi,gsi+len);
     }
 
+
+    // 2 pending 
+
+    // 1456
+
+
+
+
+    // 992. Subarrays with K Different Integers
+    public int subarraysWithAtmostKDistinct(int[] nums, int k){
+        int si = 0 , ei = 0, count = 0, ans = 0, n = nums.length;
+        HashMap<Integer,Integer> map = new HashMap<>();
+        while(ei<n){
+            if(!map.containsKey(nums[ei])){
+                count++;
+            }
+            map.put(nums[ei],map.getOrDefault(nums[ei],0)+1);
+            ei++;
+            
+            while(count>k){
+                if(map.get(nums[si]) == 1)
+                {
+                    count--;
+                }
+                map.put(nums[si],map.get(nums[si])-1);
+                if(map.get(nums[si]) == 0)
+                    map.remove(nums[si]);
+                si++;
+            }
+            ans += ei-si;
+        }
+        return ans;
+    }
+    public int subarraysWithKDistinct(int[] nums, int k) {
+        return subarraysWithAtmostKDistinct(nums, k) - subarraysWithAtmostKDistinct(nums, k - 1);  
+    }
+
+
+
+    // runtime faster but more space taken but still a better choice to use freq array than a HashMap
+    public int subarraysWithAtmostKDistinct1(int[] nums, int k){
+        int si = 0 , ei = 0, count = 0, ans = 0, n = nums.length;
+        int[] freq = new int[20001];
+        while(ei<n){
+            if(freq[nums[ei]] == 0){
+                count++;
+            }
+            freq[nums[ei]]++;
+            ei++;
+            
+            while(count>k){
+                if(freq[nums[si]] == 1)
+                {
+                    count--;
+                }
+                freq[nums[si]]--;
+                si++;
+            }
+            ans += ei-si;
+        }
+        return ans;
+    }
+    public int subarraysWithKDistinct1(int[] nums, int k) {
+        return subarraysWithAtmostKDistinct1(nums, k) - subarraysWithAtmostKDistinct1(nums, k - 1);  
+    }
+
+
+    // 1248. Count Number of Nice Subarrays
+      public int subarraysWithAtmostKOdd(int[] nums, int k){
+        int si = 0 , ei = 0, count = 0, ans = 0, n = nums.length;
+
+        while(ei<n){
+            if(nums[ei] % 2 != 0){
+                count++;
+            }
+            ei++;
+            
+            while(count>k){
+                if(nums[si] % 2 != 0)
+                {
+                    count--;
+                }
+                si++;
+            }
+            ans += ei-si;
+        }
+        return ans;
+    }
+    public int numberOfSubarrays(int[] nums, int k) {
+        return subarraysWithAtmostKOdd(nums, k) - subarraysWithAtmostKOdd(nums, k - 1);
+    }
+
+
+    // 239. Sliding Window Maximum
     
+    public int[] maxSlidingWindow(int[] nums, int k) {
+        PriorityQueue<Integer> pq = new PriorityQueue<>((a,b)->{
+            return nums[b] - nums[a];
+        });
+        
+        int idx = 0, n= nums.length;
+        int[] ans = new int[n-k+1];
+        
+        for(int i=0;i<n;i++){
+            while(pq.size()>0 && pq.peek()<=i-k){
+                pq.remove();
+            }
+            
+            pq.add(i);
+            if(i>=k-1){
+                ans[idx++] = nums[pq.peek()];
+            }
+        }
+        return ans;
+    }
+
+
+        
+
+        
+    //     time O(n) space O(n)
+    public int[] maxSlidingWindow1(int[] nums, int k) {
+        int n = nums.length, idx=0;
+        Deque<Integer> dq = new ArrayDeque<>();
+        
+        int[] ans = new int[n-k+1];
+        for(int i=0;i<n;i++){
+    //             1.find the front is in range or not
+            while(dq.size()>0 && dq.peek()<=i-k){
+                dq.remove();
+            }
+            
+    //             2.check whether the last ele is smaller than or equal to current ele
+            while(dq.size()>0 && nums[dq.peekLast()]<=nums[i]){
+                dq.removeLast();
+            }
+    //             3.add myself
+            dq.add(i);
+            
+            if(i>=k-1){
+                ans[idx++] = nums[dq.peek()];
+            }
+        }
+        return ans;
+    }
+
+
+
+
+
+
+
+
 
 
 

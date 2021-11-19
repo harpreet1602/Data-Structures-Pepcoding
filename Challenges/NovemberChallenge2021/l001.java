@@ -1118,7 +1118,18 @@ public int uniquePathsIII(int[][] grid) {
         return list;
     }
 
-
+    // 461. Hamming Distance
+    public int hammingDistance(int x, int y) {
+        int count=0;
+        int xor = x^y;
+        for(int i=0;i<32;i++){
+            // System.out.println((1<<i));
+            if((xor&(1<<i))!=0)
+                count++;
+        }
+        return count;
+    }
+    
 
 
    public static void main(String[] args){
