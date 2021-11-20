@@ -403,8 +403,181 @@ public void rotate1(int[] nums, int k) {
         return ans;
     }
 
+    // 904. Fruit Into Baskets
+    public int totalFruit(int[] fruits) {
+        int si = 0, ei = 0, n = fruits.length, count =0, ans = -(int)1e9;
+        int[] freq = new int[100001];
+        while(ei<n){
+            if(freq[fruits[ei]]==0){
+                count++;
+            }
+            freq[fruits[ei]]++;
+            ei++;
+            while(count>2){
+                if(freq[fruits[si]] == 1){
+                    count--;
+                }
+                freq[fruits[si]]--;
+                si++;
+            }
+            ans = Math.max(ans,ei-si);
+        }
+        return ans;
+    }
+
+    // 930. Binary Subarrays With Sum
+    public int numSubarraysWithAtmostSum(int[] nums, int goal){
+        int n = nums.length,si = 0, ei = 0, ans = 0, sum = 0;
+        while(ei<n){
+            sum += nums[ei];
+            ei++;
+            while(sum>goal){
+                sum -= nums[si];
+                si++;
+            }
+            ans += ei-si;
+        }
+        return ans;
+    }
+    public int numSubarraysWithSum(int[] nums, int goal) {
+        if(goal == 0){
+            return numSubarraysWithAtmostSum(nums, goal);
+        }
+        return numSubarraysWithAtmostSum(nums, goal) - numSubarraysWithAtmostSum(nums, goal -1); 
+    }
+
+    // 485. Max Consecutive Ones
+
+    public int findMaxConsecutiveOnes(int[] nums) {
+        int n = nums.length, si = 0, ei = 0, max = 0, count=0;
+        
+        while(ei<n){
+            if(nums[ei] == 0){
+                count++;
+            }
+            ei++;
+            while(count>0){
+                if(nums[si] == 0){
+                    count--;
+                }
+                si++;
+//                 or
+                // count--;
+                // si = ei;
+            }
+            max = Math.max(max,ei-si);
+        }
+        return max;
+    }
+
+    // https://www.lintcode.com/problem/883/
+    // 883 · Max Consecutive Ones II
+
+    public int findMaxConsecutiveOnesFlip1(int[] nums) {
+        // write your code here
+        int si = 0 , ei = 0, n = nums.length, count = 0, max = 0;
+        while(ei<n){
+            if(nums[ei] == 0){
+                count++;
+            }
+            ei++;
+            while(count>1){
+                if(nums[si] == 0){
+                    count--;
+                }
+                si++;
+            }
+            max = Math.max(max,ei-si);
+        }
+        return max;
+    }
 
 
+    // 974. Subarray Sums Divisible by K
+    public int subarraysDivByK(int[] nums, int k) {
+        int sum = 0, rem = 0, ans = 0;
+        int[] res = new int[k];
+        res[0] = 1;
+        for(int i=0;i<nums.length;i++){
+            sum += nums[i];
+            sum = sum%k;
+            rem = (sum+k)%k;
+                
+            ans +=res[rem];
+            res[rem]++;
+            
+        }
+        return ans;
+    }
+    
+    // 523. Continuous Subarray Sum
+    public boolean checkSubarraySum(int[] nums, int k) {
+        HashMap<Integer,Integer> map = new HashMap<>();
+        int sum = 0, rem = 0;
+        map.put(0,-1);
+        for(int i=0;i<nums.length;i++){
+            sum += nums[i];
+            sum = sum%k;
+            rem = (sum+k)%k;
+            if(map.containsKey(rem)){
+                if((i - map.get(rem)) >= 2){
+                    return true;
+                }
+            }else{
+                map.put(rem,i);
+            }
+        }
+        return false;
+    }
+
+    // 525. Contiguous Array
+    public int findMaxLength(int[] nums) {
+        HashMap<Integer,Integer> map = new HashMap<>();
+        int sum = 0, ans = 0;
+        map.put(0,-1);
+//         sum,index
+        for(int i=0;i<nums.length;i++){
+            sum += nums[i];
+//             consider 0 as -1
+            if(nums[i] == 0) sum-=1;
+            
+            if(map.containsKey(sum)){
+                ans = Math.max(ans,i-map.get(sum));
+            }else
+            {
+                map.put(sum,i);
+            }
+        }
+        return ans;
+    }
+
+
+    // https://practice.geeksforgeeks.org/problems/count-subarrays-with-equal-number-of-1s-and-0s-1587115620/1#
+    // Subarrays with equal 1s and 0s 
+    //Function to count subarrays with 1s and 0s.
+    static int countSubarrWithEqualZeroAndOne(int nums[], int n)
+    {
+        // add your code here
+        HashMap<Integer,Integer> map = new HashMap<>();
+        int sum = 0, ans = 0;
+        map.put(0,1);
+//         sum,index
+        for(int i=0;i<nums.length;i++){
+            sum += nums[i];
+//             consider 0 as -1
+            if(nums[i] == 0) sum-=1;
+            
+            if(map.containsKey(sum)){
+                ans += map.get(sum);
+                map.put(sum,map.get(sum)+1);
+            }else
+            {
+                map.put(sum,1);
+            }
+        }
+        return ans;
+        
+    }
 
 
 

@@ -1129,6 +1129,44 @@ public int uniquePathsIII(int[][] grid) {
         }
         return count;
     }
+
+    // 540. Single Element in a Sorted Array
+//     xor of all will give the ans
+//     time: O(n), space O(1)
+    public int singleNonDuplicate1(int[] nums) {
+        int xor = 0;
+        for(int ele:nums){
+            xor ^= ele;
+        }
+        return xor;
+    }
+    
+//     as the array is sorted so use this to optimize the solution
+//     use binary search
+//     time: O(log n), space O(1)
+        public int singleNonDuplicate(int[] nums) {
+            int n = nums.length, low = 0, high = n-1;
+            while(low<high){
+                int mid = low + (high- low)/2;
+                if(mid%2 == 0){
+                    if(nums[mid]==nums[mid+1]){
+                        low = mid+2;
+                    }
+                    else{
+                        high = mid;
+                    }
+                }
+                else{
+                    if(nums[mid] == nums[mid-1]){
+                        low = mid+1;
+                    }
+                    else{
+                        high = mid;
+                    }
+                }
+            }
+            return nums[low];
+        }
     
 
 
