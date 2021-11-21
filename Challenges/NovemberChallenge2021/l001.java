@@ -1169,6 +1169,65 @@ public int uniquePathsIII(int[][] grid) {
         }
     
 
+        // 106. Construct Binary Tree from Inorder and Postorder Traversal
+        private int pos;
+        //    time O(n^2), space O(1)
+            public TreeNode buildTree1(int[] inorder,int[] postorder,int si,int ei){
+                if(pos<0 || si>ei){
+                    return null;
+                }
+                
+                int val = postorder[pos--];
+                TreeNode node = new TreeNode(val);
+                int i = si;
+                for(;i<=ei;i++){
+                    if(inorder[i] == val){
+                        break;
+                    }
+                }
+                TreeNode right = buildTree1(inorder,postorder,i+1,ei);
+                TreeNode left = buildTree1(inorder,postorder,si,i-1);
+                
+                node.right = right;
+                node.left = left;
+                return node;
+            }
+            
+            public TreeNode buildTree1(int[] inorder, int[] postorder) {
+                pos = postorder.length-1;
+                return buildTree1(inorder,postorder,0,inorder.length-1);
+            }
+                
+            
+        
+        //    time O(n), space O(n)
+             public TreeNode buildTree(int[] inorder,int[] postorder,int si,int ei,HashMap<Integer,Integer> map){
+                if(pos<0 || si>ei){
+                    return null;
+                }
+                
+                int val = postorder[pos--];
+                TreeNode node = new TreeNode(val);
+                int i = map.get(val);
+                TreeNode right = buildTree(inorder,postorder,i+1,ei,map);
+                TreeNode left = buildTree(inorder,postorder,si,i-1,map);
+                
+                node.right = right;
+                node.left = left;
+                return node;
+            }
+            
+            
+            
+            public TreeNode buildTree(int[] inorder, int[] postorder) {
+                pos = postorder.length-1;
+                HashMap<Integer,Integer> map = new HashMap<>();
+                for(int i=0;i<inorder.length;i++){
+                    map.put(inorder[i],i);
+                }
+                return buildTree(inorder,postorder,0,inorder.length-1,map);
+            }
+
 
    public static void main(String[] args){
 
