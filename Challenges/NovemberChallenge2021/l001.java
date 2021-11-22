@@ -1230,36 +1230,78 @@ public int uniquePathsIII(int[][] grid) {
 
             // 450. Delete Node in a BST
             
-         public static int maximum(TreeNode node)
-         {
-             return node==null?-(int)1e9:Math.max(Math.max(maximum(node.left),maximum(node.right)),node.val);
-         }
-     
-         public TreeNode deleteNode(TreeNode node, int data) {
-         // write your code here
-         if(node==null) return null;
-         if(node.val>data)
-         node.left=deleteNode(node.left,data);
-         else if(node.val<data)
-         node.right=deleteNode(node.right,data);
-         else
-         {
-             // 0 child and 1 child case is handled
-             if(node.left==null || node.right==null)
-             {
-                 return node.left!=null?node.left:node.right;
+            public static int maximum(TreeNode node)
+            {
+                return node==null?-(int)1e9:Math.max(Math.max(maximum(node.left),maximum(node.right)),node.val);
+            }
+        
+            public TreeNode deleteNode1(TreeNode node, int data) {
+            // write your code here
+            if(node==null) return null;
+            if(node.val>data)
+            node.left=deleteNode1(node.left,data);
+            else if(node.val<data)
+            node.right=deleteNode1(node.right,data);
+            else
+            {
+                // 0 child and 1 child case is handled
+                if(node.left==null || node.right==null)
+                {
+                    return node.left!=null?node.left:node.right;
+                }
+                else
+                {
+                    int leftmax=maximum(node.left);
+                    node.val=leftmax;
+                    node.left=deleteNode1(node.left,leftmax);
+                }
+            }
+            return node;
+        
+            }
+            
+            
+            
+            
+            
+             public TreeNode deleteNode(TreeNode node, int data) {
+                if(node == null){
+                    return null;
+                }
+                 
+                 if(data<node.val){
+                     node.left = deleteNode(node.left,data);
+                 }
+                 
+                 else if(data>node.val){
+                     node.right = deleteNode(node.right,data);
+                 }
+                 else{
+                     // node.val == data
+                     if(node.left == null && node.right == null){
+                         return null;
+                     }
+                     else if(node.left == null){
+                         return node.right;
+                     }
+                     else if(node.right == null){
+                         return node.left;
+                     }
+                     else{
+        //                  node.left != null && node.right != null
+                         TreeNode nextMinNode = node.right;
+                         while(nextMinNode.left!=null){
+                             nextMinNode = nextMinNode.left; 
+                         }
+                         
+                         nextMinNode.left = node.left;
+                         return node.right;
+                     }
+                 }
+                 return node;
+             
              }
-             else
-             {
-                 int leftmax=maximum(node.left);
-                 node.val=leftmax;
-                 node.left=deleteNode(node.left,leftmax);
-             }
-         }
-         return node;
-     
-         }
-     
+        
 
 
    public static void main(String[] args){
