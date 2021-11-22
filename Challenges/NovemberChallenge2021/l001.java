@@ -1228,6 +1228,39 @@ public int uniquePathsIII(int[][] grid) {
                 return buildTree(inorder,postorder,0,inorder.length-1,map);
             }
 
+            // 450. Delete Node in a BST
+            
+         public static int maximum(TreeNode node)
+         {
+             return node==null?-(int)1e9:Math.max(Math.max(maximum(node.left),maximum(node.right)),node.val);
+         }
+     
+         public TreeNode deleteNode(TreeNode node, int data) {
+         // write your code here
+         if(node==null) return null;
+         if(node.val>data)
+         node.left=deleteNode(node.left,data);
+         else if(node.val<data)
+         node.right=deleteNode(node.right,data);
+         else
+         {
+             // 0 child and 1 child case is handled
+             if(node.left==null || node.right==null)
+             {
+                 return node.left!=null?node.left:node.right;
+             }
+             else
+             {
+                 int leftmax=maximum(node.left);
+                 node.val=leftmax;
+                 node.left=deleteNode(node.left,leftmax);
+             }
+         }
+         return node;
+     
+         }
+     
+
 
    public static void main(String[] args){
 
