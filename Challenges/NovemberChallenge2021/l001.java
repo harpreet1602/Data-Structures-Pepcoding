@@ -6,7 +6,7 @@ import java.util.LinkedList;
 import java.util.Arrays;
 import java.util.ArrayList;
 import java.util.Collections;
-
+import java.util.Map;
 public class l001{
     // 130. Surrounded Regions
     // Time: O(n^2), Space: O(1)
@@ -1357,6 +1357,32 @@ public int uniquePathsIII(int[][] grid) {
 		}
 		return maxComponent;
 	}
+
+
+    // 986. Interval List Intersections
+    // time O(m+n) space O(m+n)
+    public int[][] intervalIntersection(int[][] firstList, int[][] secondList) {
+        int first = 0, second = 0, third = 0, n = firstList.length, m = secondList.length, mrow, mcol;
+//         because rows are unknown
+        List<int[]> list = new ArrayList<>();
+        while(first<n && second<m){
+            mrow = Math.max(firstList[first][0],secondList[second][0]);
+            mcol = Math.min(firstList[first][1],secondList[second][1]);
+            if(mrow<=mcol){
+                list.add(new int[]{mrow,mcol});
+            }
+            if(firstList[first][1]<secondList[second][1]){
+                first++;
+            }
+            else{
+                second++;
+            } 
+                
+        }
+        return list.toArray(new int[list.size()][2]);
+    
+    }
+        
 
 
 
