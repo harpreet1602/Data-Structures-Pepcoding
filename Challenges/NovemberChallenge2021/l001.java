@@ -1362,7 +1362,7 @@ public int uniquePathsIII(int[][] grid) {
     // 986. Interval List Intersections
     // time O(m+n) space O(m+n)
     public int[][] intervalIntersection(int[][] firstList, int[][] secondList) {
-        int first = 0, second = 0, third = 0, n = firstList.length, m = secondList.length, mrow, mcol;
+        int first = 0, second = 0, n = firstList.length, m = secondList.length, mrow, mcol;
 //         because rows are unknown
         List<int[]> list = new ArrayList<>();
         while(first<n && second<m){
@@ -1384,6 +1384,22 @@ public int uniquePathsIII(int[][] grid) {
     }
         
 
+     
+    // 53. Maximum Subarray
+    //     tc = O(n) sc = O(1)
+    public int maxSubArray(int[] nums) {
+        int maxsum = nums[0],currsum = nums[0];
+        for(int i=1;i<nums.length;i++){
+            if(currsum<0){
+                currsum = 0;
+            }
+            currsum += nums[i];
+            
+            maxsum = Math.max(maxsum,currsum);
+        }
+        return maxsum;
+        
+    }
 
 
 
