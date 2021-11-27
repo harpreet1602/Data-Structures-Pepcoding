@@ -1419,6 +1419,61 @@ public int uniquePathsIII(int[][] grid) {
         return low;
     }
 
+    // 238. Product of Array Except Self
+    public int[] productExceptSelf1(int[] nums) {
+        int n = nums.length;
+        int[] left = new int[n];
+        int[] right = new int[n];
+        int[] ans = new int[n];
+        
+        for(int i=0;i<n;i++){
+            left[i] = i>0?left[i-1]*nums[i]:nums[i];
+        }
+        
+        for(int i=n-1;i>=0;i--){
+            right[i] = i<n-1?right[i+1]*nums[i]:nums[i];
+        }
+        
+        for(int i=0;i<n;i++){
+            if(i>0 &&i<n-1){
+                ans[i] = left[i-1] * right[i+1];
+            }
+            else if(i==0){
+                ans[i] = right[i+1];
+            }
+            else if(i==n-1){
+                ans[i] = left[i-1];
+            }
+        }
+        return ans;
+        
+    }
+    public int[] productExceptSelf(int[] nums) {
+        int n = nums.length;
+        int[] left = new int[n];
+        int[] right = new int[n];
+        int[] ans = new int[n];
+        int leftPrefix = 1, rightPrefix=1;
+        for(int i=0;i<n;i++){
+            leftPrefix *= nums[i];
+            left[i] = leftPrefix;
+        }
+        
+        for(int i=n-1;i>=0;i--){
+            rightPrefix *= nums[i];
+            right[i] = rightPrefix;
+        }
+        
+        for(int i=0;i<n;i++){
+            int leftProduct = i>=1?left[i-1]:1;
+            int rightProduct = i<n-1?right[i+1]:1;
+            ans[i] = leftProduct*rightProduct;
+        }
+        return ans;
+    }
+
+    
+
    public static void main(String[] args){
 
    }
