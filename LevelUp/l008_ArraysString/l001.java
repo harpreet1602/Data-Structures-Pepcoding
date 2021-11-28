@@ -616,6 +616,7 @@ public void rotate1(int[] nums, int k) {
     }
 
     // 714. Best Time to Buy and Sell Stock with Transaction Fee
+    // everytime the transaction take place then subtract the fee also while buying
     public int maxProfit3(int[] prices, int fee) {
         int dpi0 = 0, dpi1 = -(int)1e9,dpi10;
         for(int i=0;i<prices.length;i++){
@@ -628,6 +629,8 @@ public void rotate1(int[] nums, int k) {
 
 
     // 309. Best Time to Buy and Sell Stock with Cooldown
+    // now while buying we need to take the i-2 profit in both the cases of resting or selling i-2 case will be 
+    // right for buying.
     public int maxProfit4(int[] prices) {
         int dpi0 = 0, dpi1 = -(int)1e9,dpi10,dpi20=0;
         for(int i=0;i<prices.length;i++){
@@ -644,6 +647,9 @@ public void rotate1(int[] nums, int k) {
 
 
 
+    
+    
+    // 188. Best Time to Buy and Sell Stock IV
 
 
 

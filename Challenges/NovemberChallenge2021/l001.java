@@ -1498,6 +1498,32 @@ public int uniquePathsIII(int[][] grid) {
     }
 
 
+    // 797. All Paths From Source to Target
+    public List<List<Integer>> allPathsSourceTarget(int[][] graph) {
+        List<List<Integer>> ans = new ArrayList<>();
+        LinkedList<List<Integer>> que = new LinkedList<>();
+        int si = 0, ei = graph.length-1;
+        que.add(Arrays.asList(si));
+        while(que.size()!=0){
+            int size = que.size();
+            while(size-->0){
+                List<Integer> list = que.removeFirst();
+                int lastNode = list.get(list.size()-1);
+                if(lastNode == ei){
+                    ans.add(list);
+                }else{
+                    for(int connection: graph[lastNode]){
+                        List<Integer> copy = new ArrayList<>(list);
+                        copy.add(connection);
+                        que.addLast(copy);
+                    }
+                }
+                
+            }
+        }
+        return ans;
+    }
+
     
 
    public static void main(String[] args){
