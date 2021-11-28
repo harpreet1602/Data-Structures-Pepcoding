@@ -1420,6 +1420,8 @@ public int uniquePathsIII(int[][] grid) {
     }
 
     // 238. Product of Array Except Self
+    // time O(n), space O(n)
+    
     public int[] productExceptSelf1(int[] nums) {
         int n = nums.length;
         int[] left = new int[n];
@@ -1471,6 +1473,30 @@ public int uniquePathsIII(int[][] grid) {
         }
         return ans;
     }
+
+    // Chef and Stock Prices
+    // https://www.codechef.com/LTIME102B/problems/CSTOCK
+    public static void solveStock(){
+        int t=scn.nextInt();
+		while(t-->0)
+	    {
+	     double s=scn.nextInt();
+	     double a=scn.nextInt();
+	     double b=scn.nextInt();
+	     double c=scn.nextInt();
+	     
+	     s += ((s*c)/100);
+	   //  System.out.println(s);
+	     if(s>=a && s<=b){
+	         System.out.println("Yes");
+	     }
+	     else{
+	         System.out.println("No");
+	     }
+	    
+	    }
+    }
+
 
     
 

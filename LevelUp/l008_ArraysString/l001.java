@@ -580,6 +580,67 @@ public void rotate1(int[] nums, int k) {
     }
 
 
+    // pending 21 november full class
+
+
+
+
+
+
+
+
+
+
+
+
+
+    // 121. Best Time to Buy and Sell Stock
+    public int maxProfit1(int[] prices) {
+        int dpi0 = 0, dpi1 = -(int)1e9;
+        for(int i=0;i<prices.length;i++){
+            dpi0 = Math.max(dpi0,dpi1+prices[i]);
+            dpi1 = Math.max(dpi1,0-prices[i]);
+        }
+        return dpi0;
+    }
+
+    // 122. Best Time to Buy and Sell Stock II
+    public int maxProfit2(int[] prices) {
+        int dpi0 = 0, dpi1 = -(int)1e9,dpi10;
+        for(int i=0;i<prices.length;i++){
+            dpi10=dpi0; //dp[i-1][0]
+            dpi0 = Math.max(dpi10,dpi1+prices[i]);
+            dpi1 = Math.max(dpi1,dpi10-prices[i]);
+        }
+        return dpi0;
+    }
+
+    // 714. Best Time to Buy and Sell Stock with Transaction Fee
+    public int maxProfit3(int[] prices, int fee) {
+        int dpi0 = 0, dpi1 = -(int)1e9,dpi10;
+        for(int i=0;i<prices.length;i++){
+            dpi10=dpi0; //dp[i-1][0]
+            dpi0 = Math.max(dpi10,dpi1+prices[i]);
+            dpi1 = Math.max(dpi1,dpi10-(prices[i]+fee));
+        }
+        return dpi0;
+    }
+
+
+    // 309. Best Time to Buy and Sell Stock with Cooldown
+    public int maxProfit4(int[] prices) {
+        int dpi0 = 0, dpi1 = -(int)1e9,dpi10,dpi20=0;
+        for(int i=0;i<prices.length;i++){
+            dpi10=dpi0; //dp[i-1][0]
+            dpi0 = Math.max(dpi10,dpi1+prices[i]);
+            dpi1 = Math.max(dpi1,dpi20-prices[i]);
+            dpi20 = dpi10;
+        }
+        return dpi0;
+    }
+
+    // 123. Best Time to Buy and Sell Stock III
+    
 
 
 
