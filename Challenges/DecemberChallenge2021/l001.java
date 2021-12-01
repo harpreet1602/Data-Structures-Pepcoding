@@ -1,5 +1,7 @@
+import java.util.Arrays;
+
 public class l001{
-    
+    // 198. House Robber
 //     time O(n) space O(n)
     public int rob1(int[] nums) {
         int n = nums.length,max=0;
@@ -23,9 +25,24 @@ public class l001{
         }
         return max;
     }
+      public int rob(int[] nums,int n,int[] dp) {
+         if(n<=0) return 0;
+         if(dp[n]!=-1) return dp[n];
+         int robCurr = nums[n-1] +  rob(nums,n-2,dp);   
+         int notRobCurr = rob(nums,n-1,dp);
+        
+         return dp[n] = Math.max(robCurr,notRobCurr);
+         
+      }
     
+     public int rob(int[] nums) {
+        int n = nums.length;
+        int[] dp = new int[n+1];
+        Arrays.fill(dp,-1);
+        return rob(nums,n,dp);
+     }
 //     time O(n) space O(1)
-    public int rob(int[] nums) {
+    public int rob2(int[] nums) {
         int n = nums.length,max=0,prev2,prev3,ans=0;
         if(n==1)
             return nums[0];
