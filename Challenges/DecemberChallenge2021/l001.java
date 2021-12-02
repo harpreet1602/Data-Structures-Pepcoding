@@ -64,4 +64,52 @@ public class l001{
         }
         return max;
     }
+
+    public class ListNode {
+             int val;
+             ListNode next;
+             ListNode() {}
+             ListNode(int val) { this.val = val; }
+             ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+         }
+    // 328. Odd Even Linked List
+    // O(n) time , O(1) space 
+    public ListNode oddEvenList1(ListNode head) {
+        ListNode even = new ListNode(-1);
+        ListNode odd = new ListNode(-1);
+        int count = 0;
+        ListNode ptr = head, ep=even, op = odd;
+        while(ep!=null){
+            count++;
+            if(count%2!=0){
+                if(ptr==null)
+                    break;
+                op.next = ptr;
+                op = ptr;
+            }
+            else{
+                ep.next = ptr;
+                ep = ptr;
+            }
+            if(ptr!=null)
+            ptr = ptr.next;
+        }
+        op.next = even.next;
+        return odd.next;
+    }
+    
+    public ListNode oddEvenList(ListNode head) {
+        if(head!=null){
+            ListNode odd = head, even = head.next, evenhead = even;
+            while(even!=null && even.next!=null){
+                odd.next = odd.next.next;
+                even.next = even.next.next;
+                odd = odd.next;
+                even = even.next;
+            }
+            odd.next = evenhead;
+        }
+        return head;
+    }
+
 }

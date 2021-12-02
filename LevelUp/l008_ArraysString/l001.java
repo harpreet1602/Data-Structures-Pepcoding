@@ -643,17 +643,98 @@ public void rotate1(int[] nums, int k) {
     }
 
     // 123. Best Time to Buy and Sell Stock III
+    // just analyse the pattern of as there are only 2 transactions allowed so analyse by finding the four values
+    // in dry run that how are the values coming when we sell at ith day with k transactions with x = 0
+    // and when we sell at ith day with k transactions with x = 1
+//     time O(n) space O(n)
+    public int maxProfit31(int[] prices) {
+        int n = prices.length, k = 2, x = 2;
+        int[][][] dp = new int[n+1][k+1][x];
+        for(int i = 0; i<=n ;i++){
+            dp[i][0][1] = -(int)1e9;
+        }
+        for(int i = 0 ;i <= k; i++){
+            dp[0][i][1] = -(int)1e9;
+        }
+        for(int i = 1; i <= n; i++){
+           dp[i][1][0] = Math.max(dp[i-1][1][0],dp[i-1][1][1]+prices[i-1]);
+           dp[i][2][0] = Math.max(dp[i-1][2][0],dp[i-1][2][1]+prices[i-1]);
+           dp[i][1][1] = Math.max(dp[i-1][1][1],dp[i-1][0][0]-prices[i-1]);
+           dp[i][2][1] = Math.max(dp[i-1][2][1],dp[i-1][1][0]-prices[i-1]);
+        }
+        return dp[n][k][0];
+    }
     
+        public int maxProfit(int[] prices) {
+        int n = prices.length, K=2, X = 2;
+        int[][][] dp = new int[n+1][K+1][X];
+        for(int i = 0; i<=n ;i++){
+            dp[i][0][1] = -(int)1e9;
+        }
+        for(int i = 0 ;i <= K; i++){
+            dp[0][i][1] = -(int)1e9;
+        }
+        for(int i = 1; i <= n; i++){
+            for(int k=1;k<=K;k++){
+                for(int x=0;x<X;x++){
+                    if(x==0){
+                        dp[i][k][0] = Math.max(dp[i-1][k][0],dp[i-1][k][1]+prices[i-1]); 
+                        
+                    }else{
+                        dp[i][k][1] = Math.max(dp[i-1][k][1],dp[i-1][k-1][0]-prices[i-1]);
+                    }
+                }
+            }
+        }
+        return dp[n][K][0];
+    }
+    
+//     time O(n) space O(1)
+     public int maxProfit3(int[] prices) {
+        int n = prices.length, dpi10=0,dpi20=0,dpi11=-(int)1e9,dpi21=-(int)1e9;
+        
+        for(int i = 1; i <= n; i++){
+           dpi20 = Math.max(dpi20,dpi21+prices[i-1]);
+           dpi21 = Math.max(dpi21,dpi10-prices[i-1]);
+           dpi10 = Math.max(dpi10,dpi11+prices[i-1]);
+           dpi11 = Math.max(dpi11,0-prices[i-1]);
+           }
+        return dpi20;
+    }    
 
 
 
     
     
     // 188. Best Time to Buy and Sell Stock IV
+    
+//     time O(n*k) space O(n*k)
+    public int maxProfit(int K, int[] prices) {
+        int n = prices.length, X = 2;
+        int[][][] dp = new int[n+1][K+1][X];
+        for(int i = 0; i<=n ;i++){
+            dp[i][0][1] = -(int)1e9;
+        }
+        for(int i = 0 ;i <= K; i++){
+            dp[0][i][1] = -(int)1e9;
+        }
+        for(int i = 1; i <= n; i++){
+            for(int k=1;k<=K;k++){
+                for(int x=0;x<X;x++){
+                    if(x==0){
+                        dp[i][k][0] = Math.max(dp[i-1][k][0],dp[i-1][k][1]+prices[i-1]); 
+                        
+                    }else{
+                        dp[i][k][1] = Math.max(dp[i-1][k][1],dp[i-1][k-1][0]-prices[i-1]);
+                    }
+                }
+            }
+        }
+        return dp[n][K][0];
+    }
 
-
-
-
+    //     time O(n*k) space O(k)
+    // How to optimize the space ?
 
 
 
