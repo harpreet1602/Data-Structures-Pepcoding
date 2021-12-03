@@ -112,4 +112,18 @@ public class l001{
         return head;
     }
 
+    // 152. Maximum Product Subarray
+    public int maxProduct(int[] nums) {
+        int n = nums.length, currmax,currmin,prevmax,prevmin, ans;
+        currmax = currmin = prevmax = prevmin = ans = nums[0];
+        for(int i=1;i<n;i++){
+            currmax = Math.max(prevmax*nums[i],Math.max(nums[i],prevmin*nums[i]));
+            currmin = Math.min(prevmax*nums[i],Math.min(nums[i],prevmin*nums[i]));
+            prevmax = currmax;
+            prevmin = currmin;
+            ans = Math.max(ans,currmax);
+        }
+        return ans;
+    }
+
 }
