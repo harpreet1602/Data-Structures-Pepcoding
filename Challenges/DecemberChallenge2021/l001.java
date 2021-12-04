@@ -126,5 +126,67 @@ public class l001{
         return ans;
     }
 
+    
+    class StreamChecker {
+        // 1032. Stream of Characters
+        // for this question it is like suffix matching of words with the characters of query present
+        // so we will use trie here then how to use it here
+        // we will store the words in the reverse order in th trie then one by one when the
+        // character will come we will out that into a stringbuilder and check for the matching by 
+        // starting from the end of the stringbuilder to its start and here if at any point of time
+        // curr reaches null this means no match so return false
+        // and if it reaches the character in the trie whose isEnd = true then return true as 
+        // the matching is done. If the whole stringbuilder is traversed then also there is no
+        // matching of the word with the characters as something may be left in the word to be matched
+        // so return false.
+        //     time O( n*m + q^2) space O(n*m + q)
+            private class TrieNode{
+                TrieNode[] children;
+                boolean isEnd;
+                public TrieNode(){
+                    children = new TrieNode[26];
+                    isEnd = false;
+                }
+            }
+            private TrieNode root;
+            private StringBuilder sb;
+            public StreamChecker(String[] words) {
+                root = new TrieNode();
+                sb = new StringBuilder();
+                
+                for(String word:words){
+                    TrieNode curr = root;
+                    for(int i=word.length()-1;i>=0;i--){
+                        char ch = word.charAt(i);
+                        if(curr.children[ch-'a']==null){
+                            curr.children[ch-'a'] = new TrieNode();
+                        }
+                        curr = curr.children[ch-'a'];
+                    }
+                    curr.isEnd = true;
+                }
+            }
+            
+            public boolean query(char letter) {
+                sb.append(letter);
+                TrieNode curr = root;
+                for(int i=sb.length()-1;i>=0;i--){
+                    char ch = sb.charAt(i);
+                    curr = curr.children[ch-'a'];
+                    
+                    if(curr==null){
+                        return false;
+                    }
+                    if(curr.isEnd) return true;
+                }
+                return false;
+            }
+        }
         
+        /**
+         * Your StreamChecker object will be instantiated and called as such:
+         * StreamChecker obj = new StreamChecker(words);
+         * boolean param_1 = obj.query(letter);
+         */
+    
 }
