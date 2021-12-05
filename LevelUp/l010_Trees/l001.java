@@ -223,6 +223,7 @@ public class l001{
         
         return -1;
     }
+
     public List<Integer> distanceK(TreeNode root, TreeNode target, int k) {
         List<Integer> ans = new ArrayList<>();
         distanceKOpt(root,target,k,ans);
@@ -230,6 +231,8 @@ public class l001{
     }    
 
 
-    
+    // https://www.geeksforgeeks.org/burn-the-binary-tree-starting-from-the-target-node/
+    // pending
+     
 
 }

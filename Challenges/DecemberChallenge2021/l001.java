@@ -189,4 +189,172 @@ public class l001{
          * boolean param_1 = obj.query(letter);
          */
     
+        //  codechef SnackDown 2021 - Elimination Parallel (Rated for Div 2)  
+        // public static Scanner scn =new Scanner(System.in);
+    public static class FastReader {
+        BufferedReader br;
+        StringTokenizer st;
+ 
+        public FastReader()
+        {
+            br = new BufferedReader(
+                new InputStreamReader(System.in));
+        }
+ 
+        String next()
+        {
+            while (st == null || !st.hasMoreElements()) {
+                try {
+                    st = new StringTokenizer(br.readLine());
+                }
+                catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            return st.nextToken();
+        }
+ 
+        int nextInt() { return Integer.parseInt(next()); }
+ 
+        long nextLong() { return Long.parseLong(next()); }
+ 
+        double nextDouble()
+        {
+            return Double.parseDouble(next());
+        }
+ 
+        String nextLine()
+        {
+            String str = "";
+            try {
+                str = br.readLine();
+            }
+            catch (IOException e) {
+                e.printStackTrace();
+            }
+            return str;
+        }
+    }
+    public static FastReader scn = new FastReader();
+        // https://www.codechef.com/SDELP21B/problems/REMELEM
+        // Remove Element 
+        public static void solveRem(){
+            int t=scn.nextInt();
+            while(t-->0)
+            {
+                int n=scn.nextInt();
+                int k = scn.nextInt();
+                int[] arr = new int[n];
+                for(int i=0;i<arr.length;i++){
+                    arr[i] = scn.nextInt();
+                }
+                Arrays.sort(arr);
+                int l =0, h =arr.length-1;
+                while(l<h){
+                if(arr[l]+arr[h]<=k){
+                    h--;
+                }
+                else break;
+                }
+                if(l==h){
+                    System.out.println("YES");
+                }
+                else{
+                    System.out.println("NO");
+                }
+            
+            }
+        }
+
+
+        // https://www.codechef.com/SDELP21B/problems/SUBPRB
+        // Yet another subarray problem
+        public static void solveSub(){
+            int t=scn.nextInt();
+            while(t-->0)
+            {
+             int n=scn.nextInt();
+             int[] arr = new int[n];
+             int p=1,q=2;
+             if(n%2==0 || n==1){
+                 for(int i=0;i<n;i++){
+                     arr[i] = p;
+                     p+=2;
+                 }
+             }
+             else{
+                 for(int i=0;i<n;i++){
+                     arr[i] = q;
+                     q+=2;
+                 }
+             }
+             
+                 for(int i=0;i<n;i++){
+                     System.out.print(arr[i] + " ");
+                 }
+                 System.out.println();
+            }
+        }
+
+
+        public class TreeNode {
+                 int val;
+                 TreeNode left;
+                 TreeNode right;
+                 TreeNode() {}
+                 TreeNode(int val) { this.val = val; }
+                 TreeNode(int val, TreeNode left, TreeNode right) {
+                     this.val = val;
+                     this.left = left;
+                     this.right = right;
+                 }
+             }
+    // 337. House Robber III
+    //     time O(n) space  O(1) ignoring the recursive space
+
+    // faith is that I will be asking from the left and right that what will be the profit if 
+    // you will rob and will not rob then I will decide that what I have to do for profit by 
+    // robbing and not robbing. Like we will be roobing current then we take 
+    // l.q + r.q + root.val and when not then max(l.p,l.q) + max(r.p,r.q).  
+
+//     interview related code
+    private class housePair{
+        int withRob = 0;
+        int withoutRob = 0;
+    }
+    public housePair rob1_(TreeNode root){
+        if(root == null) return new housePair();
+        
+        housePair left = rob1_(root.left);
+        housePair right = rob1_(root.right);
+        
+        housePair myans = new housePair();
+        myans.withRob = left.withoutRob + right.withoutRob + root.val;
+        myans.withoutRob = Math.max(left.withRob,left.withoutRob) + Math.max(right.withRob,right.withoutRob);
+        return myans;
+    }
+    public int rob1(TreeNode root) {
+        housePair ans = rob1_(root);
+        return Math.max(ans.withRob,ans.withoutRob);
+    }
+    
+//     online test related code but do the upper one in interview.
+//     {withRob,withoutRob} 1d array of size 2
+    public int[] rob_(TreeNode root){
+        if(root == null) return new int[2];
+        
+        int[] left = rob_(root.left);
+        int[] right = rob_(root.right);
+        
+        int[] myans = new int[2];
+        myans[0] = left[1] + right[1] + root.val;
+        myans[1] = Math.max(left[0],left[1]) + Math.max(right[0],right[1]);
+        return myans;
+    }
+    public int rob(TreeNode root) {
+        int[] ans = rob_(root);
+        return Math.max(ans[0],ans[1]);
+    }
+
+
 }
