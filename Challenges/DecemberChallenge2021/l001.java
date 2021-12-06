@@ -357,4 +357,24 @@ public class l001{
     }
 
 
+    
+// 1217. Minimum Cost to Move Chips to The Same Position
+//  even to even and odd to odd doesn't cost us anything i.e. cost is 0
+//  but even to odd or vice versa is costing us 1 unit i.e. cost = 1
+// so count even and odd occurences and return the minimum of them as we will switch the minimum 
+// one into the maximum one.
+    
+    public int minCostToMoveChips(int[] position) {
+        int evenCt = 0, oddCt = 0;
+        for(int ele:position){
+            if(ele%2==0){
+                evenCt++;
+            }
+            else{
+                oddCt++;
+            }
+        }
+        return Math.min(evenCt,oddCt);
+    }
+
 }
