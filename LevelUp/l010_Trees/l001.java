@@ -1,6 +1,6 @@
 import java.util.List;
 import java.util.ArrayList;
-
+import java.util.HashSet;
 
 public class l001{
     class Node {
@@ -232,7 +232,112 @@ public class l001{
 
 
     // https://www.geeksforgeeks.org/burn-the-binary-tree-starting-from-the-target-node/
-    // pending
+    // moving downwards and burning the nodes
+    // once I get a node here with the initial distance whenever required add the arraylist for next level
+    // according to distance add that into arraylist and go down to children with dis + 1
+    public static void getBurnNodes(TreeNode root, List<List<Integer>> ans, int dis, TreeNode blocker){
+        if(root == null || root == blocker) return;
+
+        if(dis == ans.size()){
+            ans.add(new ArrayList<>());
+        }
+        ans.get(dis).add(root.val);
+        // going down so +1 for both the children
+            getBurnNodes(root.left,ans,dis+1,blocker);
+            getBurnNodes(root.right,ans,dis+1,blocker);
+    }
+ 
+    // till the time you don't get data node return -1 and when you will find it then call for its children to get
+    // added in list and then calling the children as well till the time we are not finding the target node
+    // when at the upper level we will get dist from any children then block that child and get the nodes of children
+    // always retun dist + 1 at upper level 
+
+    public static int burningTree(TreeNode root,TreeNode data,List<List<Integer>> ans){
+        if(root == null){
+            return -1;
+        }
+        if(root == data){
+            // get the below nodes when matched
+            getBurnNodes(root,ans,0,null);
+            return 1;
+        }
+        int leftDis = burningTree(root.left, data, ans);
+        int rightDis = burningTree(root.right, data, ans);
+
+        if(leftDis>=0){
+            // get nodes below it and block the left node
+            getBurnNodes(root,ans,leftDis,root.left);
+            return leftDis+1;
+        }
+        
+        if(rightDis>=0){
+            // get nodes below it and block the right node
+            getBurnNodes(root,ans,rightDis,root.right);
+            return rightDis+1;
+        }
+        return -1;
+    }
+    public static void burningTree(TreeNode root, TreeNode data){
+        List<List<Integer>> ans = new ArrayList<>();
+        burningTree(root,data,ans);
+    }
+
+    // burning tree with water nodes===================================
+
+    // moving downwards and burning the nodes
+    // once I get a node here with the initial distance whenever required add the arraylist for next level
+    // according to distance add that into arraylist and go down to children with dis + 1
+    public static void getBurnNodes(TreeNode root, List<List<Integer>> ans, int dis, TreeNode blocker, HashSet<TreeNode> water){
+        if(root == null || root == blocker || water.contains(root)) return;
+
+        if(dis == ans.size()){
+            ans.add(new ArrayList<>());
+        }
+        ans.get(dis).add(root.val);
+        // going down so +1 for both the children
+            getBurnNodes(root.left,ans,dis+1,blocker);
+            getBurnNodes(root.right,ans,dis+1,blocker);
+    }
+ 
+    // till the time you don't get data node return -1 and when you will find it then call for its children to get
+    // added in list and then calling the children as well till the time we are not finding the target node
+    // when at the upper level we will get dist from any children then block that child and get the nodes of children
+    // always retun dist + 1 at upper level 
+
+    public static int burningTreeWater(TreeNode root,TreeNode data,List<List<Integer>> ans, HashSet<TreeNode> water){
+        if(root == null){
+            return -1;
+        }
+        if(root == data){
+            // get the below nodes when matched
+            getBurnNodes(root,ans,0,null,water);
+            return 1;
+        }
+        int leftDis = burningTreeWater(root.left, data, ans, water);
+        int rightDis = burningTreeWater(root.right, data, ans,water);
+
+        if(leftDis>=0){
+            // get nodes below it and block the left node
+            getBurnNodes(root,ans,leftDis,root.left,water);
+            return leftDis+1;
+        }
+        
+        if(rightDis>=0){
+            // get nodes below it and block the right node
+            getBurnNodes(root,ans,rightDis,root.right,water);
+            return rightDis+1;
+        }
+        return -1;
+    }
+    public static void burningTreeWater(TreeNode root, TreeNode data, List<TreeNode> waterNodes){
+        List<List<Integer>> ans = new ArrayList<>();
+        HashSet<TreeNode> water = new HashSet<>();
+        for(TreeNode w:waterNodes){
+            water.add(w);
+        }
+        burningTreeWater(root,data,ans,water);
+    }
+
      
 
 }

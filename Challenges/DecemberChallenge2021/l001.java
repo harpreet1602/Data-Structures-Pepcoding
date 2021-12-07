@@ -377,4 +377,50 @@ public class l001{
         return Math.min(evenCt,oddCt);
     }
 
+    // 1290. Convert Binary Number in a Linked List to Integer
+    //     time  O(n) space O(n)
+    public int binToDec(StringBuilder sb){
+        int dnum = 0, count=0;
+        for(int i=sb.length()-1;i>=0;i--){
+            if(sb.charAt(i) == '1')
+            dnum = dnum + 1*(int)Math.pow(2,count);
+            count++;
+        }
+        return dnum;
+    }
+    public int getDecimalValue1(ListNode head) {
+        ListNode curr = head;
+        int dnum = 0;
+        StringBuilder sb = new StringBuilder();
+//         get bnum from linkedlist
+        while(curr!=null){
+            sb.append(curr.val);
+            curr = curr.next;
+        }
+//         convert the bnum to dnum
+        dnum = binToDec(sb);
+        return dnum;
+    }
+    
+//     time O(n) space O(1)
+    public int getDecimalValue2(ListNode head) {
+        int num = 0;
+        ListNode curr = head;
+        while(curr!=null){
+            num = num * 2 + curr.val;
+            curr = curr.next;
+        }
+        return num;
+    }
+//     more faster through bits
+    public int getDecimalValue(ListNode head) {
+        int num = 0;
+        ListNode curr = head;
+        while(curr!=null){
+            num = (num<<1) | curr.val;
+            curr = curr.next;
+        }
+        return num;
+    }
+
 }
