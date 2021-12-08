@@ -423,4 +423,28 @@ public class l001{
         return num;
     }
 
+        // 563. Binary Tree Tilt
+//     time O(n) space O(log n)
+    private int tilt = 0;
+//     return the sum and change the tilt
+    private int findSum(TreeNode root){
+         if(root == null){
+            return 0;
+        }
+        
+        int lsum = findSum(root.left);
+        int rsum = findSum(root.right);
+        
+        int ctilt = Math.abs(lsum-rsum);
+        tilt+=ctilt;
+        
+        int sum = lsum + rsum + root.val;
+        return sum;
+    }
+    public int findTilt(TreeNode root) {
+        findSum(root);
+        return tilt;
+    }
+
+
 }

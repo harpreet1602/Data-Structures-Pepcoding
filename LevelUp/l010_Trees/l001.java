@@ -329,6 +329,8 @@ public class l001{
         }
         return -1;
     }
+
+    // water nodes are the ones where the nodes can't burn and below that also we cannot reach so they will also not burn.
     public static void burningTreeWater(TreeNode root, TreeNode data, List<TreeNode> waterNodes){
         List<List<Integer>> ans = new ArrayList<>();
         HashSet<TreeNode> water = new HashSet<>();
