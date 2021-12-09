@@ -446,5 +446,38 @@ public class l001{
         return tilt;
     }
 
+    
+//     some kind of graph traversal is needed here
+//     so we can use dfs or bfs but in dfs we will take one node and stretch it to 
+//     complete its traversal and we may not find the answer but in bfs we do the 
+//     things parrallely so less time will be taken to calculate the answer
+    // 1306. Jump Game III
+    public boolean canReach(int[] arr, int start) {
+        LinkedList<Integer> que = new LinkedList<>();
+        int n = arr.length;
+        boolean[] vis = new boolean[n];
+        que.addLast(start);
+        while(que.size()!=0){
+            int size = que.size();
+            while(size-->0){
+                int rind = que.removeFirst();
+                if(arr[rind] == 0){
+                    return true;
+                }
+                int back = rind - arr[rind];
+                int forw = rind + arr[rind];
+                if(!vis[rind]){
+                if(back>=0){
+                    que.add(back);
+                }
+                if(forw<n){
+                    que.add(forw);
+                }
+                vis[rind] = true;
+                }
+        }
+        }
+        return false;
+    }
 
 }
