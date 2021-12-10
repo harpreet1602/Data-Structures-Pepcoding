@@ -340,6 +340,8 @@ public class l001{
         burningTreeWater(root,data,ans,water);
     }
 
+    
+
      
 
 }

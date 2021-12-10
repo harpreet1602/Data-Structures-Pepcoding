@@ -1,5 +1,5 @@
 import java.util.Arrays;
-
+import java.util.LinkedList;
 public class l001{
     // 198. House Robber
 //     time O(n) space O(n)

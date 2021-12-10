@@ -340,11 +340,60 @@ public class bfs {
     //Function to return a list of nodes visible from the top view 
     //from left to right in Binary Tree
    
+    // get the first ele in vertical order traversal
+    static ArrayList<ArrayList<Integer>> verticalOrder2(Node root)
+    {
+        // add your code here
+        // to maintain the order we need to use BFS
+        LinkedList<Pair> que = new LinkedList<>();
+        ArrayList<ArrayList<Integer>> bigAns = new ArrayList<>();
+        
+        que.addLast(new Pair(root,0));
+        int[] minMax = new int[2];
+     
+        findShift(root,minMax,0);
+        int width = minMax[1] - minMax[0] + 1;
+        for(int i=0;i<width;i++){
+            bigAns.add(new ArrayList<>());
+        }
+        int shift = Math.abs(minMax[0]);
+        while(que.size()!=0){
+            int size = que.size();
+            while(size-->0){
+                Pair rpair = que.removeFirst();
+                bigAns.get(rpair.vl + shift).add(rpair.node.data);
+                if(rpair.node.left!=null){
+                    que.addLast(new Pair(rpair.node.left,rpair.vl-1));
+                }
+                if(rpair.node.right!=null){
+                    que.addLast(new Pair(rpair.node.right,rpair.vl+1));
+                }
+            }
+        }
+        return bigAns;
+    }
     
+    static ArrayList<Integer> topView1(Node root)
+    {
+        // add your code
+        ArrayList<ArrayList<Integer>> bigAns =  verticalOrder2(root);
+        ArrayList<Integer> ans = new ArrayList<>();
+        for(int i=0;i<bigAns.size();i++)
+        {
+            ans.add(bigAns.get(i).get(0));
+        }
+        return ans;
+        
+    }
+
+
+
+    // 2nd approach
+
     static ArrayList<Integer> topView(Node root)
     {
         // add your code
-           LinkedList<Pair> que = new LinkedList<>();
+        LinkedList<Pair> que = new LinkedList<>();
         ArrayList<Integer> ans = new ArrayList<>();
         que.addLast(new Pair(root,0));
         int[] minMax = new int[2];
