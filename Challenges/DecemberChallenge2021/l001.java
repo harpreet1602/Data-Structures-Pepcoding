@@ -480,4 +480,25 @@ public class l001{
         return false;
     }
 
+
+
+    
+//     790. Domino and Tromino Tiling
+//     time O(n) space O(n)
+//     just to come with this equation is tough 
+//     so dry run it and then do code 
+    public int numTilings(int n) {
+        if(n==1) return 1;
+        if(n==2) return 2;
+        int mod = (int)1e9 +7;
+        int[] dp = new int[n+1];
+        dp[1] = 1;
+        dp[2] = 2;
+        dp[3] = 5;
+        for(int i=4;i<=n;i++){
+            dp[i] = ((2*dp[i-1]%mod) + (dp[i-3]%mod))%mod;
+        }
+        return dp[n];
+    }
+
 }
