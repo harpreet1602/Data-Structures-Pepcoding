@@ -486,7 +486,10 @@ public class l001{
 //     790. Domino and Tromino Tiling
 //     time O(n) space O(n)
 //     just to come with this equation is tough 
-//     so dry run it and then do code 
+//     so dry run it and then do code
+// previous will be taken care of and first three cases are special 
+// then after that only trominoes have to be taken that are 2 more in the existing answer which is already 
+// taken care of. Rest checkout the dry run. 
     public int numTilings(int n) {
         if(n==1) return 1;
         if(n==2) return 2;
@@ -500,5 +503,114 @@ public class l001{
         }
         return dp[n];
     }
+
+
+    // https://www.codechef.com/START19B/problems/INDIPERM
+    //  Indivisible Permutation 
+        public static void solveIndivisible(){
+            int t=scn.nextInt();
+            while(t-->0)
+            {
+            int n=scn.nextInt();
+            if(n==2){
+                System.out.println("2 1");
+                continue;
+            }
+            System.out.print("1 ");
+            for(int itr=3;itr<=n;itr++){
+                System.out.print(itr+" ");
+            }
+            System.out.print("2 ");
+            System.out.println();
+            }
+            
+        }
+
+        // https://www.codechef.com/START19B/problems/CHEFCONTEST
+        // Chef and Contest  
+        public static void solveContest(){
+            int t=scn.nextInt();
+            while(t-->0)
+            {
+                int x = scn.nextInt();
+                int y = scn.nextInt();
+                int p = scn.nextInt();
+                int q = scn.nextInt();
+                int chef,chefina;
+                
+                chef = x + (p*10);
+                chefina = y + (q*10);
+                
+                if(chef == chefina){
+                    System.out.println("Draw");
+                }
+                
+                else if(chef<chefina){
+                    System.out.println("Chef");
+                }
+                else{
+                    System.out.println("Chefina");
+                }
+                
+            }
+        }
+
+
+
+        // https://www.codechef.com/START19B/problems/DISTELE
+        // Distinct Elements
+
+        public static void solveDistinct(){
+            int t=scn.nextInt();
+            while(t-->0)
+            {
+                int n=scn.nextInt(), mod = ((int)1e9) + 7,value;
+                long ans = 1;
+                HashMap<Integer,Integer> map = new HashMap<>();
+                for(int i=0;i<n;i++){
+                    int ele = scn.nextInt();
+                    map.put(ele,map.getOrDefault(ele,0)+1);
+                }
+                
+                for(int key:map.keySet())
+                {
+                    value = map.get(key);
+                    if(value == 1) ans *=2;
+                    else ans *= (value+1);
+                    ans %= mod;
+                }
+                
+                System.out.println(ans-1);
+            }
+        }
+
+
+        // https://www.codechef.com/START19B/problems/FILL01
+        // Sleepy Chef
+
+        public static void solveSleepy(){
+            int t=scn.nextInt();
+            while(t-->0)
+            {
+                int n=scn.nextInt(),ans = 0,count=0;
+                int k=scn.nextInt();
+                String s = scn.next();
+                
+                for(int i=0;i<n;i++){
+                    if(s.charAt(i) == '0'){
+                        count++;
+                        if(count==k){
+                            ans++;
+                            count=0;
+                        }
+                    }
+                    else 
+                    count=0;
+                }
+                
+                
+                System.out.println(ans);
+            }
+        }
 
 }
