@@ -613,4 +613,94 @@ public class l001{
             }
         }
 
+
+
+
+            
+    //  878. Nth Magical Number
+    //  tc O(log n) sc O(1) 
+    //  we need to analyse the pattern here and first of all why binary search 
+    //  because of large constraints and the range that we are having will be
+    //  considered in sorted order. After that we will see the series of factors
+    //  of a and b respectively then we can only consider n/a and n/ b
+    //  where repetition can be there so to subtract that we will subtract 
+    //  n/lcm(a,b).
+    //  a=2-> 2,4,6,8,10....   
+    //  b=3-> 3,6,9,12,15....  
+    //  n = 4
+    //  l = 2, h =8
+    // 6/2 + 6/3 - 6/6 = 3 + 1 -0 = 4
+    // if the factor other than 6 here is < 4 then go in upper half otherwise go in lower half.
+    // to get this result we will be applying binary search, rest do it by dry run
+        
+    public int gcd(int a,int b){
+        if(a==0) return b;
+        return gcd(b%a,a);
+    }
+    public int nthMagicalNumber(int n, int a, int b) {
+        long mod = ((int)1e9) + 7;
+        long lcm = (a*b)/gcd(a,b);
+        long low = Math.min(a,b);
+        long high = low*n,factor=1;
+        while(low<high){
+            long mid = low + (high-low)/2;
+            factor = (mid/a) + (mid/b) - (mid/lcm);
+            if(factor<n){
+                low = mid + 1;
+            }
+            else{
+                high = mid;
+            }
+        }
+        return (int)(low%mod);
+    }
+
+
+    
+    
+    // 416. Partition Equal Subset Sum
+    //    tc O(nums.length*totSum)
+//    sc O(nums.length*totSum)
+//     In this question we will be searching for the totSum/2 target
+//     if it can be acheived then we can return true otherwise false
+//    in dp we are having two choices for each element for its inclusion or
+//     exclusion but in inclusion only if we can accomadate that in our sum.
+
+    
+    //     perfect exaplanation of a coder
+//     This problem is essentially let us to find whether there are several numbers in a set which are able to sum to a specific value (in this problem, the value is sum/2).
+
+// Actually, this is a 0/1 knapsack problem, for each number, we can pick it or not. Let us assume dp[i][j] means whether the specific sum j can be gotten from the first i numbers. If we can pick such a series of numbers from 0-i whose sum is j, dp[i][j] is true, otherwise it is false.
+
+// Base case: dp[0][0] is true; (zero number consists of sum 0 is true)
+
+// Transition function: For each number, if we don't pick it, dp[i][j] = dp[i-1][j], which means if the first i-1 elements has made it to j, dp[i][j] would also make it to j (we can just ignore nums[i]). If we pick nums[i]. dp[i][j] = dp[i-1][j-nums[i]], which represents that j is composed of the current value nums[i] and the remaining composed of other previous numbers. Thus, the transition function is dp[i][j] = dp[i-1][j] || dp[i-1][j-nums[i]]
+    
+    
+    public boolean canPartition(int[] nums) {
+        int totSum = 0;
+        for(int ele:nums){
+            totSum += ele;
+        }
+        if(totSum%2!=0){
+            return false;
+        }
+        boolean[][] dp = new boolean[nums.length+1][totSum/2 + 1];
+        for(int i=0;i<dp.length;i++){
+            dp[i][0] = true;
+        }
+        
+        for(int i=1;i<dp.length;i++){
+            for(int j=1;j<dp[0].length;j++){
+//                 for exclusion
+                dp[i][j] = dp[i-1][j];
+//                 for inclusion
+                if(j>=nums[i-1]){
+                    dp[i][j] = dp[i][j] || dp[i-1][j-nums[i-1]];  
+                }
+            }
+        }
+        return dp[nums.length][totSum/2];
+    }
+
 }
