@@ -703,4 +703,100 @@ public class l001{
         return dp[nums.length][totSum/2];
     }
 
+
+    
+    // 1446. Consecutive Characters
+    // set one character and check for the other character if it is equal or not and according update the answer
+//     tc O(n^2) sc O(1) => brute
+    public int maxPower1(String s) {
+        int ans = 0, count = 1,i=0,j=0, n =s.length();
+        while(i<n){
+            char ch = s.charAt(i);
+            j=i+1;
+            count=1;
+            while(j<n){
+                char ch1 = s.charAt(j);
+                if(ch == ch1){
+                    count++;
+                    j++;
+                }else{
+                    i=j-1;
+                    break;
+                }
+            }
+            i++;
+            ans = Math.max(ans,count);
+        }
+        return ans;
+        
+    }
+//     tc O(n) sc O(1) => Optimised
+// this is nice we can just compare the current with lasgt one if it is equal increase count and also check
+// for the max ans so far and if not reset the counter to 1 and after traversing you will get the answer. 
+     public int maxPower(String s) {
+         int count=1,ans=1;
+         for(int i=1;i<s.length();i++){
+             if(s.charAt(i) == s.charAt(i-1)){
+                 if(++count>ans){
+                     ans = count;
+                 }
+             }
+             else{
+                 count=1;
+             }
+         }
+         return ans;
+     }
+
+
+    //  938. Range Sum of BST
+//     brute force
+//     tc O(n) sc O(height)
+//     if I am in the range add me in the answer and take the ans
+//     from both sides along with it and return and if not return 0
+//     this can also be done in binary trees bst property is not used here
+    public int rangeSumBST1(TreeNode root,int low,int high){
+        if(root == null) return 0;
+        
+        int sum = 0;
+        sum+=rangeSumBST1(root.left,low,high);
+        sum+=rangeSumBST1(root.right,low,high);
+        
+        if(root.val>=low && root.val<=high){
+            sum += root.val;
+        }
+        
+        return sum;
+    }
+//         optimised    
+//     if I am in the range i will call both sides but if I am not 
+//    then i will call in only one side depending upon the condition 
+    // tc O(n) sc O(height) , height= log n  but for skewed tree height = n
+    public int sum = 0;
+    public void rangeSumBST2(TreeNode root,int low,int high){
+        if(root==null){
+            return;
+        }
+        if(root.val>=low && root.val<=high){
+            sum += root.val;
+            rangeSumBST2(root.left,low,high);
+            rangeSumBST2(root.right,low,high);
+        }
+        else if(root.val<low){
+            rangeSumBST2(root.right,low,high);
+        }
+        else if(root.val>high){
+            rangeSumBST2(root.left,low,high);
+        }
+    }
+    public int rangeSumBST(TreeNode root, int low, int high) {
+        // return rangeSumBST1(root,low,high);
+
+        rangeSumBST2(root,low,high);
+        return sum;
+    }
+
+
+    
+
 }
