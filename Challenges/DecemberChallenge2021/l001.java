@@ -798,5 +798,70 @@ public class l001{
 
 
     
+    // 147. Insertion Sort List
+//     my solution
+//     tc O(n^2) sc O(1)
+    public ListNode insertionSortList1(ListNode head) {
+        ListNode curr = head,tail=head,prev,forw=curr,ime;
+        ListNode ans = new ListNode(-5001);
+        prev=ans;
+        ans.next = curr;
+        curr = curr.next;
+        ans.next.next=null;
+        while(curr!=null){
+            ime = curr.next;
+            if(tail.val<=curr.val)
+            {
+                tail.next = curr;
+                tail = curr;
+                curr.next = null;
+            }
+            else{
+            prev = ans;
+            forw = ans.next;
+            while(forw!=null){
+                if(curr.val>=prev.val && curr.val<=forw.val){
+                    prev.next = curr;
+                    curr.next = forw;
+                    break;
+                }
+                prev = prev.next;
+                forw = forw.next;
+            }
+            }
+            curr = ime;
+        }
+        return ans.next;
+    }
+//     coding decoded approach
+     // tc O(n^2) sc O(1)
+     public ListNode insertionSortList(ListNode head) {
+         if(head == null || head.next==null){
+             return head;
+         }
+         
+         ListNode currIt = head,toIns,preIns;
+         ListNode dummy = new ListNode(-5001);
+         dummy.next = currIt;
+         while(currIt!=null && currIt.next!=null){
+             if(currIt.val<=currIt.next.val){
+                 currIt = currIt.next;
+             }
+             else{
+                 preIns = dummy;
+                 toIns = currIt.next;
+                 currIt.next = toIns.next;
+                 while(preIns.next.val<toIns.val){
+                     preIns = preIns.next;
+                 }
+                 toIns.next = preIns.next;
+                 preIns.next = toIns;
+             }
+         }
+         return dummy.next;
+         
+         
+     }
+
 
 }
