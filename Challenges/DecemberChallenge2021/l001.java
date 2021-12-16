@@ -864,4 +864,67 @@ public class l001{
      }
 
 
+
+     //     310. Minimum Height Trees
+//     tc O(edges) sc O(edges)
+    public List<Integer> findMinHeightTrees(int n, int[][] edges) {
+        List<Integer> ans = new ArrayList<>();
+        if(n==0){
+            return ans;
+        }
+        if(n==1){
+            ans.add(0);
+            return ans;
+        }
+        
+// in the queue only nodes with degree 1 will be added 
+// according to total elements the last one or last two ele which will be 
+// left in queue will be the answer. Why?
+// because they were at the center of the graph, whosever node will be in
+// the center will have the minimum height
+// in odd only 1 node will be the answer, in even 2 nodes will be the answer
+        LinkedList<Integer> leaves = new LinkedList<>();
+        HashMap<Integer,HashSet<Integer>> map = new HashMap<>();
+        int[] degree = new int[n];
+        
+//         make adjacency list of graph
+        for(int[] edge:edges){
+            degree[edge[0]]++;
+            map.putIfAbsent(edge[0],new HashSet<>());
+            map.get(edge[0]).add(edge[1]);
+            
+            degree[edge[1]]++;
+            map.putIfAbsent(edge[1],new HashSet<>());
+            map.get(edge[1]).add(edge[0]);
+        }
+        
+//         now add the nodes with 1 degree into the queue
+        for(int i=0;i<n;i++){
+            if(degree[i] == 1){
+                leaves.addLast(i);
+            }
+        }
+        
+        int count = n;
+        while(count>2){
+            int size = leaves.size();
+            count = count - size;
+            while(size-->0){
+                int leaf = leaves.removeFirst();
+                for(int connection:map.get(leaf)){
+                    degree[connection]--;
+                    // map.get(leaf).remove(connection);
+                    // map.get(connection).remove(leaf);
+                    if(degree[connection] == 1){
+                        leaves.addLast(connection);
+                    }
+                }
+            }
+        }
+        return new ArrayList<>(leaves);
+        
+        
+        
+    }
+
 }
