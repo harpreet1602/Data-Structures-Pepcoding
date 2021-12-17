@@ -1,5 +1,9 @@
 import java.util.Arrays;
 import java.util.LinkedList;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.HashMap;
+import java.util.HashSet;
 public class l001{
     // 198. House Robber
 //     time O(n) space O(n)
@@ -922,9 +926,71 @@ public class l001{
             }
         }
         return new ArrayList<>(leaves);
-        
-        
-        
+    }
+
+    
+//     Brute force => tc O((mn)^2) sc O(1)
+//     find largest square for every cell
+    
+//     Hint There are overlapping subproblems
+//     so we will use dp for optimisation
+    
+    
+//     In this question, dp is used to get the answer, we have used bottom-top
+//     top-bottom can also be used.
+//     Meaning to the cell => largest square from here will be stored
+//     Travel from smallest problem at bottom right to top left
+//     because at bottom right there will be the smallest answer
+//     What? While teversing upward take min of all three directions of (right,
+//     down, diag ) +1 
+//     how ? it is giving me right answer as the original ques.
+//     why? because that min was not able to expand itself so it will also
+//     not allow me to expand more than min + 1, +1 because except that min 
+//     other directions I can expand so min + 1 will definitely give the right 
+//     answer at that point.
+//     tc O(mn) sc O(mn)
+    public int maximalSquare1(char[][] matrix) {
+        int n = matrix.length,m = matrix[0].length,right,down,diag,max=0;  
+        int[][] dp = new int[n][m];
+        for(int i=n-1;i>=0;i--){
+            for(int j=m-1;j>=0;j--){
+                if(matrix[i][j] == '0'){
+                    dp[i][j] = 0;
+                }
+                else{
+                    right = j+1<m?dp[i][j+1]:0;
+                    down = i+1<n?dp[i+1][j]:0;
+                    diag = i+1<n && j+1<m? dp[i+1][j+1]:0;
+                    dp[i][j] = Math.min(Math.min(right,down),diag) + 1;
+                    max = Math.max(dp[i][j],max);
+                }
+            }
+        }
+        return max*max;
+    }
+    
+//     tc O(mn) sc O(m)
+//     here we are using dp[j] as the down value 
+//     previous value of dp[j] as the diag value
+//     current value of dp[j+1] as the right value.
+     public int maximalSquare(char[][] matrix) {
+        int n = matrix.length,m = matrix[0].length,right,down,diag,max=0,prev=0;  
+        int[] dp = new int[m];
+        for(int i=n-1;i>=0;i--){
+            for(int j=m-1;j>=0;j--){
+                int temp = dp[j];
+                if(matrix[i][j] == '0'){
+                    dp[j] = 0;
+                }
+                else{
+                    right = j+1<m?dp[j+1]:0;
+                    dp[j] = Math.min(Math.min(right,dp[j]),prev) + 1;
+                    max = Math.max(dp[j],max);
+                }
+                prev = temp;
+            }
+        }
+        return max*max;
     }
 
 }
