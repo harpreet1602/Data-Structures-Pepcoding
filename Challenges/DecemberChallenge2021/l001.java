@@ -992,5 +992,49 @@ public class l001{
         }
         return max*max;
     }
+	//902. Numbers At Most N Given Digit Set
+    
+//     mathematical solution
+    public int atMostNGivenDigitSet(String[] digits, int n) {
+        String num = n + "";
+        int numLen = num.length();
+        int digitsLen = digits.length;
+        int total = 0;
+        boolean hasSomeNo = false;
+        
+// base case which will be done for every case
+// for one less than the numLen powers of the digitLen which will give 
+// all permutations as a base case
+        for(int i=1;i<numLen;i++){
+            total += Math.pow(digitsLen,i);
+        }
+        
+//  now comes the little bit tricky equations
+        for(int i=0;i<numLen;i++){
+            hasSomeNo = false;
+            for(String digit:digits){
+// if it is going in this only then we need to return the
+// as we have traversed and calculated all the answers
+// if( the current no position is less than the required no position)
+// then this will get added to my answer generating all permutations
+                if(digit.charAt(0) < num.charAt(i)){
+                    total += Math.pow(digitsLen,numLen-i-1);
+                }
+// else if it is same go on for next number 
+// but special case will be that if it has reached end of the original no
+// so this is the only permutation to be added.
+                else if(digit.charAt(0) == num.charAt(i)){
+                    hasSomeNo = true;
+                    if(i == numLen -1){
+                        total++;
+                    }
+                }
+            }
+            if(!hasSomeNo){
+                return total;
+            }
+        }
+        return total;
+    }
 
 }
