@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Stack;
+
 public class l001{
     // 198. House Robber
 //     time O(n) space O(n)
@@ -1036,5 +1038,122 @@ public class l001{
         }
         return total;
     }
+
+
+    
+    // 394. Decode String
+// My solution
+// so here we need to use two stacks
+// because we are seeing the parenthesis thing that it will open 
+// so something happen and closed then also something happens
+// Here we will be having four cases 
+    
+// one that we find a number then we need to add it at the last of 
+// already existing number like 1 is there 2 comes so it will be 1*10 + 2.
+// this number thing is used for continuous number like 12
+
+// Second when we see a character letter then we add into the stringbuilder
+// Third when we see a open bracket we add the stringbuilder into one stack
+//and number into another stack and then reset both the no and stringbuilder
+// Fourth when we see a closing bracket then  we take out the stringbuilder
+// from one stack and copy the current stringbuilder's value and also the 
+// no. from another stack now in the stringbuilder we will append the 
+// str from st1 and then n times we will add the previous val of 
+// stringbuilder then reset the no =0 and stringbuilder is containing the 
+// answer
+
+    public String decodeString(String s) {
+        LinkedList<String> st1 = new LinkedList<>();
+        LinkedList<Integer> st2 = new LinkedList<>();
+        StringBuilder sb = new StringBuilder("");
+        int num=0;
+        for(int i=0;i<s.length();i++){
+            char ch = s.charAt(i);
+            if(ch=='['){
+                st1.addFirst(sb.toString());
+                st2.addFirst(num);
+                num = 0;
+                sb = new StringBuilder();
+            }
+            else if(ch==']'){
+                String str = st1.removeFirst();
+                int n = st2.removeFirst();
+                StringBuilder sc = sb;
+                sb = new StringBuilder();
+                sb.append(str);        
+                for(int j=0;j<n;j++){
+                    sb.append(sc);
+                }
+                num=0;
+            }
+            else if(Character.isDigit(ch)){
+                num = (num*10) + (ch-'0');
+            }
+            else if(Character.isLetter(ch)){
+                sb.append(ch);
+            }
+        }
+        return sb.toString();
+    }
+    
+//     coding decoded
+    public String decodeString1(String s) {
+        Stack<Integer> freqStack = new Stack<>();
+        Stack<StringBuilder> strStack = new Stack<>();
+
+        StringBuilder currStr = new StringBuilder();
+        int k =0;
+        for(char c :  s.toCharArray()){
+            if(Character.isDigit(c)){
+                k = k*10 + (c-'0');
+            } else if (Character.isLetter(c)){
+                currStr.append(c);
+            } else if(c == '['){
+                freqStack.push(k);
+                strStack.push(currStr);
+                k =0;
+                currStr = new StringBuilder();
+            } else if(c == ']'){
+                StringBuilder temp = currStr;
+                int freq = freqStack.pop();
+                currStr = strStack.pop();
+                while(freq-->0){
+                    currStr.append(temp);
+
+                }
+                k = 0;
+            }
+        }
+        return currStr.toString();
+    }
+
+    
+    //     1200. Minimum Absolute Difference
+//     ṭc O(n log n) sc O(1)
+//     sort the array find the minimum diff of array
+//     then in another pass check out all the consecutive pairs with that
+//     difference and add it to the ans
+    public List<List<Integer>> minimumAbsDifference(int[] arr) {
+        int n = arr.length;
+        List<List<Integer>> ans = new ArrayList<>();
+        Arrays.sort(arr);
+        int diff = (int)1e9;
+        for(int i=1;i<n;i++){
+            diff = Math.min(diff,arr[i]-arr[i-1]);    
+        }
+        
+        for(int i=1;i<n;i++){
+            if(diff == arr[i]-arr[i-1]){
+                // List<Integer> smallAns = new ArrayList<>();
+                // smallAns.add(arr[i-1]);
+                // smallAns.add(arr[i]);
+                // ans.add(smallAns);
+                ans.add(Arrays.asList(arr[i-1],arr[i]));
+            }
+        }
+        return ans;
+    }
+
+
 
 }
