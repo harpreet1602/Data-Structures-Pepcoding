@@ -1154,6 +1154,64 @@ public class l001{
         return ans;
     }
 
+    
+    // 231. Power of Two
+//     tc O(log n) sc O(1)
+    public boolean isPowerOfTwo1(int n) {
+        for(int i=0;i<=n/2;i++){
+            if(Math.pow(2,i) == n){
+                return true;
+            }
+            else if(Math.pow(2,i) > n){
+                return false;
+            }
+        }
+        return false;
+    }
+    
+//     tc O(log n) sc O(1)
+    public boolean isPowerOfTwo2(int n) {
+        if(n<=0) return false;
+        while(n%2==0){
+            n =n/2;
+        }
+        return  n==1;
+    }
+    
+//     tc O(log n) sc O(1)
+    public boolean isPowerOfTwo3(int n) {
+        if(n<=0) return false;
+        while(n%2==0){
+           return isPowerOfTwo(n/2);
+        }
+        return  n==1;
+    }
+    
+//     tc O(1) sc O(1)
+    public boolean isPowerOfTwo4(int n) {
+        if(n<=0){
+            return false;
+        }
+        boolean hasFound = false;
+        for(int i=0;i<32;i++){
+            if(((n>>i)&1)==1){
+                if(hasFound){
+                    return false;
+                }
+                hasFound = true;
+            }
+        }
+        return true;
+    }
+    
+//     tc O(1) sc O(1)
+    public boolean isPowerOfTwo(int n) {
+        if(n<=0) return false;
+        
+        return (n &(n-1)) == 0; 
+    }
+   
+
 
 
 }
