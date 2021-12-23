@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Stack;
-
+import java.util.stream;
 public class l001{
     // 198. House Robber
 //     time O(n) space O(n)
@@ -976,7 +976,7 @@ public class l001{
 //     previous value of dp[j] as the diag value
 //     current value of dp[j+1] as the right value.
      public int maximalSquare(char[][] matrix) {
-        int n = matrix.length,m = matrix[0].length,right,down,diag,max=0,prev=0;  
+        int n = matrix.length,m = matrix[0].length,right,max=0,prev=0;  
         int[] dp = new int[m];
         for(int i=n-1;i>=0;i--){
             for(int j=m-1;j>=0;j--){
@@ -1211,6 +1211,70 @@ public class l001{
         return (n &(n-1)) == 0; 
     }
    
+
+    
+//     tc O(V+E)
+//     sc O(V+E)
+// So in this question we have implemented topological sort with bfs
+// First of all make a graph where dependency course is connected to the
+// course and depdency course will be completed first then other courses.
+// According to that we taken the indegree concept and we will keep on
+// going in the graph as soon as the dependency gets over we decrease the 
+// indegree and when it will reach to 0 then this course can be done 
+// as its pre courses are done
+// So for this purpose we have used BFS where we add course in the que 
+// whenever indegree goes to 0. And when all the courses are not covered 
+// so this means ans can't be calculated
+
+    public int[] findOrder(int numCourses, int[][] prerequisites) {
+        HashMap<Integer,Set<Integer>> map = new HashMap<>();
+        int[] indegree = new int[numCourses];
+        
+        for(int i=0;i<numCourses;i++){
+            map.put(i, new HashSet<>());
+        }
+        
+        for(int[] prerequisite:prerequisites){
+            int course = prerequisite[0];
+            int dependencyCourse = prerequisite[1];
+            map.get(dependencyCourse).add(course);
+            indegree[course]++;
+        }
+        
+        LinkedList<Integer> que = new LinkedList<>();
+        
+        for(int i=0;i<numCourses;i++){
+            if(indegree[i] == 0){
+                que.addLast(i);
+            }
+        }
+        
+        List<Integer> ans = new ArrayList<>();
+        while(que.size()!=0){
+            int size = que.size();
+            while(size-->0){
+                int course = que.removeFirst();
+                ans.add(course);
+                for(int children:map.get(course)){
+                    indegree[children]--;
+                    if(indegree[children] == 0){
+                        que.addLast(children);
+                    }
+                }
+            }
+        }
+        
+        if(ans.size()!=numCourses){
+            return new int[]{};
+        }
+        
+        int[] res = new int[numCourses];
+        int i=0;
+        for(int ele:ans){
+            res[i++] = ele;
+        }
+        return res;
+    }
 
 
 
