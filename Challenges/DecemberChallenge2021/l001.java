@@ -1277,5 +1277,57 @@ public class l001{
     }
 
 
+    
+//     56. Merge Intervals
+//     tc O(nlogn) sc O(n)
+//     In this we have to first sort on the basis of start index 
+//     because we will check and merge the intervals while traversing
+//     for this purpose we have to use stack so the interval from the top
+//     of stack will be compared with current interval and according to the
+//     condition we can see what to add and remove from the stack
+//     when merged then remove and then add the new one
+//     otherwise just add the current interval in the stack
+//     in the end the answer will be contained in the stack and from 
+//     that make the answer accordingly
+public int[][] merge(int[][] intervals) {
+    //         O(nlogn)
+            Arrays.sort(intervals, (a,b) -> {
+                return a[0]-b[0];
+            });
+            LinkedList<int[]> st = new LinkedList<>();
+            
+    //         O(n)
+            for(int i=0;i<intervals.length;i++){
+                int[] interval = intervals[i];
+                if(st.size()==0){
+                    st.addFirst(interval);
+                }
+                else{
+                    int[] top = st.getFirst();
+    //                 overlap is there then merge them into one big interval
+                    if(top[1]>=interval[0]){
+                        st.removeFirst();
+                        int minstart = top[0];
+                        int maxend = Math.max(top[1],interval[1]);
+                        st.addFirst(new int[]{minstart,maxend});
+                    }
+                    else{
+                        st.addFirst(interval);
+                    }
+                }
+            }
+            
+    //         make the answer from the stack now
+            int[][] ans = new int[st.size()][2];
+            int count=st.size()-1;
+            while(st.size()!=0){
+                int[] interval = st.removeFirst();
+                ans[count][0] = interval[0];
+                ans[count][1] = interval[1];
+                count--;
+            }
+            return ans;
+        }
+    
 
 }
