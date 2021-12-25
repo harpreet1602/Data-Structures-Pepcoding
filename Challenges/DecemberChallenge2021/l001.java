@@ -1328,6 +1328,50 @@ public int[][] merge(int[][] intervals) {
             }
             return ans;
         }
-    
+
+
+        
+// 227. Basic Calculator II  
+// time O(n) space O(n)
+// Here we will use stack to evaluate the expression and find the answer
+// Previous number along with previous operator will be used to get into 
+// the stack and do the evaluation everytime we see next operator or end 
+// of string.
+    public int calculate(String s) {
+        LinkedList<Integer> st = new LinkedList<>();
+        int currNo = 0, n=s.length();
+        char op = '+';
+        
+        for(int i=0;i<n;i++){
+            char ch = s.charAt(i);
+            if(Character.isDigit(ch)){
+                currNo = (currNo*10) + (ch-'0');
+            }
+            if((!Character.isDigit(ch) && ch!=' ') || i==n-1){
+                if(op=='+'){
+                    st.addFirst(currNo);
+                }
+                else if(op =='-'){
+                    st.addFirst(-currNo);
+                }
+                else if(op=='*'){
+                    st.addFirst(st.removeFirst() * currNo);
+                }
+                
+                else if(op=='/'){
+                    st.addFirst(st.removeFirst() / currNo);
+                }
+                op = ch;
+                currNo = 0;
+            }
+        }
+        int ans = 0;
+        while(st.size()!=0){
+            ans += st.removeFirst();
+        }
+        
+        return ans;
+    }
+
 
 }
