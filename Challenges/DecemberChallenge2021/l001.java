@@ -5,7 +5,9 @@ import java.util.List;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Stack;
-import java.util.stream;
+import java.util.PriorityQueue;
+import java.util.Set;
+
 public class l001{
     // 198. House Robber
 //     time O(n) space O(n)
@@ -1370,6 +1372,121 @@ public int[][] merge(int[][] intervals) {
             ans += st.removeFirst();
         }
         
+        return ans;
+    }
+
+
+    
+//     973. K Closest Points to Origin
+//     tc O(nlog k) sc O(k) 
+public int[][] kClosest1(int[][] points, int k) {
+    //         to store the row number and then accordingly calculate the
+    //         distance and do other - this to make  maxheap 
+    //         in the end k coordinates will be left in priority queue
+    //         which will be the k closest points from origin.
+    //         tc O(logk)  for adding/removing sc O(k) for maxheap
+            PriorityQueue<Integer> pq = new PriorityQueue<>((a,b)->{
+                int d1 = points[a][0]*points[a][0] + points[a][1]*points[a][1];
+                int d2 = points[b][0]*points[b][0] + points[b][1]*points[b][1]; 
+                return d2-d1;
+    //             other - this => maxheap
+            });
+    //         It happens for n elements that is why tc O(n log k)
+    //         standard technique for k things while using priority queue
+            for(int i=0;i<points.length;i++){
+                pq.add(i);
+                if(pq.size()>k) pq.remove();
+            }
+            
+    //        direct transfer the 1d array in a 2d array again and again 
+            int i=0;
+            int[][] ans = new int[k][];
+            while(pq.size()!=0){
+                int idx = pq.remove();
+                ans[i++] = points[idx];
+            }
+            return ans;
+        }
+        
+        public int[][] kClosest(int[][] points, int k) {
+            PriorityQueue<Integer> pq = new PriorityQueue<>((a,b)->{
+                int d1 = points[a][0]*points[a][0] + points[a][1]*points[a][1];
+                int d2 = points[b][0]*points[b][0] + points[b][1]*points[b][1];
+                return d2-d1;
+            });
+            
+            for(int i=0;i<points.length;i++){
+                pq.add(i);
+                if(pq.size()>k) pq.remove();
+            }
+            
+            int[][] ans = new int[k][2];
+            for(int i=0;i<k;i++){
+                ans[i] = points[pq.remove()];
+            }
+            return ans;
+        }
+
+
+        
+//     2114. Maximum Number of Words Found in Sentences
+//     just count the max spaces + 1, it will be the answer 
+//     tc O(n) sc O(1)
+    public int mostWordsFound(String[] sentences) {
+        int count=0,ans=0;
+        for(String str:sentences){
+            count=0;
+            for(int i=0;i<str.length();i++){
+                char ch = str.charAt(i);
+                if(ch==' '){
+                    count++;
+                }
+            }
+            ans = Math.max(ans,count);
+        }
+        return ans+1;
+    }
+
+
+        
+   // 2115. Find All Possible Recipes from Given Supplies
+// brute force
+//     time O(n^2) space O(n).
+//     Why this cyclic thing is happening do a dry run for the case 
+//     where bread depends on sandwitch, sandwitch depends on burger
+//     burger depends on yeast and flour which is already in supplies
+//     then you will understand the dependancy thing
+//     It is running n^2 time to get the answer
+//     rest of the answer is just like keep on adding the included recipes 
+// in the set and accordingly the algorithm gives the answer    
+    public List<String> findAllRecipes(String[] recipes, List<List<String>> ingredients, String[] supplies) {
+        HashSet<String> sup = new HashSet<>();
+        for(String s:supplies) sup.add(s);
+        
+        List<String> ans = new ArrayList<>();
+         boolean found=true;
+        
+        while(found){
+            found = false;
+            for(int i=0;i<recipes.length;i++){
+                if(sup.contains(recipes[i])) continue;
+                
+                List<String> ing = ingredients.get(i);
+                boolean f = true;
+                for(String s:ing){
+                if(sup.contains(s) == false){
+                    f = false;
+                    break;
+                }
+                }
+                if(f){
+                    found = true;
+                    ans.add(recipes[i]);
+                    sup.add(recipes[i]);
+                }
+            }
+            
+        }
         return ans;
     }
 
