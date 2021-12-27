@@ -1491,4 +1491,41 @@ public int[][] kClosest1(int[][] points, int k) {
     }
 
 
+    
+//     476. Number Complement
+//     tc O(32)=>O(1) sc O(1)
+//     for example:
+// 100110, its complement is 011001, the sum is 111111. So we only need get
+// the min number large or equal to num, then do substraction
+    
+//         5 => 2 => 1 => 0
+//last bit 1    0    1    
+//comp.    0    1    0
+//     0*2^2 + 1*2^1 + 0*2^0 = 2   
+    public int findComplement1(int num) {
+        int ans=0;
+        int multi = 1;
+        while(num!=0){
+            int digit = (num%2==0)?1:0;
+            ans = digit*multi + ans;
+            multi = multi*2;
+            num=num/2;
+        }
+        return ans;
+    }
+//     11111(31) -10000(16) => 01111(15)
+//     for 16 it will go to 31 and then 31-16 = 15
+//     11111(31) -11111(31) = 0
+    public int findComplement(int num) {
+        int ans=0;
+        int power=0;
+        while(ans<num){
+            ans += Math.pow(2,power);
+            power++;
+        }
+        return ans-num;
+    }
+
+
+
 }
