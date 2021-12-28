@@ -1526,6 +1526,30 @@ public int[][] kClosest1(int[][] points, int k) {
         return ans-num;
     }
 
+    
+ // 876. Middle of the Linked List
+//     tc O(n) sc O(1)
+    public ListNode middleNode(ListNode head) {
+        ListNode[] arr = new ListNode[100];
+        int ind = 0;
+        ListNode curr = head;
+        while(curr!=null){
+            arr[ind++] = curr;
+            curr = curr.next;
+        }
+        return arr[ind/2];
+    }
+//     tc O(n) sc O(1)
+    public ListNode middleNode1(ListNode head) {
+        ListNode slow,fast;
+        slow = fast = head;
+        while(fast!=null && fast.next!=null){
+            fast = fast.next.next;
+            slow = slow.next;
+        }
+        return slow;
+    }
+
 
 
 }
