@@ -1550,7 +1550,77 @@ public int[][] kClosest1(int[][] points, int k) {
         return slow;
     }
 
+
+    class Node {
+        public int val;
+        public Node left;
+        public Node right;
+        public Node next;
     
+        public Node() {}
+        
+        public Node(int _val) {
+            val = _val;
+        }
+    
+        public Node(int _val, Node _left, Node _right, Node _next) {
+            val = _val;
+            left = _left;
+            right = _right;
+            next = _next;
+        }
+    };
+    
+    // 116. Populating Next Right Pointers in Each Node
+//     tc:- O(n) sc O(log n)
+//     Explanation:- done by myself
+// Applying bfs and always assigning the next pointer except the last 
+// element of the current level. This will give me the result that I want.
+    public Node connect1(Node root) {
+        if(root == null){
+            return root;
+        }
+        LinkedList<Node> que = new LinkedList<>();
+        que.addLast(root);
+        while(que.size()!=0){
+            int size = que.size();
+            while(size-->0){
+                Node rnode = que.removeFirst();
+                if(size != 0){
+                    rnode.next = que.getFirst();
+                }
+                if(rnode.left!=null){
+                    que.addLast(rnode.left);
+                }
+                
+                if(rnode.right!=null){
+                    que.addLast(rnode.right);
+                }
+            }
+        }
+        return root;
+    }
+    
+// tc O(n) scO(1)
+// do a dry run you will understand how we are dealing 
+// basically on one level upper we are doing the work for the children's
+// next elements.
+    
+    public Node connect(Node root) {
+        Node start = root, curr = root;
+        while(start!=null && start.left!=null){
+            while(curr!=null){
+                curr.left.next = curr.right;
+                if(curr.next == null) break;
+                curr.right.next = curr.next.left;
+                curr = curr.next;
+            }
+            curr = start.left;
+            start = start.left;
+        }
+        return root;
+    }
+   
 
     
 
