@@ -1621,6 +1621,25 @@ public int[][] kClosest1(int[][] points, int k) {
         return root;
     }
    
+    
+    // 1015. Smallest Integer Divisible by K
+// tc O(k) sc O(1)
+// from n=(n*10+1)
+// and do %k and you will get n%k=(n*10+1)%k
+// you will be able to derive rem = (rem*10 +1)%k
+// and the maximum pattern that you will behaving is between 1 to k
+// to get the remainder as 0 otherwise no number can b divisible by k so
+// return -1.
+    public int smallestRepunitDivByK(int k) {
+        if(k==2||k==5) return -1;
+        
+        int rem = 0;
+        for(int counter = 1; counter<=k; counter++){
+            rem = ((rem*10) + 1)%k;
+            if(rem==0) return counter;
+        }
+        return -1;
+    }
 
     
 
