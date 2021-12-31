@@ -1641,6 +1641,39 @@ public int[][] kClosest1(int[][] points, int k) {
         return -1;
     }
 
+
+    
+//    1026. Maximum Difference Between Node and Ancestor
+// tc O(n) sc O(n) 
+//     Maxdiff will be global and I will ask for the max and min from
+//     both the subtrees resp. and then I will compute the differences
+//     at my place in postorder fashion.
+//     that will be max - root.val && root.val - min
+    private int maxDiff = 0;
+    public int[] findTheMaxDiff(TreeNode root){
+        if(root == null)
+            return new int[]{(int)1e9,-(int)1e9};
+        
+        int[] left = findTheMaxDiff(root.left);
+        int[] right = findTheMaxDiff(root.right);
+        
+        int leftMin = left[0];
+        int rightMin = right[0];
+        int min = Math.min(root.val,Math.min(leftMin,rightMin));
+        
+        int leftMax = left[1];
+        int rightMax = right[1];
+        int max = Math.max(root.val,Math.max(leftMax,rightMax));
+        
+        maxDiff = Math.max(maxDiff,Math.max(root.val-min,max-root.val));
+        
+        return new int[]{min,max};
+    }
+    public int maxAncestorDiff(TreeNode root) {
+        if(root!=null)
+        findTheMaxDiff(root);
+        return maxDiff;
+    }
     
 
 }
