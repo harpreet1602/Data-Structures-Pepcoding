@@ -29,5 +29,47 @@ public class l001{
         }
         return dp[0][n-1];
     }
+
+    //     1010. Pairs of Songs With Total Durations Divisible by 60
+// check for every number for the pair
+//     tle => brute force => tc O(n^2) sc O(1)
+    public int numPairsDivisibleBy601(int[] time) {
+        int count=0,n=time.length;
+        for(int i=0;i<n;i++){
+            for(int j=i+1;j<n;j++){
+                if((time[i]+time[j])%60==0){
+                    count++;
+                }
+            }
+        }
+        return count;
+    }
+    
+//     tc O(n) + 30 => O(n)
+    // sc O(1)
+    // now here if we divide a no by 60 we get remainders from 0 to 59
+    // so make a array of 60 and store the remainders of all the numbers
+    // then from 1 to 29 if their pair exist then the combinations will be mC1 * nC1 = m*n
+    // for 0 and 30 the combinations will be pC2 = p*(p-1)/2
+    public int numPairsDivisibleBy60(int[] time) {
+        int[] freqMap = new int[60];
+        int ans=0;
+        for(int i=0;i<time.length;i++){
+            int rem = time[i]%60;
+            freqMap[rem]++;
+        }
+        
+        for(int i=1;i<30;i++){
+            ans += freqMap[i] * freqMap[60-i];
+        }
+        
+        if(freqMap[0]>0)
+        ans += freqMap[0]*(freqMap[0]-1)/2;
+    
+        if(freqMap[30]>0)
+        ans += freqMap[30]*(freqMap[30]-1)/2;
+        return ans;
+    }
+
  
 }
