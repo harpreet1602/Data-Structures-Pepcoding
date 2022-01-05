@@ -93,4 +93,35 @@ public class l001{
         return -1;
     }
 
+    
+//     cut the string first part and check if it is a pallindrome if it is then find all the 
+//     possible combinations for the second part by this method only so it is done by
+//     backtracking and when full string becomes first part then add it into the ans
+//     and for pallindrome reverse the string and then check
+    private boolean isPallindrome(String s){
+        String revStr = new StringBuilder(s).reverse().toString();
+        return s.equals(revStr);
+    }
+    public void fillPalindrome(List<List<String>> res,List<String> currRes,String inpStr){
+        if(inpStr.length()==0){
+            res.add(new ArrayList<>(currRes));
+            return;
+        }
+        for(int i=0;i<inpStr.length();i++){
+            String firstPart = inpStr.substring(0,i+1);
+            if(isPallindrome(firstPart)){
+                String secondPart = inpStr.substring(i+1,inpStr.length());
+                currRes.add(firstPart);
+                fillPalindrome(res,currRes,secondPart);
+                currRes.remove(currRes.size()-1);
+            }
+        }
+    }
+    public List<List<String>> partition(String s) {
+        List<List<String>> res = new ArrayList<>();
+        fillPalindrome(res,new ArrayList<>(),s);
+        return res;
+    }
+
+
 }
