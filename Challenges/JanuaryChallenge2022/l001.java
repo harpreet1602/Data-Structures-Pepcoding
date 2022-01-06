@@ -1,3 +1,7 @@
+import java.util.List;
+import java.util.ArrayList;
+
+
 public class l001{
    
 //     tc: O(n^3) sc: O(n^2)
@@ -121,6 +125,29 @@ public class l001{
         List<List<String>> res = new ArrayList<>();
         fillPalindrome(res,new ArrayList<>(),s);
         return res;
+    }
+
+    
+//     1094. Car Pooling
+//     In occupancy array index, how many passengers are there at this current position
+//     will be stored and the prefix sum of this will tell you have this much
+//     passenger from 0 to curr pos and anytime it exceeds capacity return false
+//     if not then return true
+    public boolean carPooling(int[][] trips, int capacity) {
+        int n = trips.length;
+        int[] occupancy = new int[1001];
+        for(int i=0;i<n;i++){
+            occupancy[trips[i][1]] += trips[i][0];
+            occupancy[trips[i][2]] -= trips[i][0];
+        }
+        int sum = 0;
+        for(int i=0;i<1001;i++){
+            sum += occupancy[i];
+            if(sum>capacity){
+                return false;
+            }
+        }
+        return true;
     }
 
 
