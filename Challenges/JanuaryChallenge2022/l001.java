@@ -150,5 +150,33 @@ public class l001{
         return true;
     }
 
+        
+// tc O(n) for random sc O(1)
+// so simply maintaining the probability by the condition in the loop
+// for one ele probability =1
+// for two ele probability =1/2
+// for three ele probability =1/1 * 1/2 *2/3 = 1/3
+class Solution {
+    private ListNode head = null;
+    private Random rand = null;
+    public Solution(ListNode head) {
+         this.head = head;
+         rand = new Random();
+    }
+    
+    public int getRandom() {
+        int res = -1;
+        ListNode curr = this.head;
+        for(int i=1;curr!=null;i++){
+            if(rand.nextInt(i) == i-1){
+                res = curr.val;
+            }
+            curr = curr.next;
+        }
+        return res;
+    }
+}
+
+
 
 }
