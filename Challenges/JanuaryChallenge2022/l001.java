@@ -227,4 +227,79 @@ class Solution {
         return dfs(grid,n,m,0,0,m-1,dp);
     }
 
+    
+// 1041. Robot Bounded In Circle
+// tc O(instruction.length) sc O(1)
+// In one iteration if the robot points towards north then return false otherwise return true
+// and if it returns to the origin then also return true which is already counted in the 
+// other case.
+// Because this will tell us that after infinite traversals robot will come back to origin or 
+// not.
+    private enum Direction{
+        NORTH,
+        EAST,
+        WEST,
+        SOUTH
+    }
+    public boolean isRobotBounded(String instructions) {
+        int x=0, y=0;
+        Direction direction = Direction.NORTH;
+        for(Character instruction:instructions.toCharArray()){
+            if(instruction=='G'){
+                switch(direction){
+                    case NORTH:
+                    y++;    
+                    break;
+                    case EAST:
+                    x++;
+                    break;
+                    case WEST:
+                    x--;
+                    break;
+                    case SOUTH:
+                    y--;
+                    break;
+                }
+            }
+            else if(instruction == 'L'){
+                switch(direction){
+                    case NORTH:
+                    direction = Direction.WEST;    
+                    break;
+                    case EAST:
+                    direction = Direction.NORTH;                    
+                    break;
+                    case WEST:
+                    direction = Direction.SOUTH;
+                    break;
+                    case SOUTH:
+                    direction = Direction.EAST;
+                    break;
+                }
+            }
+            
+            else if(instruction == 'R'){
+                switch(direction){
+                    case NORTH:
+                    direction = Direction.EAST;    
+                    break;
+                    case EAST:
+                    direction = Direction.SOUTH;                    
+                    break;
+                    case WEST:
+                    direction = Direction.NORTH;
+                    break;
+                    case SOUTH:
+                    direction = Direction.WEST;
+                    break;
+                }
+            }
+        }
+        
+        if(x==0 && y==0) return true;
+        if(direction == Direction.NORTH) return false;
+        
+        return true;
+    }
+
 }
