@@ -302,4 +302,36 @@ class Solution {
         return true;
     }
 
+    
+    // 67. Add Binary
+    // tc O(Max(a.length,b.length))
+    // sc O(a.length+b.length)
+//     start from the end of the two strings run till one of them exist and 
+//     accordingly find the current values and find the sum and then 
+//     carry = sum/2 and ans = sum%2 + ans will be done. Do dry run then 
+//     you will understand better and in the end if one carry is left 
+//     add it as well in reverse direction. (remember)
+    public String addBinary(String a, String b) {
+        int m = a.length();
+        int n = b.length();
+        int i = m-1;
+        int j = n-1;
+        int carry = 0;
+        String ans = "";
+        while(i>=0 || j>=0){
+            int x = i>=0?a.charAt(i)-'0':0;
+            int y = j>=0?b.charAt(j)-'0':0;
+            int sum = x+y+carry;
+            carry = sum/2;
+            ans = sum%2 + ans;
+            i--;
+            j--;
+        }
+        if(carry>0){
+            ans = carry + ans;
+        }
+        return ans;
+    }
+
+
 }
