@@ -333,5 +333,33 @@ class Solution {
         return ans;
     }
 
+    
+//     1022. Sum of Root To Leaf Binary Numbers
+    // tc O(n) sc O(log n)
+//     curr value will only be added with the num and return in case of leaf
+//     other wise multiply the current 0 or 1 by 2 and send in children
+//    so this thing will serve the purpose for  direct conversion of the 
+//     the nodes to decimal numbers by considering the binary numbers
+//     do a dry run for more understanding.
+    private int sum = 0;
+    private void helperSum(TreeNode root,int num){
+        if(root == null){
+            return;
+        }
+        
+        num = num + root.val;
+        
+        if(root.left==null && root.right==null){
+            sum += num;
+            return;
+        }
+        helperSum(root.left,2*num);
+        helperSum(root.right,2*num);
+    }
+    public int sumRootToLeaf(TreeNode root) {
+        helperSum(root,0);
+        return sum;
+    }
+
 
 }
