@@ -362,4 +362,52 @@ class Solution {
     }
 
 
+    
+//     701. Insert into a Binary Search Tree
+// simply locate that ele using bst property wherever it gets fit just add it
+//     iterative
+//     tc O(log n)-> O(n)in case of skew tree sc O(1)
+    public TreeNode insertIntoBST1(TreeNode root, int val) {
+        if(root == null){
+            return new TreeNode(val);
+        }
+        
+        TreeNode temp = root;
+        while(true){
+            if(val<temp.val){
+                if(temp.left==null){
+                    temp.left = new TreeNode(val);
+                    break; 
+                }
+                else{
+                    temp = temp.left;
+                }
+            }
+            else{
+                if(temp.right == null){
+                    temp.right = new TreeNode(val);
+                    break;
+                }
+                else{
+                    temp = temp.right;
+                }
+            }
+        }
+        return root;
+    }
+//     recursive
+//     tc O(log n)-> O(n) sc O(log n)
+    public TreeNode insertIntoBST(TreeNode root, int val) {
+        if(root == null){
+            return new TreeNode(val);
+        }
+        
+        if(val<root.val)
+        root.left = insertIntoBST(root.left,val);
+        else
+        root.right = insertIntoBST(root.right,val);
+        
+        return root;
+    }
+
 }
