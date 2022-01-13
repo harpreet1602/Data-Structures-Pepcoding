@@ -361,7 +361,18 @@ class Solution {
         return sum;
     }
 
-
+    public class TreeNode {
+             int val;
+             TreeNode left;
+             TreeNode right;
+             TreeNode() {}
+             TreeNode(int val) { this.val = val; }
+             TreeNode(int val, TreeNode left, TreeNode right) {
+                 this.val = val;
+                 this.left = left;
+                 this.right = right;
+             }
+         }
     
 //     701. Insert into a Binary Search Tree
 // simply locate that ele using bst property wherever it gets fit just add it
@@ -408,6 +419,28 @@ class Solution {
         root.right = insertIntoBST(root.right,val);
         
         return root;
+    }
+
+    
+//     452. Minimum Number of Arrows to Burst Balloons
+//     tc O(n) sc O(1)
+//     sort on the basis of second index then see with the current reach am i
+// able to burst the balloon if not then increase arrows otherwise not.    
+    public int findMinArrowShots(int[][] points) {
+        Arrays.sort(points,(a,b)->(
+                    Integer.compare(a[1],b[1])
+            ));
+        int arrows=1, reach=points[0][1];
+        for(int i=1;i<points.length;i++){
+            if(reach<points[i][0]){
+                arrows++;
+                reach = points[i][1];
+            }else{
+//                 with this arrow because of the current reach we can destroy
+                // balloon
+            }
+        }
+        return arrows;
     }
 
 }
