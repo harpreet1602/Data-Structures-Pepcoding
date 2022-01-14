@@ -443,4 +443,50 @@ class Solution {
         return arrows;
     }
 
+    
+//    8. String to Integer (atoi) 
+//     tc O(len(s)) sc O(1)
+    public int myAtoi(String s) {
+        int i=0, n = s.length(),num=0;
+        boolean check = true;
+//         trimming leading spaces
+        while(i<n && s.charAt(i) == ' '){
+            i++;
+        }
+        
+//         checking the sign 
+        if(i<n && s.charAt(i) == '-'){
+            check = false;
+            i++;
+        }
+        else if(i<n && s.charAt(i) == '+'){
+            i++;
+        }
+        
+//         now everything will be number and other things will ignored
+        while(i<n && Character.isDigit(s.charAt(i))){
+            int digit = s.charAt(i) - '0';
+// if at any stage it overflows the range then return the max or min accordingly
+            if((Integer.MAX_VALUE-digit)/10<num){
+                if(check){
+                    return Integer.MAX_VALUE;
+                }
+                else{
+                    return Integer.MIN_VALUE;
+                }
+            }
+//             we know that we can generate the number like this
+//             but in this question we have to take care of all the cases 
+            num=num*10+digit;
+            i++;
+        }
+        
+        if(check){
+            return num;
+        }
+        else{
+        return -num;
+        }
+    }
+
 }
