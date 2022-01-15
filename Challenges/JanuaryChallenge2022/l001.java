@@ -489,4 +489,61 @@ class Solution {
         }
     }
 
+    
+//     1345. Jump Game IV
+// tc O(n^2) sc O(n^2)
+//     apply bfs and consider all cases like prev and next index and same value 
+//    these will be at the level and at which level we will reach last ind will
+//     be the answer
+    public int minJumps(int[] arr) {
+        Map<Integer,List<Integer>> map = new HashMap<>();
+        int n = arr.length;
+//         make the paired values of equal value
+        for(int i=0;i<n;i++){
+          List<Integer> indices = map.getOrDefault(arr[i],new ArrayList<>());
+          indices.add(i);
+          map.put(arr[i],indices);
+        }
+        
+//         apply bfs
+        boolean[] visited = new boolean[n];
+        LinkedList<Integer> que = new LinkedList<>();
+        que.addLast(0);
+        int level = 0;
+        while(que.size()!=0){
+            int size = que.size();
+            while(size-->0){
+                int rind = que.removeFirst();
+                
+                if(rind == n-1){
+                    return level;
+                }
+                
+                if(rind<0 || rind>=n || visited[rind]){
+                    continue;
+                }
+                
+                if(rind-1>=0 && !visited[rind-1]){
+                    que.addLast(rind-1);
+                }
+                if(rind+1<n && !visited[rind+1]){
+                    que.addLast(rind+1);
+                }
+                
+                if(map.containsKey(arr[rind])){
+                    for(int index : map.get(arr[rind])){
+                        if(index>=0 && index<n && !visited[index]){
+                            que.addLast(index);
+                        }
+                    }
+                    map.remove(arr[rind]);
+                }
+                
+                visited[rind] = true;
+            }
+            level++;
+        }
+        return 0;
+    }
+    
 }
