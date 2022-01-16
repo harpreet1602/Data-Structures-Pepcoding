@@ -546,4 +546,54 @@ class Solution {
         return 0;
     }
     
+
+    
+    //     It can be optimised further with O(1) space 
+//     SO if you want you should go for it as well
+//     tc O(n) sc O(n)
+//     849. Maximize Distance to Closest Person
+//     in this question brute can be of n^2 that we see every position's distance
+//     but we have optimised it by taking the space to store the immediate left
+//     right person so that we can easily calculate the max closest distance.
+
+    public int maxDistToClosest(int[] seats) {
+        int n = seats.length;
+        int[] left = new int[n];
+        int[] right = new int[n];
+        int i=0, maxDis = 1, lastone=-1, leftDis, rightDis, currDis;
+        Arrays.fill(left,-1);
+        Arrays.fill(right,-1);
+        while(i<n){
+            if(seats[i]==1){
+                lastone = i;
+            }
+            else{
+                left[i] = lastone;
+            }
+            i++;
+        }
+        i=n-1;
+        lastone=-1;
+        while(i>=0){
+            if(seats[i]==1){
+                lastone = i;
+            }
+            else{
+                right[i] = lastone;
+            }
+            i--;
+        }
+        
+        for(i=0;i<n;i++){
+            if(seats[i] == 0){
+                leftDis = left[i]!=-1?i-left[i]:Integer.MAX_VALUE;
+                rightDis = right[i]!=-1?right[i]-i:Integer.MAX_VALUE;
+                currDis = Math.min(leftDis,rightDis);
+                maxDis = Math.max(maxDis,currDis);
+            }
+        }
+        return maxDis;
+        
+        
+    }
 }
