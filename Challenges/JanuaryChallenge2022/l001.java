@@ -1,6 +1,10 @@
 import java.util.List;
 import java.util.ArrayList;
-
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.Random;
+import java.util.HashMap;
+import java.util.Map;
 
 public class l001{
    
@@ -596,4 +600,43 @@ class Solution {
         
         
     }
+
+
+    
+//     290. Word Pattern
+//     tc O(n) sc O(n)
+//     So we can maintain two hashmaps for mapping 
+//     one for mapping the character of pattern to string of s
+//     one for chekcing the string of s is already mapped to some character or
+//     not and we can do dry run on it to understand both the cases
+//    so we will be making the cases accordingly then we can find the answer. 
+    public boolean wordPattern(String pattern, String s) {
+        HashMap<Character,String> map1 = new HashMap<>();
+        HashMap<String,Boolean> map2 = new HashMap<>();
+        
+        String[] arr = s.split(" ");
+        if(pattern.length()!=arr.length){
+            return false;
+        }
+        for(int i=0;i<pattern.length();i++){
+            char ch = pattern.charAt(i);
+            if(map1.containsKey(ch)){
+                String str = map1.get(ch);
+                if(str.equals(arr[i])==false){
+                    return false;
+                }
+            }
+            else{
+                if(map2.containsKey(arr[i])){    
+                   return false;
+                }
+                else{
+                    map2.put(arr[i],true);
+                    map1.put(ch,arr[i]);
+                }
+            }
+        }
+        return true;
+    }
+
 }

@@ -1,6 +1,8 @@
 import java.util.List;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.HashMap;
 
 public class l001{
     class Node {
@@ -342,6 +344,133 @@ public class l001{
 
     
 
-     
+    //  18-01-22
+        
+// 173. Binary Search Tree Iterator
+// tc (h) sc O(h) 
+// In this question for inorder traversal we are going to use  a stack whenever
+// next is called then return top of the stack but add its right subtree's all
+// values till left is not null that will be its inorder succesors in order.
+class BSTIterator {
+    
+    LinkedList<TreeNode> st;
+    
+    public BSTIterator(TreeNode root) {
+        st = new LinkedList<>();
+        addAllLeft(root);
+    }
+    
+    public void addAllLeft(TreeNode node){
+        while(node!=null){
+            st.addFirst(node);
+            node = node.left;
+        }
+    }
+    public int next() {
+        TreeNode top = st.removeFirst();
+        addAllLeft(top.right);
+        return top.val;
+    }
+    
+    public boolean hasNext() {
+        return st.size()!=0;
+    }
+}
+
+
+    // 652. Find Duplicate Subtrees
+    // In this question we can take every subtree and check in the 
+    // whole tree for duplicate this is brute of n^2 time
+    
+    // optimised
+    // we can encrypt and decrypt the strings and whenever in the map
+    // the same string exists then add the string in the answer
+    // 
+ //     It is taking each stringbuilder as new it is not able to recognise.
+    
+    public String dfs(TreeNode root,HashMap<String,Integer> map,List<TreeNode> ans){
+        if(root == null){
+            return "#";
+        }
+        
+        String left_ser = new String(dfs(root.left,map,ans));
+        String right_ser = new String(dfs(root.right,map,ans));
+        
+        String root_ser = "("+ left_ser + "," + root.val + "," + right_ser  +")";
+        
+        if(map.containsKey(root_ser)){
+                // System.out.println(root_ser);
+            if(map.get(root_ser)==1){
+                // System.out.println(root_ser);
+                ans.add(root);
+            }
+        }
+        
+                // System.out.println(root_ser);
+        map.put(root_ser,map.getOrDefault(root_ser,0)+1);
+        
+        return root_ser;
+    }
+    public List<TreeNode> findDuplicateSubtrees(TreeNode root) {
+        HashMap<String,Integer> map = new HashMap<>();
+        List<TreeNode> ans = new ArrayList<>();
+        dfs(root,map,ans);
+        return ans;
+    }
+    
+    
+    class Node1 {
+        public int val;
+        public Node1 left;
+        public Node1 right;
+        public Node1 next;
+    
+        public Node1() {}
+        
+        public Node1(int _val) {
+            val = _val;
+        }
+    
+        public Node1(int _val, Node1 _left, Node1 _right, Node1 _next) {
+            val = _val;
+            left = _left;
+            right = _right;
+            next = _next;
+        }
+    };
+    // 116. Populating Next Right Pointers in Each Node
+//     So what we are doing here is to apply the bfs using null technique 
+    // not size technique, we can use that as well, and we are attaching two 
+//     main links of lower level while staying at the upper level to 
+//     make the next pointer work.
+    
+    public Node1 connect(Node1 root) {
+        if(root==null){
+            return root;
+        }
+        LinkedList<Node> que = new LinkedList<>();
+        que.addLast(root);
+        que.addLast(null);
+        while(que.size()>1){
+            Node top = que.removeFirst();
+            if(top == null){
+                que.addLast(null);
+            }
+            else{
+                if(top.left!=null){
+                    top.left.next = top.right;
+                    
+                    if(que.getFirst()!=null){
+                        top.right.next = que.getFirst().left;
+                    }
+
+                    que.addLast(top.left);
+                    que.addLast(top.right);
+                }
+            }
+        }
+        return root;
+    }
+
 
 }
