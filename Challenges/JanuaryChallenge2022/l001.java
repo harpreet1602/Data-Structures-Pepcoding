@@ -639,4 +639,39 @@ class Solution {
         return true;
     }
 
+
+    
+//    tc O(n) sc O(1)
+//    142. Linked List Cycle II
+//     first of all find the meeting point then run the iteration
+//     one by one from the starting and meeting point you will find
+//     the starting point of the cycle.
+    public ListNode detectCycle(ListNode head) {
+        boolean flag=false;
+          if(head==null || head.next == null)
+            return null;
+        ListNode slow, fast;
+        slow = fast = head;
+        while(fast!=null && fast.next!=null){
+            slow= slow.next;
+            fast=fast.next;
+                fast=fast.next;
+            
+            if(slow==fast)
+            {
+                flag=true;
+                break;
+            }
+        }
+        if(!flag)
+            return null;
+        
+        slow = head;
+        
+        while(slow!=fast){
+            slow=slow.next;
+            fast=fast.next;
+        }
+        return slow;
+    }
 }

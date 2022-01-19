@@ -448,11 +448,11 @@ class BSTIterator {
         if(root==null){
             return root;
         }
-        LinkedList<Node> que = new LinkedList<>();
+        LinkedList<Node1> que = new LinkedList<>();
         que.addLast(root);
         que.addLast(null);
         while(que.size()>1){
-            Node top = que.removeFirst();
+            Node1 top = que.removeFirst();
             if(top == null){
                 que.addLast(null);
             }
@@ -471,6 +471,180 @@ class BSTIterator {
         }
         return root;
     }
+
+
+    
+//     tc O(n) sc O(1)
+//     we are going to the first ele of the level then making connections of the next level
+//     we are simulating the working of bfs with constant space
+    public Node1 connect1(Node1 root) {
+        if(root==null){
+            return root;
+        }
+        
+        Node1 top = root,curr;
+        while(top.left!=null){
+            curr = top;
+            while(curr!=null){
+                curr.left.next = curr.right;
+                if(curr.next!=null){
+                    curr.right.next = curr.next.left;
+                }
+                curr = curr.next;
+            }
+            top = top.left;
+        }
+        return root;
+    }
+
+
+    
+    // 968. Binary Tree Cameras
+// tc O(n) sc O(1) 
+//     -1 => don't need camera, I am already monitored
+//     0 => I am the camera
+//     1 => install the camera, I need to get monitored.
+    private int cameras=0;
+    public int findCameras(TreeNode root){
+        if(root == null){
+            return -1;
+        }
+        
+        int left_req = findCameras(root.left);
+        int right_req = findCameras(root.right);
+        
+        if(left_req == 1 || right_req ==1){
+            cameras++;
+            return 0; // I am the camera
+        }
+        
+        if(left_req == 0 || right_req == 0){
+            return -1;//I don't need the camera as I am already monitored
+        }
+        
+        return 1; //Otherwise I need the camera 
+        
+        
+    }
+    public int minCameraCover(TreeNode root) {
+        
+        if(findCameras(root)==1)
+        {
+            cameras++;   
+        }
+        return cameras;
+    }
+
+    // do like this => 1 size array
+
+    
+    
+    public int findCameras(TreeNode root,int[] cameras){
+        if(root == null){
+            return -1;
+        }
+        
+        int left_req = findCameras(root.left,cameras);
+        int right_req = findCameras(root.right,cameras);
+        
+        if(left_req == 1 || right_req ==1){
+            cameras[0]++;
+            return 0; // I am the camera
+        }
+        
+        if(left_req == 0 || right_req == 0){
+            return -1;//I don't need the camera as I am already monitored
+        }
+        
+        return 1; //Otherwise I need the camera 
+        
+        
+    }
+    
+    public int minCameraCover1(TreeNode root) {
+        int[] cameras = new int[1];
+        if(findCameras(root,cameras)==1)
+        {
+            cameras[0]++;   
+        }
+        return cameras[0];
+    }
+
+    
+//     979. Distribute Coins in Binary Tree
+//     tc O(n) sc O(1)
+//     Ṣo for requirement we ask for negative
+//     if we have surplus then we can return positive
+//     moves can be calculated like this whatever it is negative
+//     or positive take their absolute values for total no of moves
+//     one size array for a global variable moves 
+// moves[0] = moves[0] + Math.abs(left_req) + Math.abs(right_req);
+// return left_req + right_req + root.val - 1;
+// so this will be the current value which we can send upward
+//     all the work will be done in  postorder fashion because according to 
+//     the faith I ask for the requirement from both the subtrees then 
+//     calculate the current value that can be returned
+   
+    public int findMoves(TreeNode root, int[] moves){
+        if(root == null){
+            return 0;
+        }
+        
+        int left_req = findMoves(root.left,moves);
+        int right_req = findMoves(root.right,moves);
+        
+        moves[0] = moves[0] + Math.abs(left_req) + Math.abs(right_req);
+        
+        return left_req + right_req + root.val - 1;
+    }
+    public int distributeCoins(TreeNode root) {
+        int[] moves = new int[1];
+        findMoves(root,moves);
+        return moves[0];
+    }
+
+    
+    // 1373. Maximum Sum BST in Binary Tree
+//     tc O(n) sc O(1)
+//     So if I get to know that my left and right subtrees are BST
+//     then I can find the maxSum and one size array is working as a global
+//     variable and I can return the [min, max, sum] from every point
+//     min and max needs to get calculated as we can get null case as well
+//     so we handled it like this
+//     rest do dry run
+    // {min,max,sum}
+    public int[] isBST(TreeNode root, int[] maxSum){
+        if(root == null){
+            return new int[]{(int)1e9,-(int)1e9,0};
+        }
+        
+        int[] leftTree = isBST(root.left,maxSum);
+        int[] rightTree = isBST(root.right,maxSum);
+        
+        
+//         isBST and if it is not then return null
+        if(!(leftTree!=null && rightTree!=null && leftTree[1]<root.val && rightTree[0]>root.val)){
+            return null;
+        }
+        
+//         if it has reached here then it is a BST so do calculations
+        int sum = leftTree[2] + rightTree[2] + root.val;
+        maxSum[0] = Math.max(maxSum[0],sum);
+        
+        int min = Math.min(leftTree[0],root.val);
+        int max = Math.max(rightTree[1],root.val);
+        
+        return new int[]{min,max,sum};
+        
+    }
+    public int maxSumBST(TreeNode root) {
+        int[] maxSum = new int[1];
+        isBST(root,maxSum);
+        return maxSum[0];
+    }
+
+
+
 
 
 }
