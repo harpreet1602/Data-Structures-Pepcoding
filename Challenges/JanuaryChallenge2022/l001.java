@@ -674,4 +674,40 @@ class Solution {
         }
         return slow;
     }
+
+
+    
+//     875. Koko Eating Bananas
+// tc (n * log m) sc O(1)
+// 1 to 1e9 apply the binary search and find that speed by which koko
+// can eat the bananas with the mid speed if it is not possible so
+// search will reduced to mid+1 to ei otherwise the search range is
+// from si to mid. So in the end the si will reach to the most appropriate
+// ans i.e. minimum k speed to eat all bananas with k intervals.
+    public boolean isPossible(int[] piles,int h,int mid){
+        int totalhours = 0;
+        for(int e:piles){
+            int time = e/mid;
+            if(e%mid!=0){
+                time++;
+            }
+            totalhours +=time;
+        }
+        if(totalhours>h) return false;
+        return true;
+    }
+    public int minEatingSpeed(int[] piles, int h) {
+        int si = 1, ei=(int)1e9;
+        while(si<ei){
+            int mid = (si+ei)/2;
+            if(!isPossible(piles,h,mid)){
+                si = mid+1;
+            }
+            else{
+                ei = mid;
+            }
+        }
+        return si;
+    }
+
 }
