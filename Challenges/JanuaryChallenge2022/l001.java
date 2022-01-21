@@ -710,4 +710,35 @@ class Solution {
         return si;
     }
 
+    
+    // 134. Gas Station
+//     tc O(n) sc O(1)
+//     if the totalGas!=totalCost then the solution don't exist
+//    but if it is not then the solution do exist 
+//     just go for cumulative difference og gas and cost 
+//     wherever it is negative mark your start index as its next in search 
+// that it will be possible ahead.    
+    public int canCompleteCircuit(int[] gas, int[] cost) {
+        int totalGas = 0, totalCost = 0, start = 0,remGas =0, n =gas.length;
+        
+//     Find if the solution is possible or not
+        for(int i=0;i<n;i++){
+            totalGas += gas[i];
+            totalCost += cost[i];
+        }
+        if(totalCost>totalGas){
+            return -1;
+        }
+        
+//         find out where to start
+        for(int i=0;i<n;i++){
+            remGas = remGas + (gas[i] - cost[i]);
+            if(remGas<0){
+                start = i+1;
+                remGas = 0;
+            }
+        }
+        return start;
+    }
+
 }
