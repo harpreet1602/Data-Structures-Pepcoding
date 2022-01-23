@@ -741,4 +741,30 @@ class Solution {
         return start;
     }
 
+
+    
+//     1510. Stone Game IV
+//     tc O(n*root(n)) sc O(n)
+//     If we find a state n - move*move as false so return true that you can
+//     win and if you find n - move*move as true then return as false by 
+    // default and at n state whatever the result of the other member
+//     the opposite of that will be at n of another member
+//     So this logic works fine 
+    Boolean[] dp = new Boolean[100000 + 1]; 
+    public boolean winnerSquareGame(int n) {
+        if(dp[n]!=null){
+            return dp[n];
+        }
+        Boolean aliceWins = false;
+        for(int move = 1; n- move*move >=0;move++){
+            if(n- move*move == 0){
+                aliceWins = true;
+                break;
+            }else{
+                aliceWins = aliceWins || !winnerSquareGame(n - move*move);
+            }
+        }
+        return dp[n] = aliceWins;
+    }
+
 }

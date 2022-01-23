@@ -1,5 +1,5 @@
 import java.util.ArrayList;
-
+import java.util.LinkedList;
 public class l001{
     
     public static class Edge{
@@ -37,7 +37,7 @@ public class l001{
         graph[v].remove(index);
     }
 
-    public static void construct(int n){
+    public  void construct(int n){
         ArrayList<Edge>[] graph = new ArrayList[n];
 
         for(int i=0;i<n;i++){
@@ -55,6 +55,12 @@ public class l001{
         addEdge(4,6,11,graph);
         addEdge(6,7,3,graph);
         addEdge(5,7,3,graph);
+        removeEdge(4,9,graph);
+        removeEdge(4, 10, graph);
+        removeEdge(2, 4, graph);
+        removeEdge(4, 5, graph);
+
+
     }
 
     public static void display(ArrayList<Edge>[] graph){
@@ -166,8 +172,90 @@ public class l001{
         return myAns;
     }
 
+    // get all the connected components present in the graph.
+    public void dfsConnected(int src, ArrayList<Integer> curr, ArrayList<Edge>[] graph, boolean[] vis){
+        vis[src] = true;
+        curr.add(src);
 
-    public static void main(String[] args){
+        for(Edge e:graph[src]){
+            if(!vis[e.v]){
+                dfsConnected(e.v, curr, graph, vis);
+            }
+        }
+    }
+    public ArrayList<ArrayList<Integer>> getConnectedComponents(ArrayList<Edge>[] graph,int n){
+        boolean[] vis = new boolean[n];
+        ArrayList<ArrayList<Integer>> comp = new ArrayList<>();
+        int totalComp = 0;
+        for(int i=0;i<n;i++){
+            if(!vis[i]){
+                ArrayList<Integer> curr = new ArrayList<>(); 
+                dfsConnected(i,curr,graph,vis);
+                totalComp++;
+                comp.add(curr);
+            }
+        }
+// there are two ways to get the total no of components as whenever dfs will be called that will be for one 
+// single component i.e. dfs called = no. of components and the list size can also give  us the total components 
+        int noOfComp = comp.size();
+        return comp;
+    }
+
+
+    // bfs concepts
+
+    public void bfs(int src,ArrayList<Edge>[] graph){
+        LinkedList<Integer> que = new LinkedList<>();
+        que.addLast(src);
+        int level = 0;
+        boolean isCycle = false;
+        boolean[] vis = new boolean[graph.length];
+        while(que.size()!=0){
+            int size = que.size();
+            while(size-->0){
+                int u = que.removeFirst();
+                if(vis[u]){
+                    isCycle = true;
+                    continue;
+                }
+                vis[u] = true;
+                for(Edge e:graph[u]){
+                    if(!vis[e.v]){
+                        que.addLast(e.v);
+                    }
+                }
+            }
+            level++;
+        }
+        System.out.println("Is cycle present: "+ isCycle);
+    }
+
+    
+    public void bfs1(int src,ArrayList<Edge>[] graph){
+        LinkedList<Integer> que = new LinkedList<>();
+        que.addLast(src);
+        int level = 0;
+        boolean[] vis = new boolean[graph.length];
+        que.addLast(src);
+
+        while(que.size()!=0){
+            int size = que.size();
+            while(size-->0){
+                int u = que.removeFirst();
+                for(Edge e:graph[u]){
+                    if(!vis[e.v]){
+                        vis[e.v] = true;
+                        que.addLast(e.v);
+                    }
+                }
+            }
+            level++;
+        }
+        // cycle detection is not possible here
+        // time reduced
+    }
+
+    public void main(String[] args){
         construct(11);
     }
 }
