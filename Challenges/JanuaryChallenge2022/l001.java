@@ -767,4 +767,64 @@ class Solution {
         return dp[n] = aliceWins;
     }
 
+    
+    // 1291. Sequential Digits
+//     tc O(1) sc O(1)
+//     just generate all the possible numbers and whatever numbers fall in range 
+//     put them in the list
+    public List<Integer> sequentialDigits(int low, int high) {
+        int[] allPossibleNumbers = {12,23,34,45,56,67,78,89,123,234,345,456,567,678,789,1234,2345,3456,4567,5678,6789,
+                         12345,23456,34567,45678,56789,
+                         123456,234567,345678,456789,
+                         1234567,2345678,3456789,
+                         12345678,23456789,
+                         123456789};
+        List<Integer> res = new ArrayList<>();
+        for(int i=0;i<allPossibleNumbers.length;i++){
+            if(allPossibleNumbers[i]<low) continue;
+            if(allPossibleNumbers[i]>high) break;
+            res.add(allPossibleNumbers[i]);
+        }
+        return res;
+    }
+
+    
+//     520. Detect Capital
+//     brute time O(n) space O(1)
+    public boolean detectCapitalUse(String word) {
+        char ch = word.charAt(0);
+        // boolean flag=true;
+        int n = word.length();
+        if(ch>=65 && ch<=90){
+            if(n>1){
+                char ch2 = word.charAt(1);
+                if(ch2>=65 && ch2<=90){
+                    for(int i=2;i<n;i++){
+                        char ch1 = word.charAt(i);
+                        if(ch1<65 || ch1>90){
+                            return false;
+                        }
+                    }   
+                }
+                else{
+                    for(int i=2;i<n;i++){
+                        char ch1 = word.charAt(i);
+                        if(ch1<97 || ch1>122){
+                            return false;
+                        }
+                    }  
+                }
+            }
+        }
+        else{
+            for(int i=1;i<n;i++){
+                     char ch1 = word.charAt(i);
+                     if(ch1<97 || ch1>122){
+                        return false;
+                     }
+                }
+            }
+        return true;
+    }
+
 }
