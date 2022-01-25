@@ -827,4 +827,43 @@ class Solution {
         return true;
     }
 
+    
+    // 941. Valid Mountain Array
+//         tc O(n) sc O(1)
+//     check for the three cases
+//  1. after increasing, then decreasing then also it should not start increasing
+//     for a mountain
+//     2. if it is not increasing at all
+//     3. if it is not decreasing at all
+    public boolean validMountainArray(int[] arr) {
+        int n = arr.length;
+        int i = 0;
+         
+        if(n == 0){
+            return false;
+        }
+        
+        for(;i+1<n;i++){
+            if(arr[i]<arr[i+1]){
+                
+            }
+            else{
+                break;
+            }
+        }
+        if(i==0 || i == n-1) return false;
+        
+        for(;i+1<n;i++){
+            if(arr[i]>arr[i+1]){
+                
+            }
+            else{
+                break;
+            }
+        }
+        
+        return i == n-1;
+    }
+
+
 }

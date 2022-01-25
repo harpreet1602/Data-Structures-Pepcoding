@@ -213,6 +213,59 @@ public class bfsQues {
       
     }
 
+    
+//     542. 01 Matrix
+//     are you going from boundary to interior or interior to boundary
+//     so always think that we need to go from where to where
+//     as in this ques we can't go from one to zero as we can lost the position 
+//     of 1. So we will go from 0 to 1 and we will come to 1 with the minimum
+//     distance.
+//     tc O(n*m) sc O(n*m)
+//     Have a visited array as well and mark while inserting for better
+//     efficiency here.
+    
+    
+    public int[][] updateMatrix(int[][] mat) {
+        LinkedList<Integer> que = new LinkedList<>();
+        int n = mat.length, m = mat[0].length, level = 0;
+        boolean[][] vis = new boolean[n][m];
+        int[][] dirS = {{-1,0},{0,-1},{1,0},{0,1}};
+        
+        for(int i=0;i<n;i++){
+            for(int j=0;j<m;j++){
+                if(mat[i][j] == 0){
+                    que.addLast(i*m+j);
+                    vis[i][j] = true;
+                }
+            }
+        }
+        
+        while(que.size()!=0){
+            int size = que.size();
+            while(size-->0){
+                int idx = que.removeFirst();
+                
+                int row = idx/m;
+                int col = idx%m;
+                for(int[] dir:dirS){
+                    int r = row + dir[0];
+                    int c = col + dir[1];
+                    
+                    if(r>=0 && c>=0 && r<n && c<m && !vis[r][c]){
+                        mat[r][c] = level+1;
+                        vis[r][c] = true;
+                        que.addLast(r*m+c);
+                    }
+                }
+                
+            }
+            level++;
+        }
+        return mat;
+    }
+
+
+    
 
 
 }
