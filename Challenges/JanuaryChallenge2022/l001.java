@@ -865,5 +865,58 @@ class Solution {
         return i == n-1;
     }
 
+    
+//     1305. All Elements in Two Binary Search Trees
+//     tc O(n+m) sc O(n+m)
+//     find the individual sorted list by inorder traversal
+//     and then merge the two sorted list.
+    
+    public void inorder(List<Integer> list, TreeNode root){
+        if(root==null) return;
+        
+        inorder(list,root.left);
+        list.add(root.val);
+        inorder(list,root.right);
+    }
+    
+    public List<Integer> mergeLists(List<Integer> list1, List<Integer> list2){
+        int i,j;
+        i=j=0;
+        List<Integer> res = new ArrayList<>();
+        while(i<list1.size() && j<list2.size()){
+            int ele1 = list1.get(i);
+            int ele2 = list2.get(j);
+            if(ele1<=ele2){
+                res.add(ele1);
+                i++;
+            }
+            else{
+                res.add(ele2);
+                j++;
+            }
+        }
+        
+        while(i<list1.size()){
+            res.add(list1.get(i++));
+        }
+        
+        
+        while(j<list2.size()){
+            res.add(list2.get(j++));
+        }
+        
+        return res;
+    }
+    
+    public List<Integer> getAllElements(TreeNode root1, TreeNode root2) {
+        List<Integer> list1 = new ArrayList<>();
+        inorder(list1,root1);
+        List<Integer> list2 = new ArrayList<>();
+        inorder(list2,root2);
+        
+        return mergeLists(list1,list2);
+    }
+
+
 
 }

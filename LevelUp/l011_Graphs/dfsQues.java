@@ -1,3 +1,5 @@
+import java.util.List;
+import java.util.ArrayList;
 public class dfsQues {
     
 //     200. Number of Islands
@@ -196,8 +198,90 @@ public void dfsIsland(int i,int j, char[][] grid, int[][] dirS){
 
     
     // https://www.hackerrank.com/challenges/journey-to-the-moon/problem
-    // pending
+    // so just have a visited array and apply dfs and ask for size of each component of 
+    // graph
+    // and accordingly apply the mathematics that the multiplication and addition
+    // tc O(n*n) sc O(n)
+    public static int dfsJourney(int src, List<List<Integer>> graph, boolean[] vis){
+        vis[src] = true;
+        int size = 0;
+        for(int nbr:graph.get(src)){
+                if(!vis[nbr]){
+                    size += dfsJourney(nbr, graph, vis);
+                }
+        }
+        return size+1;
+    }
+    
+    public static long journeyToMoon(int n, List<List<Integer>> astronaut) {
+    // Write your code here
+        List<List<Integer>> graph = new ArrayList<>();
+        
+        for(int i=0;i<n;i++){
+            graph.add(new ArrayList<>());
+        }
+        // making the graph according to the list given
+        for(int i=0;i<astronaut.size();i++){
+            List<Integer> ast = astronaut.get(i);
+            graph.get(ast.get(0)).add(ast.get(1));
+            graph.get(ast.get(1)).add(ast.get(0));
+        }
+        
+        boolean[] vis = new boolean[n];
+        long ans = 0, totalSize = 0, size=0;
+        
+        for(int i=0;i<n;i++){
+            if(!vis[i]){
+                size = dfsJourney(i,graph,vis);
+                ans = ans + totalSize * size;
+                totalSize += size;
+            }
+        }
+        return ans;
+    }
+    
+    
+    
+    public static int dfsJourney1(int src, List<Integer>[] graph, boolean[] vis){
+        vis[src] = true;
+        int size = 0;
+        for(int nbr:graph[src]){
+                if(!vis[nbr]){
+                    size += dfsJourney1(nbr, graph, vis);
+                }
+        }
+        return size+1;
+    }
+    
+    public static int journeyToMoon1(int n, List<List<Integer>> astronaut) {
+    // Write your code here
+        List<Integer>[] graph = new ArrayList[n];
+        
+        for(int i=0;i<n;i++){
+            graph[i] = new ArrayList<>();
+        }
+        
+        // making the graph according to the list given
+        for(int i=0;i<astronaut.size();i++){
+            List<Integer> ast = astronaut.get(i);
+            graph[ast.get(0)].add(ast.get(1));
+            graph[ast.get(1)].add(ast.get(0));
+        }
+        
+        boolean[] vis = new boolean[n];
+        int ans = 0, totalSize = 0, size=0;
+        
+        for(int i=0;i<n;i++){
+            if(!vis[i]){
+                size = dfsJourney1(i,graph,vis);
+                ans = ans + totalSize * size;
+                totalSize += size;
+            }
+        }
+        return ans;
+    }
 
+}
 
 
 
