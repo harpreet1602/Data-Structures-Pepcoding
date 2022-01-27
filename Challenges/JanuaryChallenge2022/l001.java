@@ -910,12 +910,72 @@ class Solution {
     
     public List<Integer> getAllElements(TreeNode root1, TreeNode root2) {
         List<Integer> list1 = new ArrayList<>();
-        inorder(list1,root1);
+        inorder(list1,root1); //O(n1)
         List<Integer> list2 = new ArrayList<>();
-        inorder(list2,root2);
+        inorder(list2,root2); //O(n2)
         
-        return mergeLists(list1,list2);
+        return mergeLists(list1,list2); //O(n1+n2) => O(no of ele in both trees)
     }
+
+    
+    // 421. Maximum XOR of Two Numbers in an Array
+//    tc O(n) => searching takes O(1) time for 1 ele so for total n elements 
+//     time will be O(n)
+    // sc O(n)=> for maintaining the trie
+   private class TrieNode{
+        TrieNode[] children;
+        public TrieNode(){
+            children = new TrieNode[2];
+        }
+    }
+    
+    public int findMaximumXOR(int[] nums) {
+        TrieNode root = new TrieNode();
+//         inserting
+        for(int ele:nums){
+//             MSB matters to us more than the LSB because max answer comes from MSB side 
+//             so that is why traversing from 31st to 0th bit because in total there will be 32 bits
+//             according to the bits we are making the trie
+            TrieNode curr = root;
+            for(int i=31;i>=0;i--){
+                int bit = ((ele>>i)&1);
+                if(curr.children[bit]==null){
+                    curr.children[bit] = new TrieNode();
+                }
+                curr = curr.children[bit];        
+            }        
+        }
+        
+        int ans = 0;
+//         then always find for opposite bit for the current bit of curr ele
+//         then we will get max XOR result, try to go for max even if you don't
+//         get the opposite bit everytime then your currans will not be updated 
+//         no will be taken into consideration
+//         searching
+    //         maximum
+        for(int ele:nums){
+//             MSB matters to us more than the LSB because max answer comes from MSB side 
+//             so that is why traversing from 31st to 0th bit because in total there will be 32 bits
+            TrieNode curr = root;
+            int currans = 0;
+            for(int i=31;i>=0;i--){
+                int bit = ((ele>>i)&1);
+                int searchBit = bit==1?0:1;
+                if(curr.children[searchBit]!=null){
+                    curr = curr.children[searchBit];
+                    currans += Math.pow(2,i);
+//                     whichever bit you are able to get the opposite bit
+//                     then in XOR ans that bit's value will be 1 
+//                     that is why you directly getting the currans as XOR value 
+                }else{
+                    curr = curr.children[bit];
+                }
+            }
+            ans = Math.max(ans,currans);
+        }
+        return ans;
+    }
+
 
 
 
