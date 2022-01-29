@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.List;
+import java.util.LinkedList;
 
 public class directedGraph {
     
@@ -100,6 +101,89 @@ public class directedGraph {
 
     }
 
+    // BFS topological ordering
+
+    List<Integer> bfsTopo(ArrayList<Edge>[] graph){
+        int V = graph.length;
+        int[] indegree = new int[V];
+        List<Integer> list = new ArrayList<>();
+        LinkedList<Integer> que = new LinkedList<>();
+        
+        for(int i=0;i<V;i++){
+            for(Edge e:graph[i]){
+                indegree[e.v]++;
+            }
+        }
+        
+        for(int i=0;i<V;i++){
+            if(indegree[i] == 0){
+                que.addLast(i);
+            }
+        }
+
+        while(que.size()!=0){
+            int idx = que.removeFirst();
+            list.add(idx);
+
+            for(Edge e:graph[idx]){
+                indegree[e.v]--;
+                if(indegree[e.v] == 0){
+                    que.addLast(e.v);
+                }
+            }
+            
+        }
+
+        if(list.size()!=V){
+            System.out.println("No Solution as cycle exists");
+            return new ArrayList<>();
+        }
+
+        return list;
+    }
+
+    // level orderering bfs topological sort
+    List<List<Integer>> bfsTopoLevel(ArrayList<Edge>[] graph){
+        int V = graph.length;
+        int[] indegree = new int[V];
+        List<List<Integer>> list = new ArrayList<>();
+        LinkedList<Integer> que = new LinkedList<>();
+        
+        for(int i=0;i<V;i++){
+            list.add(new ArrayList<>());
+        }
+
+        for(int i=0;i<V;i++){
+            for(Edge e:graph[i]){
+                indegree[e.v]++;
+            }
+        }
+        
+        for(int i=0;i<V;i++){
+            if(indegree[i] == 0){
+                que.addLast(i);
+            }
+        }
+
+        while(que.size()!=0){
+            int size = que.size();
+            List<Integer> small = new ArrayList<>();
+            while(size-->0){
+            int idx = que.removeFirst();
+            small.add(idx);
+
+            for(Edge e:graph[idx]){
+                indegree[e.v]--;
+                if(indegree[e.v] == 0){
+                    que.addLast(e.v);
+                }
+            }
+            }
+            list.add(small);
+        }
+
+        return list;
+    }
 
     public void main(String[] args){
         construct(11);

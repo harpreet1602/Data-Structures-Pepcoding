@@ -264,8 +264,70 @@ public class bfsQues {
         return mat;
     }
 
-
+// missing two ques 28 jan
     
+
+
+    // 329. Longest Increasing Path in a Matrix
+//     tc O(n*m) sc O(n*m)
+//     level of the bfs = length of the longest path
+//     according to the increasing condition we need to apply the bfs
+//     so here we are applying topological sort using bfs where we use indegree
+//     whose indegree will be 0 from there we will start adding in the queue
+//    because they are one of the smallest elements present to start the path from
+//     then keep on continuing the bfs and decrease the indegree then the ele
+//     gets added in queue 
+public int longestIncreasingPath(int[][] matrix) {
+    int level = 0, n = matrix.length, m = matrix[0].length;
+    int[][] indegree = new int[n][m];   
+    LinkedList<Integer> que = new LinkedList<>();
+    int[][] dirs = {{-1,0},{0,-1},{1,0},{0,1}};
+    
+    for(int i=0;i<n;i++){
+        for(int j=0;j<m;j++){
+            for(int[] dir:dirs){
+                int r = i + dir[0];
+                int c = j + dir[1];
+                if(r>=0 && c>=0 && r<n && c<m && matrix[r][c]>matrix[i][j]){
+                    indegree[r][c]++;
+                }
+            }
+        }
+    }
+    
+    for(int i=0;i<n;i++){
+        for(int j=0;j<m;j++){
+            if(indegree[i][j] == 0){
+                que.addLast(i*m+j);
+            }
+        }
+    }
+    
+    while(que.size()!=0){
+        int size = que.size();
+        while(size-->0){
+            int idx = que.removeFirst();
+            int row = idx/m;
+            int col = idx%m;
+            for(int[] dir:dirs){
+                int r = row + dir[0];
+                int c = col + dir[1];
+                if(r>=0 && c>=0 && r<n && c<m && matrix[r][c]>matrix[row][col]){
+                    indegree[r][c]--;
+                    if(indegree[r][c] == 0){
+                        que.addLast(r*m+c);
+                    }
+                }
+            }
+        }
+        level++;
+    }
+    return level;
+    
+}
+
+
+
 
 
 }
