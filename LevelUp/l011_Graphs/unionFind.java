@@ -1,6 +1,8 @@
 import java.util.ArrayList;
 import java.util.List;
-
+import java.util.Map;
+import java.util.HashMap;
+import java.util.Collections;
 
 public class unionFind {
     private int[] par;
@@ -271,7 +273,206 @@ public class unionFind {
     // pending
 
 
+    
+    // 721. Accounts Merge
+//     tc O(n) sc O(n)
+//     So here we need to make the structure ṭo solve the question
+//     for every email we need to have a Unique id and 
+//     the record of each email's name. Accordingly apply union find
+//     union find will ensure that the common email list will become
+//     one list. 
+//     and then for a parent add all the emails corresponding to it
+//     then make your answer out of this 
+    
+    public List<List<String>> accountsMerge(List<List<String>> accounts) {
+        Map<String,Integer> etui = new HashMap<>();
+        Map<String,String> etn = new HashMap<>();
+        
+        int uid = 0;
+        par = new int[10001];
+        for(int i=0;i<10001;i++){
+            par[i] = i;
+        }
+        
+        for(List<String> account:accounts){
+            String name = account.get(0);
+            for(int i=1;i<account.size();i++){
+                String email = account.get(i);
+                
+                if(!etui.containsKey(email)){
+                    etui.put(email,uid);
+                    uid++;
+                }
+                
+                etn.put(email,name);
+//                 first email who will be the group leader
+                int p1 = findPar(etui.get(account.get(1)));
+//                 parent of other emails in the list
+                int p2 = findPar(etui.get(email));
+                
+                if(p1!=p2){
+                    par[p2] = p1;
+                }
+            }
+        }
+        // now the full structure is ready so find the answer by putting the 
+// emails on the parent of their uids
+        
+        List<List<String>> ans = new ArrayList<>();
+        Map<Integer,List<String>> res = new HashMap<>();
+        
+        // for(int i=0;i<accounts.size();i++){
+        //     ans.add(new ArrayList<>());
+        // }
+//         On the specified parent the list of string will be generated
+// in the hashmap res.
+        for(String email:etui.keySet()){
+            int p = findPar(etui.get(email));
+            if(!res.containsKey(p)){
+                res.put(p,new ArrayList<>());
+            }
+            res.get(p).add(email);
+            
+        }
+        
+//         from the hashmap make the list of list string
+        // System.out.println(etn);
+        for(int key:res.keySet()){
+            List<String> list = res.get(key);
+            
+            Collections.sort(list);
+            
+            list.add(0,etn.get(list.get(0)));
+            // System.out.println(list);
+            ans.add(list);
+        }
+        return ans;
+    }
 
+
+    
+//     839. Similar String Groups
+//     Important ques
+//     tc O(n^2) sc O(n)
+//     run nested loop and check if the strings are similar then merge them
+//     then all path compression will take place and after that we can count 
+//     the components and then that will give us distinct groups
+    
+    
+    Map<String,String> par1 = new HashMap<>();
+    
+    private String findPar(String u){
+        if(u.equals(par1.get(u))){
+            return u;
+        }
+        par1.put(u,findPar(par1.get(u)));
+        return par1.get(u);
+    }
+    
+    private boolean isSimilar(String s1,String s2){
+        int diff = 0;
+        for(int i=0;i<s1.length();i++){
+            if(s1.charAt(i)!=s2.charAt(i)){
+                diff++;   
+            }
+            if(diff>2) return false;
+        }
+        if(diff==0 || diff==2)
+        return true;
+        
+        return false;
+    }
+    public int numSimilarGroups(String[] strs) {
+//         constructing union find
+        for(String str:strs){
+            par1.put(str,str);
+        }
+        int n = strs.length;
+        for(int i=0;i<n;i++){
+            String p1 = findPar(strs[i]);
+            for(int j=i+1;j<n;j++){
+                if(isSimilar(strs[i],strs[j])){    
+                String p2 = findPar(strs[j]);
+                
+                if(!p1.equals(p2)){
+                    par1.put(p2,p1);
+                } 
+                }
+            }
+        }
+        // System.out.println(par);
+        int comp = 0;
+        for(String str:par1.keySet()){
+            String p = findPar(str);
+            if(str.equals(p)){
+                comp++;
+            }
+        }
+        return comp;
+        
+    }
+
+
+    // https://www.pepcoding.com/resources/data-structures-and-algorithms-in-java-levelup/graphs/optimize-water-distribution-official/ojquestion
+    // tc O(nlogn) sc O(n) 
+    // so make an assumptions of the cost of well as edges that can be added in pipes as {0,idx+1,wells[idx]}
+    // ṭhen apply kruskal's algo in which first sort on the basis of cost then apply the union find
+    // if there is a same parent then that edge will be discarded and if not then it will add to our cost
+    // we will get a minimum spanning tree and minimum cost in this case
+    public int minCostToSupplyWater(int n, int[] wells, int[][] pipes) {
+        par = new int[n+1];
+        
+        for(int i=0;i<=n;i++){
+            par[i] = i;
+        }
+        
+        int[][] newPipes = new int[pipes.length+wells.length][3];
+        for(int i=0;i<pipes.length;i++){
+            int[] newPipe = newPipes[i];
+            int[] pipe = pipes[i];
+            
+            newPipe[0] = pipe[0];
+            newPipe[1] = pipe[1];
+            newPipe[2] = pipe[2];
+        }
+        int idx=0, cost=0;
+        for(int i=pipes.length;i<pipes.length+wells.length;i++){
+            int[] newPipe = newPipes[i];
+            newPipe[0] = 0;
+            newPipe[1] = idx+1;
+            newPipe[2] = wells[idx];
+            idx++;
+        }
+        
+        Arrays.sort(newPipes,(int[] a, int[] b)->{
+           return a[2] - b[2]; 
+        });
+        
+        for(int i=0;i<newPipes.length;i++){
+            int[] newPipe = newPipes[i];
+            int u = newPipe[0];
+            int v = newPipe[1];
+            int c = newPipe[2];
+          //   System.out.println(u+" " +v+" "+c);
+            int p1 = findPar(u);
+            int p2 = findPar(v);
+            
+            if(p1!=p2){
+                par[p2] = p1;
+                cost += c;
+            }
+        }
+        return cost;
+        
+  
+    }
+
+
+
+
+// leet 1584 ============================================================
+// pending tle with kruskal's 
+// mixture of kruskal and prim is required
 
     
 }

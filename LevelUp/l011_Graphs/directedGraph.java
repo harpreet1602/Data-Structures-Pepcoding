@@ -1,6 +1,8 @@
 import java.util.ArrayList;
 import java.util.List;
 import java.util.LinkedList;
+import java.util.Arrays;
+
 
 public class directedGraph {
     
@@ -183,6 +185,50 @@ public class directedGraph {
         }
 
         return list;
+    }
+
+    // Kruskal's algorithm=======================================
+
+    int[] par;
+
+    public int findPar(int u){
+        if(par[u]==u) return u;
+
+        return par[u] = findPar(par[u]);
+    }
+    public ArrayList<Edge>[] kruskal(int[][] edges,int n)
+    {
+        ArrayList<Edge>[] mst= new ArrayList[n];
+        par = new int[n];
+
+        for(int i=0;i<n;i++){
+            mst[i] = new ArrayList<>();
+        }
+
+        Arrays.sort(edges,(int[] a, int[] b)->{
+            return a[2]-b[2];
+        }); // sorting on the basis of weight of the edges
+
+        for(int i=0;i<n;i++){
+            par[i] = i;
+        }
+
+        for(int i=0;i<n;i++){
+            int[] edge = edges[i];
+
+            int u = edge[0];
+            int v = edge[1];
+            int w = edge[2];
+
+            int p1 = findPar(u);
+            int p2 = findPar(v);
+
+            if(p1!=p2){
+                addEdge(u, v, w, mst);
+                par[p2] = p1;
+            }
+        }
+        return mst;
     }
 
     public void main(String[] args){
