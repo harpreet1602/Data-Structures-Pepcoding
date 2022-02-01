@@ -474,5 +474,160 @@ public class unionFind {
 // pending tle with kruskal's 
 // mixture of kruskal and prim is required
 
+
+    // https://www.pepcoding.com/resources/data-structures-and-algorithms-in-java-levelup/graphs/number-of-island-2-official/ojquestion
+    // tc O(n*m) sc O(n*m)
+    // With the help of extra space of grid we will be storing the 1s and 
+    // when new 1 will be added count will be increased
+    // when their parent will be same so count of the components will get decreased.
+    // after each position iteration add the count in your list of integer.
+  public List<Integer> numIslands2(int n, int m, int[][] positions) {
+      
+      int[][] grid = new int[n][m];
+      par = new int[n*m];
+      for(int i=0;i<n*m;i++){
+          par[i] = i;
+      }
+      List<Integer> ans= new ArrayList<>();
+      int count = 0;
+      int[][] dirs = {{-1,0},{0,-1},{1,0},{0,1}};
+      for(int[] position:positions){
+          int x = position[0];
+          int y = position[1];
+          
+          if(grid[x][y] == 1){
+              ans.add(count);
+              continue;
+          }
+          
+          grid[x][y] = 1;
+          count++;
+          int p1 = findPar(x*m+y);
+          for(int[] dir:dirs){
+              int r = x + dir[0];
+              int c = y + dir[1];
+              if(r>=0 && c >=0 && r<n && c<m && grid[r][c] == 1){
+                  int p2 = findPar(r*m+c);
+                  if(p1!=p2){
+                      par[p2] = p1;
+                      count--;
+                  }
+              }
+          }
+          ans.add(count);
+      }
+      return ans;
+  }
+
+
+// Optimised space solution 
+//   another method which don't use grid
+  public List<Integer> numIslands21(int n, int m, int[][] positions) {
+    par = new int[n*m];
+    for(int i=0;i<n*m;i++){
+        par[i] = -1;
+    }
+    List<Integer> ans= new ArrayList<>();
+    int count = 0;
+    int[][] dirs = {{-1,0},{0,-1},{1,0},{0,1}};
+    for(int[] position:positions){
+        int x = position[0];
+        int y = position[1];
+        
+        if(par[x*m+y] != -1){
+            ans.add(count);
+            continue;
+        }
+        
+        par[x*m+y] = x*m+y;
+        count++;
+        int p1 = findPar(x*m+y);
+        for(int[] dir:dirs){
+            int r = x + dir[0];
+            int c = y + dir[1];
+            if(r>=0 && c >=0 && r<n && c<m && par[r*m+c] != -1){
+                int p2 = findPar(r*m+c);
+                if(p1!=p2){
+                    par[p2] = p1;
+                    count--;
+                }
+            }
+        }
+        ans.add(count);
+    }
+    return ans;
+}
+
+   // 924. Minimize Malware Spread
+// tc O(n*m) sc O(n)
+//         typical union find to connect the same parent't group together and 
+//         then check by removing which ele of initial we will fet profit.
+    
+public int[] par;
+public int[] size;
+
+public int findPar(int u){
+    if(u == par[u]) return u;
+    return par[u] = findPar(par[u]);
+}
+public void merge(int p1,int p2){
+    if(size[p1]<=size[p2]){
+        par[p1] = p2;
+        size[p2] += size[p1];
+    }
+    else{
+        par[p2] = p1;
+        size[p1] += size[p2];
+    }
+}
+
+public int minMalwareSpread(int[][] graph, int[] initial) {
+    int n = graph.length,m=graph[0].length;
+    par = new int[n];
+    size = new int[n];
+    
+    for(int i=0;i<n;i++){
+        par[i] = i;
+        size[i] = 1;
+    } 
+    for(int i=0;i<n;i++){
+        for(int j=0;j<m;j++){
+            if(graph[i][j] == 0 || i==j) continue;
+            
+            int p1 = findPar(i);
+            int p2 = findPar(j);
+            
+            if(p1!=p2){
+                merge(p1,p2);
+            }
+        }
+    }
+    
+// to store the parent's frequency and if it is 1 then only it will be considered
+    
+    int[] freq = new int[n];
+    Arrays.sort(initial);
+//         consider smallest value if they both give same answer
+    for(int i=0;i<initial.length;i++){
+        int p = findPar(initial[i]);
+        
+        freq[p]++;
+    }
+    
+    int ans = -1, max = 0;
+    
+    for(int i=0;i<initial.length;i++){
+        int p = findPar(initial[i]);
+        
+        if(freq[p]!=1) continue;
+        
+        if(size[p]>max){
+            max = size[p];
+            ans = initial[i];
+        }
+    }
+    
+    return ans == -1?initial[0]:ans;
+}
     
 }
