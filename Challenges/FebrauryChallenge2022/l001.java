@@ -16,6 +16,68 @@ public class l001{
         return dpi0;
     }
 
+    //  438. Find All Anagrams in a String
+   
+//     tc O(n) sc O(n)
+    public List<Integer> findAnagrams(String s, String p) {
+        List<Integer> ans = new ArrayList<>();
+        
+        int n1 = s.length(), n2 = p.length();
+        if(n2>n1){
+            return ans;
+        }
+        int[] freq = new int[26];
+        int start = 0, end = 0, unmatchedChar=n2;
+        
+//         fill the freq arr with the string for which we need anagrams.
+        for(int i=0;i<n2;i++){
+            int index = p.charAt(i)-'a';
+            freq[index]++;
+        }
+        
+//         now start the process
+        
+        for(;end<n2;end++){
+            int index = s.charAt(end)-'a';
+            if(freq[index]>0){
+                unmatchedChar--;
+            }
+            
+            freq[index]--;
+        }
+        
+        if(unmatchedChar == 0){
+            ans.add(start);
+        }
+        
+        for(;end<n1;){
+//             remove the starting index
+            int startindex = s.charAt(start)-'a';
+            if(freq[startindex]>=0){
+//                 char was present in p
+                unmatchedChar++;
+            }
+            
+            freq[startindex]++;
+            start++;
+            
+            // traverse the next ending index
+            int endindex = s.charAt(end)-'a';
+            if(freq[endindex]>0){
+//                 char was present in p
+                unmatchedChar--;
+            }
+            
+            freq[endindex]--;
+            end++;
+            
+             if(unmatchedChar == 0){
+                 ans.add(start);
+             }
+        }
+        return ans;
+    }
+
     
 
 
