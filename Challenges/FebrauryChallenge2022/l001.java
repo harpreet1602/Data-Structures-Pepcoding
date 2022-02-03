@@ -1,3 +1,6 @@
+import java.util.HashMap;
+
+
 public class l001{
     
 //     121. Best Time to Buy and Sell Stock
@@ -16,9 +19,23 @@ public class l001{
         return dpi0;
     }
 
-    //  438. Find All Anagrams in a String
-   
+    
+//  438. Find All Anagrams in a String
+
 //     tc O(n) sc O(n)
+//     Now the basic idea is to maintain a frequency array of alphabets
+//     and first of all add the frequency of character of p in it
+//     then run a loop for the length of p in s for initial settlement
+//     after that check if matchedChar is 0 or not and accordingly add in the 
+//     ans list. After that we need to run a loop which will do all the work
+//     first of all removing the starting index by maintaining the matchedChar
+//     as if the character was present then we will increment the matchedChar
+//     we will increment the start pointer and now we will check the end pointer
+//     that end pointer if gets matched with p character then decrement the 
+//     matchedChar and if at any point the matchedChar reaches 0 add the start
+//     in the ans list
+    
+    
     public List<Integer> findAnagrams(String s, String p) {
         List<Integer> ans = new ArrayList<>();
         
@@ -76,6 +93,37 @@ public class l001{
              }
         }
         return ans;
+    }
+    
+//     454. 4Sum II
+//     Brute force => time O(n^4) space O(1)
+//     So first of all brute force is to run 4 loops and find the answer
+    
+    
+//     Another optimisation:- time O(n^3) space O(1)
+//     Sort all the arrays then run two loops for A and B and apply
+//     two pointer approach in C and D to find the other two elements
+    
+//     tc O(n^2) sc O(n)
+//     Optimised solution can be done with the help of HashMap
+//     In which all two elements sum can be stored with  their frequency.
+//     After that all last two elements will come and find their respective
+//     companions to make the answer
+    public int fourSumCount(int[] nums1, int[] nums2, int[] nums3, int[] nums4) {
+        HashMap<Integer,Integer> map = new HashMap<>();
+        for(int e:nums1){
+            for(int f:nums2){
+                map.put(e+f,map.getOrDefault(e+f,0)+1);
+            }
+        }
+        int count=0;
+        for(int e:nums3){
+            for(int f:nums4){
+                if(map.containsKey(0-(e+f)))
+                count+=map.get(0-(e+f));           
+            }
+        }
+        return count;
     }
 
     
