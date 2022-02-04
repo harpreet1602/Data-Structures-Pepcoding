@@ -126,7 +126,40 @@ public class l001{
         return count;
     }
 
+    //     525. Contiguous Array
+// Brute tc O(n^2)
     
+//     Optimised
+//     tc O(n) sc O(n)
+//     Keep a hashmap of sum,index till which sum is calculated
+//     so this is a prefix sum actually
+//     Initially the prefix sum =0 for index -1 
+//    and then traverse the nums array and then make your sum 
+//     For 0 you will replace it by -1 so decrementing  the prefix sum
+//     by 1 in case of a 0 because this will neautrilise the effect 
+//     whenever you will get the same sum back which previously has come
+//     then you can check the max of prev ans and current i-map.get(sum)
+//     otherwise just add the sum,index pair.
+    
+    public int findMaxLength(int[] nums) {
+        HashMap<Integer,Integer> map = new HashMap<>();
+        int sum = 0, ans = 0;
+        map.put(0,-1);
+//         sum,index
+        for(int i=0;i<nums.length;i++){
+            sum += nums[i];
+//             consider 0 as -1
+            if(nums[i] == 0) sum-=1;
+            
+            if(map.containsKey(sum)){
+                ans = Math.max(ans,i-map.get(sum));
+            }else
+            {
+                map.put(sum,i);
+            }
+        }
+        return ans;
+    }
 
 
 }
