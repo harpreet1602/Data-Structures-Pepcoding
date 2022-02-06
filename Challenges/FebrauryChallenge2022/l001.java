@@ -162,4 +162,35 @@ public class l001{
     }
 
 
+    
+    
+
+    // 80. Remove Duplicates from Sorted Array II
+// tc O(n) sc O(1)
+// Two pointer approach but basically three pointers will be used.
+//     one for start index of the element
+//     one for the end index of the element
+//     one for changing the array at previous indexes
+//     according to the frequency of the element that is calculated
+       public int removeDuplicates(int[] nums) {
+           int n = nums.length, oIndex = 0, sIndex,i=0;
+           
+           while(i<n){
+               sIndex = i;
+               while(i<n-1 && nums[i] == nums[i+1]){
+                   i++;
+               } 
+               int length = i - sIndex + 1;
+               int freq = Math.min(length,2);
+               while(freq-->0){
+                   nums[oIndex] = nums[sIndex];
+                   oIndex++;
+               }
+               i++;
+           }
+           return oIndex;
+       }
+    
+
+
 }
