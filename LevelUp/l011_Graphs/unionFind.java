@@ -3,6 +3,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
 import java.util.Collections;
+import java.util.Arrays;
+
 
 public class unionFind {
     private int[] par;
@@ -563,23 +565,7 @@ public class unionFind {
 //         typical union find to connect the same parent't group together and 
 //         then check by removing which ele of initial we will fet profit.
     
-public int[] par;
-public int[] size;
 
-public int findPar(int u){
-    if(u == par[u]) return u;
-    return par[u] = findPar(par[u]);
-}
-public void merge(int p1,int p2){
-    if(size[p1]<=size[p2]){
-        par[p1] = p2;
-        size[p2] += size[p1];
-    }
-    else{
-        par[p2] = p1;
-        size[p1] += size[p2];
-    }
-}
 
 public int minMalwareSpread(int[][] graph, int[] initial) {
     int n = graph.length,m=graph[0].length;
