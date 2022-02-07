@@ -192,5 +192,54 @@ public class l001{
        }
     
 
+       
+//     389. Find the Difference
+//     add the characters of s in a freq array of 26 size and then subtract the 
+//     freq with characters of t then whichever freq will not be zero i.e -1
+//     that will be our ans
+//     tc O(t.length) sc O(26) => O(1)
+    public char findTheDifference1(String s, String t) {
+        //         frequency table of characters
+                int[] freq = new int[26];
+                for(int i=0;i<s.length();i++){
+                    int ind = s.charAt(i) - 'a';
+                    freq[ind]++;
+                }
+                
+                for(int i=0;i<t.length();i++){
+                    int ind = t.charAt(i) - 'a';
+                    freq[ind]--;
+                }
+                
+                
+                for(int i=0;i<26;i++){
+                    if(freq[i] != 0)
+                        return (char)(i + 'a');
+                    }
+                   return ' ';
+            }
+            
+        //     Optimisation
+        //     tc O(t.length) sc O(1)
+        //     using bit manipulation as a^a = 1
+        //     so we can take xor of all the character of s and t
+        //     then only the ans character will be left and '0' character thing is done
+        //     for smoothness like first of all add some character for initiation
+        //     then cancel it by taking the xor again.
+            
+            public char findTheDifference(String s, String t) {
+                char ans = '0';
+                for(char ch:s.toCharArray()){
+                    ans ^= ch;
+                }
+                
+                for(char ch:t.toCharArray()){
+                    ans ^= ch;
+                }
+                ans ^= '0';
+                return ans;
+            }
+           
+
 
 }
