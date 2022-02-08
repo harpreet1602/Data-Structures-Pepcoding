@@ -240,6 +240,43 @@ public class l001{
                 return ans;
             }
            
+        
+        
+//     258. Add Digits
+//     tc O(n) sc O(1)
+//     Just find the sum of the digits using typical maths
+    
+    public int helperSum(int num){
+        int ans = 0;
+        while(num!=0){
+            ans += num%10;
+            num = num/10;
+        }
+        return ans;
+    }
+    
+//     Just find the sum of the digits using string manipulation
+    public int helperSumStr(int num){
+        int digitsSum = 0;
+        String str = num + "";
+        for(char ch:str.toCharArray()){
+            digitsSum += (ch-'0');
+        }
+        return digitsSum;
+    }
+//     then just go on till this process doesn't produce the sum<10
+//     then return the ans
+    public int addDigits(int num) {
+        int n = 0;
+        while(true){
+            n = helperSumStr(num);
+            if(n<10){
+                break;
+            }
+            num = n;
+        }
+        return n;
+    }
 
 
 }
