@@ -278,5 +278,38 @@ public class l001{
         return n;
     }
 
+    
+    // 532. K-diff Pairs in an Array
+// tc O(n) sc O(n)
+//     we can use set also but for case 0 we have to use map
+//     Store the elements in map because we have to handle zero case where ele's
+//     freq greater than 2 matter for us as it increment our ans
+//     for other value of k we just need to check key + k if it is present 
+// increment the ans.    
+    public int findPairs(int[] nums, int k) {
+        Map<Integer,Integer> map = new HashMap<>();
+        int count = 0;
+//         make freq map
+        for(int ele:nums){
+            map.put(ele,map.getOrDefault(ele,0)+1);
+        }
+//         now run the algorithm to get the ans for k=0 special case
+//         and other cases.
+        for(int key:map.keySet()){
+            if(k==0){
+                if(map.get(key)>=2){
+                    count++;
+                }
+            }
+            else{
+                if(map.containsKey(key+k)){
+                    count++;
+                }
+            }
+        }
+        return count;
+    }
+
+
 
 }
