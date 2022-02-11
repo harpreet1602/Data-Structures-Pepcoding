@@ -311,5 +311,102 @@ public class l001{
     }
 
 
+    
+    // 560. Subarray Sum Equals K
+// tc O(n) sc O(n)
+//     Brute can be O(n^2)
+//     But we have optimised by storing the prefix sum in the hashmap
+//     we are using it to know that till where we are getting what sum
+//     according to that we incrementing our ans
+//     do a dry run to know more about the technique
+//     that from which index to which index it contains the sum k
+    public int subarraySum(int[] nums, int k) {
+        Map<Integer,Integer> map = new HashMap<>();
+        int ans = 0, preSum = 0;
+        map.put(0,1);
+        for(int i =0; i<nums.length;i++){
+            preSum += nums[i];
+            if(map.containsKey(preSum-k)){
+                ans += map.get(preSum-k);
+            }
+            map.put(preSum,map.getOrDefault(preSum,0)+1);
+        }
+        return ans;
+        
+    }
+
+    
+    // 567. Permutation in String
+//     tc O(s.length) sc O(26)
+ // Now the basic idea is to maintain a frequency array of alphabets
+//     and first of all add the frequency of character of p in it
+//     then run a loop for the length of p in s for initial settlement
+//     after that check if matchedChar is 0 or not and accordingly return true 
+//     If not then after that we need to run a loop which will do all the work
+//     first of all removing the starting index by maintaining the matchedChar
+//     as if the character was present then we will increment the matchedChar
+//     we will increment the start pointer and now we will check the end pointer
+//     that end pointer if gets matched with p character then decrement the 
+//     matchedChar and if at any point the matchedChar reaches 0 return true
+//     otherwise the ans will be false
+    
+    public boolean checkInclusion(String p, String s) {
+        int n1 = s.length(), n2 = p.length();
+        if(n2>n1){
+            return false;
+        }
+        int[] freq = new int[26];
+        int start = 0, end = 0, unmatchedChar=n2;
+        
+//         fill the freq arr with the string for which we need anagrams.
+        for(int i=0;i<n2;i++){
+            int index = p.charAt(i)-'a';
+            freq[index]++;
+        }
+        
+//         now start the process
+        
+        for(;end<n2;end++){
+            int index = s.charAt(end)-'a';
+            if(freq[index]>0){
+                unmatchedChar--;
+            }
+            
+            freq[index]--;
+        }
+        
+        if(unmatchedChar == 0){
+            return true;
+        }
+        
+        for(;end<n1;){
+//             remove the starting index
+            int startindex = s.charAt(start)-'a';
+            if(freq[startindex]>=0){
+//                 char was present in p
+                unmatchedChar++;
+            }
+            
+            freq[startindex]++;
+            start++;
+            
+            // traverse the next ending index
+            int endindex = s.charAt(end)-'a';
+            if(freq[endindex]>0){
+//                 char was present in p
+                unmatchedChar--;
+            }
+            
+            freq[endindex]--;
+            end++;
+            
+             if(unmatchedChar == 0){
+                 return true;
+             }
+        }
+        return false;
+        
+    }
+
 
 }

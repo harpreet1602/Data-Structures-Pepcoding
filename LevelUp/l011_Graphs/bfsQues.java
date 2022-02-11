@@ -326,6 +326,54 @@ public int longestIncreasingPath(int[][] matrix) {
     
 }
 
+    
+    //  https://www.lintcode.com/problem/787/
+    // tc O(n) sc O(n)
+    // Apply bfs and consider the constraint of the ball that will stop only at the cell
+    // before the wall and at this point we will get a chance to ask for the answer from all 
+    // the four directions. 
+    public boolean hasPath(int[][] maze, int[] start, int[] destination) {
+        // write your code here
+        int n = maze.length, m =maze[0].length;
+        boolean[][] vis = new boolean[n][m];
+        LinkedList<Integer> que = new LinkedList();
+        que.addLast(start[0]*m+start[1]);
+        vis[start[0]][start[1]] = true;
+        int[][] dirs = {{-1,0},{0,-1},{1,0},{0,1}};
+        while(que.size()!=0){
+            int rind = que.removeFirst();
+            int row = rind/m;
+            int col = rind%m;
+            for(int[] dir:dirs){
+                int r = row + dir[0];
+                int c = col + dir[1];
+                while(r>=0 && c>=0 && r<n && c<m && maze[r][c]!=1){
+                    r += dir[0];
+                    c += dir[1];
+                    // go in the same direction until you find a wall. 
+                }
+                // moving back one step at the position from where we can go to four directions
+
+                r -= dir[0];
+                c -= dir[1];
+
+                if(r == destination[0] && c == destination[1]){
+                    return true;
+                }
+                if(vis[r][c]) continue;
+
+                vis[r][c] = true;
+                que.addLast(r*m+c);
+            }
+        }
+        return false;
+
+    }
+
+    // https://www.lintcode.com/problem/788/
+    // missing
+
+    // https://www.hackerearth.com/practice/algorithms/graphs/shortest-path-algorithms/practice-problems/algorithm/successful-marathon-0691ec04/
 
 
 
