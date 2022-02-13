@@ -404,9 +404,43 @@ public class l001{
                  return true;
              }
         }
-        return false;
-        
+        return false;   
     }
+
+
+    
+    // 78. Subsets
+// tc O(2^n) (doubt)=> to generate all subsets and along with it, copy them into output list. 
+    // sc O(n) => for current List
+//     Backtracking approach
+//     Backtracking is an algorithm for finding all solutions by exploring all potential candidates. If the solution candidate turns to be not a solution (or at least not the last one), backtracking algorithm discards it by making some changes on the previous step, i.e. backtracks and then try again.
+//     Backtracking steps
+//     1.maintain the current state of object.
+//     2. Loop through all the sample set
+//     3.Add a new element from the sample set
+//     4. recursively invoke for next entry.
+//     5. remove the last element that was added in the sample set.
+    
+    
+public void findSubsets(int[] nums,List<List<Integer>> ans,List<Integer> currList,int idx){
+    if(idx>=nums.length){
+        return;
+    }
+    for(int i=idx;i<nums.length;i++){
+        currList.add(nums[i]);
+        ans.add(new ArrayList<>(currList));
+        findSubsets(nums,ans,currList,i+1);
+        currList.remove(currList.size()-1);
+    }
+    
+}
+public List<List<Integer>> subsets(int[] nums) {
+    List<List<Integer>> ans = new ArrayList<>();
+    ans.add(new ArrayList<>());
+    findSubsets(nums,ans,new ArrayList<>(),0);
+    return ans;
+}
+
 
 
 }
