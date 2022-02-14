@@ -442,5 +442,22 @@ public List<List<Integer>> subsets(int[] nums) {
 }
 
 
+    
+//    104. Maximum Depth of Binary Tree 
+//tc O(n) sc O(n) -> recursive space in worst case of skew tree, every node on one side 
+//     otherwise for the general case tc O(log n) sc O(log n) => height of tree
+//     Ask the height from left and right and take the maximum out of it and add 
+//     one into it for current height and return.
+//     Understand the recursion, you will get the answer.
+    
+    public int maxDepth(TreeNode root) {
+        if(root == null){
+            return 0;
+        }
+        return Math.max(maxDepth(root.left),maxDepth(root.right)) + 1;
+    }
+
+    
+
 
 }

@@ -328,6 +328,7 @@ public int longestIncreasingPath(int[][] matrix) {
 
     
     //  https://www.lintcode.com/problem/787/
+    // 787 · The Maze
     // tc O(n) sc O(n)
     // Apply bfs and consider the constraint of the ball that will stop only at the cell
     // before the wall and at this point we will get a chance to ask for the answer from all 
@@ -370,8 +371,62 @@ public int longestIncreasingPath(int[][] matrix) {
 
     }
 
-    // https://www.lintcode.com/problem/788/
-    // missing
+ 
+    //  https://www.lintcode.com/problem/788/
+    // 788 · The Maze II
+    // tc O(n) sc O(n)
+    // Priority queue with BFS is dijkstra.
+    // I will be having a lot of solutions for going to the destination but by using 
+    // prioirty queue I will ensure that the smallest distance from source to destination
+    // comes out first and when it will come out we will return the answer.
+    // When I will come to the destination with indexes coming directly from PriorityQueue
+    // then I have explored all the paths and smallest is the current one so return it
+    public int shortestDistance(int[][] maze, int[] start, int[] destination) {
+        // write your code here
+        // dis,vertex
+        PriorityQueue<int[]> pq = new PriorityQueue<>((a,b)->{
+            return a[0]-b[0];
+        });
+        int[][] dirs = {{-1,0},{0,-1},{1,0},{0,1}};
+        
+        int n = maze.length,m=maze[0].length;
+        pq.add(new int[]{0,start[0]*m+start[1]});
+        int[][] vis = new int[n][m];
+        for(int[] v:vis){
+            Arrays.fill(v,(int)1e9);
+        }
+        vis[start[0]][start[1]] = 0;
+        while(pq.size()!=0){
+            int[] rarr = pq.remove();
+            int dis = rarr[0];
+            int row = rarr[1]/m;
+            int col = rarr[1]%m;
+
+            if(row==destination[0] && col == destination[1]) return dis;
+            for(int[] dir:dirs){
+                int r = row + dir[0];
+                int c = col + dir[1];
+                int curr = 1;
+                while(r>=0 && c>=0 &&r<n && c<m&& maze[r][c]!=1){
+                    r += dir[0];
+                    c += dir[1];
+                    curr++;
+                }
+                // move back one step
+                r -= dir[0];
+                c -= dir[1];
+                curr--;
+
+                if(vis[r][c]<=dis+curr) continue;
+
+                
+                vis[r][c] = dis + curr;
+                pq.add(new int[]{vis[r][c],(r*m+c)});
+            }
+        }
+        return -1;
+    }
+
 
     // https://www.hackerearth.com/practice/algorithms/graphs/shortest-path-algorithms/practice-problems/algorithm/successful-marathon-0691ec04/
 
