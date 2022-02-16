@@ -231,6 +231,76 @@ public class directedGraph {
         return mst;
     }
 
+    public void dfs01(ArrayList<Edge>[] graph,int src,ArrayList<Integer> st,boolean[] vis){
+        vis[src] = true;
+
+        for(Edge nbr:graph[src]){
+            if(!vis[nbr.v]){
+                dfs01(graph, nbr.v, st, vis);
+            }
+        }
+        st.add(src);
+    }
+
+    public void dfs02(ArrayList<Edge>[] graph,int src,ArrayList<Integer> comp,boolean[] vis){
+        vis[src] = true;
+        comp.add(src);
+
+        
+        for(Edge nbr:graph[src]){
+            if(!vis[nbr.v]){
+                dfs02(graph, nbr.v, comp, vis);
+            }
+        }
+    }
+
+    // Kosaraju Algorithm====================================================
+    public ArrayList<ArrayList<Integer>> kosarajuAlgo(ArrayList<Edge>[] graph){
+        int V = graph.length;
+        boolean[] vis1 = new boolean[V];
+        boolean[] vis2 = new boolean[V];
+
+        ArrayList<Integer> st = new ArrayList<>();
+
+        // first make a list while traversing through dfs
+        for(int i=0;i<V;i++){
+            if(!vis1[i]){
+                dfs01(graph,i,st,vis1);
+            }
+        }
+
+        // then  reverse all the edges in a new graph and then apply the dfs there to count
+        // the strongly connected components as it strongly connected component is the one
+        // where we can go from any point to any point
+
+        ArrayList<Edge>[] revGraph = new ArrayList[V];
+        // v to u edge (reverse every edge)
+        for(int u=0;u<V;u++){
+            for(Edge nbr:graph[u]){
+                addEdge(nbr.v, u, nbr.w, revGraph);
+            }
+        }
+
+        ArrayList<ArrayList<Integer>> scc = new ArrayList<>();
+        int count = 0;
+        for(int i=st.size()-1;i>=0;i--){
+            if(!vis2[st.get(i)]){
+                ArrayList<Integer> comp = new ArrayList<>();
+                dfs02(revGraph,i,comp,vis2);
+                count++;
+
+                scc.add(comp);
+            }
+        }
+
+        // no. of strongly connected components
+        System.out.println(count);
+
+        return scc;
+
+    }
+    
+
     public void main(String[] args){
         construct(11);
     }

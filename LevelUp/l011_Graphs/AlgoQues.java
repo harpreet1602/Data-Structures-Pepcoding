@@ -69,4 +69,60 @@ public int dijkstra(ArrayList<int[]>[] graph, int n, int src){
     
 
         
+//     787. Cheapest Flights Within K Stops
+    
+// Using Dijkstra algorithm, it will give TLE
+// Add src,wsf,steps in the priority queue and apply bfs i.e. dijkstra algo
+// make the graph with the flights and the conditions which will be checked in the bfs is
+//     if steps>k+1 then continue as it cannot be answer as the stops must be atmost k
+//     if our u has reached the destination then return the wsf of src to dst
+//     and while adding neightbours, add all the neighbours as the coming out of thos e
+//     neighbours are controlled in the priority queue as the comparison is 
+//    on the basis of wsf but when wsf is also equal then on the basis of steps 
+    public int findCheapestPrice1(int n, int[][] flights, int src, int dst, int k)         {
+        //         src,wsf,steps
+                PriorityQueue<int[]> pq = new PriorityQueue<>((a,b)->{
+                   if(a[1] == b[1]) 
+                       return a[2]-b[2];
+                    return a[1]-b[1];
+                });
+                
+                ArrayList<int[]>[] graph = new ArrayList[n];
+                for(int i=0;i<n;i++){
+                    graph[i] = new ArrayList<>();
+                }
+                
+                for(int[] flight:flights){
+                    int u = flight[0];
+                    int v = flight[1];
+                    int w = flight[2];
+                    
+                    graph[u].add(new int[]{v,w});
+                }
+                
+                pq.add(new int[]{src,0,0});
+                
+                while(pq.size()!=0){
+                    int[] rArr = pq.remove();
+                    int u = rArr[0];
+                    int wsf = rArr[1];
+                    int steps = rArr[2];
+                    
+                    if(steps>k+1) continue;
+                    
+                    if(u==dst){
+                        return wsf;
+                    }
+                    for(int[] nbr:graph[u]){
+        //                 v,w
+                        int v = nbr[0];
+                        int w = nbr[1];
+                        
+                        pq.add(new int[]{v,wsf+w,steps+1});
+                    }
+                    
+                }
+                return -1;
+            }
+            
 }
