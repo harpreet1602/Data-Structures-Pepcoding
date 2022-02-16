@@ -1,4 +1,7 @@
 import java.util.HashMap;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Map;
 
 
 public class l001{
@@ -458,6 +461,62 @@ public List<List<Integer>> subsets(int[] nums) {
     }
 
     
+//    136. Single Number
+
+//     tc O(n) sc O(1)
+//     just take the XOR of all, the XOR of pair of same elements will give 0
+//     so they will get cancelled eventually and you will get the single number in 
+//     the end.
+    public int singleNumber(int[] nums) {
+        int ans=0;
+        for(int ele:nums)
+        {
+            ans^=ele;
+        }
+        return ans;
+    }
+
+    
+    // 24. Swap Nodes in Pairs
+//     tc O(n) sc O(1)
+//     Just make a dummy node to start the operation 
+//     do a dry run by taking prev, curr and forw pointers in your list 
+//     how can you make your ans
+//     first of all prev.next = forw
+//     then curr.next = forw.next
+//     then forw.next = curr
+//    after that do the work for new iteration
+//     prev = curr
+//     then curr =curr.next;
+//     then forw = curr.next;
+    public ListNode swapPairs(ListNode head) {       
+        if(head == null || head.next==null){
+           return head;
+        }    
+        ListNode dummy = new ListNode(-1);
+        ListNode prev,curr,forw;
+        prev = dummy;
+        curr = head;
+        forw = curr.next;
+        while(curr!=null && curr.next!=null){
+            prev.next = forw;
+            if(forw!=null)
+            curr.next = forw.next;
+            forw.next = curr;
+            prev = curr;
+            curr = curr.next;
+            if(curr!=null){
+                forw = curr.next;
+            }
+        }
+        return dummy.next;
+    }
+
+
+    // word ladder pending
+    // do it 
+
+
 
 
 }
