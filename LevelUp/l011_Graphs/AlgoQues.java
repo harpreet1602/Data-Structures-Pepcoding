@@ -70,7 +70,7 @@ public int dijkstra(ArrayList<int[]>[] graph, int n, int src){
 
         
 //     787. Cheapest Flights Within K Stops
-    
+//     O(nlogn) sc O(nlogk)
 // Using Dijkstra algorithm, it will give TLE
 // Add src,wsf,steps in the priority queue and apply bfs i.e. dijkstra algo
 // make the graph with the flights and the conditions which will be checked in the bfs is
@@ -124,5 +124,95 @@ public int dijkstra(ArrayList<int[]>[] graph, int n, int src){
                 }
                 return -1;
             }
+            
+            
+
+// Bellman ford algorithm
+ public int bellmanFord(int n, int[][] edges, int src, int dst, int k){
+                int[] dis = new int[n];
+                Arrays.fill(dis,(int)1e9);
+                dis[src] = 0;
+                boolean negativeCycle = false;
+                
+                for(int i=1;i<=n;i++){
+                    int[] ndis = new int[n];
+                    
+                    for(int j=0;j<n;j++){
+                        ndis[j] = dis[j];
+                    }
+                    
+                    boolean isUpdate = false;
+                    for(int[] edge:edges){
+                        int u = edge[0];
+                        int v = edge[1];
+                        int w = edge[2];
+                        
+                        if(dis[u] + w < ndis[v]){
+                            ndis[v] = dis[u] + w;
+                            isUpdate = true;
+                        }
+                        
+                    }
+                    
+                    if(!isUpdate){
+                            break;
+                    }
+                    
+                    if(i == k+1 && isUpdate){
+                        negativeCycle = true;
+                    }
+                    dis = ndis;
+                }
+                return dis[dst] == (int)1e9?-1:dis[dst];
+                
+            }
+
+
+
+
+        //     Optimised => Bellman Ford algo
+        //     tc O(k*flights.length) sc O(n)
+        //  Just run the bellman ford for 1 to k+1 edges as we have the constraint to stop on atmost k
+        //     points. With the help of 2 arrays, we can proceed further
+        //     Do a dry run to get more insight.
+            public int findCheapestPrice(int n, int[][] flights, int src, int dst, int k){
+                int[] dis = new int[n];
+                Arrays.fill(dis,(int)1e9);
+                dis[src] = 0;
+                boolean negativeCycle = false;
+                
+                for(int i=1;i<=k+1;i++){
+                    int[] ndis = new int[n];
+                    
+                    for(int j=0;j<n;j++){
+                        ndis[j] = dis[j];
+                    }
+                    
+                    boolean isUpdate = false;
+                    for(int[] edge:flights){
+                        int u = edge[0];
+                        int v = edge[1];
+                        int w = edge[2];
+                        
+                        if(dis[u] + w < ndis[v]){
+                            ndis[v] = dis[u] + w;
+                            isUpdate = true;
+                        }
+                        
+                    }
+                    
+                    if(!isUpdate){
+                            break;
+                    }
+                    
+                    if(i == k+1 && isUpdate){
+                        negativeCycle = true;
+                    }
+                    dis = ndis;
+                }
+                return dis[dst] == (int)1e9?-1:dis[dst];
+                
+            }
+        
             
 }

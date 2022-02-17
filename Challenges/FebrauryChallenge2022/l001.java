@@ -512,6 +512,48 @@ public List<List<Integer>> subsets(int[] nums) {
         return dummy.next;
     }
 
+    
+//      tc O( 2^n) sc O(n) -> recursive space
+//     So out of all the combinations whichever combination's sum will be fulfilled
+//     that will be added into our solution.
+//      In recursion we will explore all the combinations and inside we will check
+//     possibilities in the iteration while on a stage of recursion.
+//     Suppose [2,2] has come so
+//    [2,2,2] ,  [2,2,3] , [2,2,6], [2,2,7] will be checked.
+//     Rest do the dry run to understand backtracking.
+    public void combinations(int[] candidates,int target, int idx, List<Integer> smallAns,List<List<Integer>> ans)
+    {
+        if(target == 0)
+        {
+            List<Integer> base = new ArrayList<>(smallAns); //deep copy  (values)
+            ans.add(base); //shallow copy (address)
+            return;
+        }
+        
+        for(int i = idx;i<candidates.length;i++)
+        {
+            if(target - candidates[i] >= 0 )
+            {
+                smallAns.add(candidates[i]);
+                combinations(candidates,target-candidates[i],i,smallAns,ans);
+                smallAns.remove(smallAns.size()-1);
+            }
+        }
+        
+    }
+    
+    
+    
+    
+    
+    public List<List<Integer>> combinationSum(int[] candidates, int target) {
+            List<Integer> smallAns = new ArrayList<>();
+            List<List<Integer>> ans = new ArrayList<>();
+            
+            combinations(candidates,target,0,smallAns,ans);
+        return ans;
+    }
+
 
     // word ladder pending
     // do it 
