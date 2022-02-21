@@ -555,6 +555,79 @@ public List<List<Integer>> subsets(int[] nums) {
     }
 
 
+    
+//     402. Remove K Digits
+//     tc O(n) sc O(n)
+//  Use monotonic Stack, the approach is to iterate over the string, the first character will be added as it is
+//     after that check the stack.top()>current character so keep poping out from 
+//     the stack so that bigger numbers can be eliminated by maitaing the count of k
+//     after all the iteration for the corner case we will be deleting the from the 
+//     top of the stack by the time k reaches 0
+//     in the end from the starting of the string in the stack we can compute
+//     the answer into a stringbuilder and in the end if the stringbuilder is empty
+//     then return "0" otherwise the ans string
+    
+public String removeKdigits(String num, int k) {
+    ArrayList<Character> st = new ArrayList<>();
+    for(int i =0 ;i<num.length();i++){
+        char ch = num.charAt(i);
+        while(st.size()!=0 && st.get(st.size()-1)>ch && k>0){
+            k--;
+            st.remove(st.size()-1);
+        }
+        st.add(ch);
+    }
+    while(k-->0){
+        st.remove(st.size()-1);
+    }
+
+    StringBuilder sb = new StringBuilder();
+    boolean nonzero = false;
+    for(char ele:st){
+        if(ele=='0' && !nonzero) continue;
+        
+        nonzero = true;
+        sb.append(ele);
+    }
+    return sb.length()==0?"0":sb.toString();
+
+    }
+//     tc O(n) sc O(n)
+//just make the frequency map and then return the ele that is appearing more than n/2 times.
+    public int majorityElement1(int[] nums) {
+        HashMap<Integer,Integer> map = new HashMap<>();
+        int n = nums.length;
+        for(int i=0;i<n;i++){
+            map.put(nums[i],map.getOrDefault(nums[i],0)+1);
+        }
+        for(int key:map.keySet()){
+            if(map.get(key)>n/2){
+                return key;
+            }
+        }
+        return -1;
+    }
+    
+//     Optimised
+    public int majorityElement(int[] nums) {
+        int majorityEle = nums[0];
+        int count = 1;
+        for(int i=1;i<nums.length;i++){
+            int ele = nums[i];
+            if(ele == majorityEle){
+                count++;
+            }
+            else{
+                count--;
+            }
+            if(count==0){
+                majorityEle = ele;
+                count = 1;
+            }
+        }
+        return majorityEle;
+    }
+
     // word ladder pending
     // do it 
 
