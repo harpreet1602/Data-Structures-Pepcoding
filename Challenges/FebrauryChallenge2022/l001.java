@@ -592,7 +592,16 @@ public String removeKdigits(String num, int k) {
     return sb.length()==0?"0":sb.toString();
 
     }
-//     tc O(n) sc O(n)
+
+    // 169. Majority Element
+
+// brute
+//     tc O(nlog n) sc O(1)
+//     So sort the array and check each position with i + n/2+1 index if it is same
+//     then that is the ele.
+
+    // little optimized     
+    //     tc O(n) sc O(n)
 //just make the frequency map and then return the ele that is appearing more than n/2 times.
     public int majorityElement1(int[] nums) {
         HashMap<Integer,Integer> map = new HashMap<>();
@@ -608,7 +617,10 @@ public String removeKdigits(String num, int k) {
         return -1;
     }
     
-//     Optimised
+//     Optimised space
+//     tc O(n) sc O(1)
+//     Just remember that the number that is having more than n/2 + 1
+// occcurences so just maitain the count and majElele and you will get majEle throug dry run
     public int majorityElement(int[] nums) {
         int majorityEle = nums[0];
         int count = 1;
@@ -627,6 +639,7 @@ public String removeKdigits(String num, int k) {
         }
         return majorityEle;
     }
+   
 
     // word ladder pending
     // do it 
