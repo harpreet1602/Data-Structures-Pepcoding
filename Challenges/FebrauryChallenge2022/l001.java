@@ -640,6 +640,64 @@ public String removeKdigits(String num, int k) {
         return majorityEle;
     }
    
+//     148. Sort List
+//     tc O(n logn)
+//     So we will go with recursion until we get single element in the list from one side
+//     then we will backtrack then we will merge the two sorted parts together.
+//     So with this method applied on log n tree we will get a sorted list through merge sort method
+    public ListNode mergeTwoSortedLists(ListNode l1,ListNode l2)
+    {
+        if(l1==null || l2==null)
+        return l1!=null?l1:l2;
+        
+        ListNode dummy=new ListNode(-1);
+        ListNode prev=dummy,c1=l1,c2=l2;
+        while(c1!=null && c2!=null)
+        {
+            if(c1.val<=c2.val)
+            {
+                prev.next=c1;
+                c1=c1.next;
+            }else
+            {
+                prev.next=c2;
+                c2=c2.next;
+            }
+            prev=prev.next;
+        }
+        prev.next=c1!=null?c1:c2;
+        return dummy.next;
+    }
+    public ListNode midNode(ListNode head)
+    {
+        ListNode slow=head;
+        ListNode fast=head;
+        while(fast.next!=null &&fast.next.next!=null)
+        {
+            fast=fast.next.next;
+            slow=slow.next;
+        }
+        return slow;
+    }
+//     nlog n
+    public ListNode sortList(ListNode head) {
+        
+        if(head==null ||head.next==null)
+        {
+            return head;
+        }
+        ListNode mid=midNode(head);
+        ListNode nhead=mid.next;
+        mid.next=null;
+        ListNode leftSortedList=sortList(head);          // log n 
+        ListNode rightSortedList=sortList(nhead);        // log n 
+        return mergeTwoSortedLists(leftSortedList,rightSortedList);     //n
+    }
+
+
+    
+
+
 
     // word ladder pending
     // do it 
