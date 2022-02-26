@@ -640,6 +640,14 @@ public String removeKdigits(String num, int k) {
         return majorityEle;
     }
    
+    public class ListNode {
+             int val;
+             ListNode next;
+             ListNode() {}
+             ListNode(int val) { this.val = val; }
+             ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+         }
+
 //     148. Sort List
 //     tc O(n logn)
 //     So we will go with recursion until we get single element in the list from one side
@@ -696,6 +704,142 @@ public String removeKdigits(String num, int k) {
 
 
     
+    // 165. Compare Version Numbers
+//     tc O(n) sc O(n)
+//     So first of all we need to split the strings into the string array so that we can get the no.s in
+//     string format "//." because with this only we are doing the work of "." split.
+//     When we will get it then we can run a loop and we can delete the leading zeroes and get a number
+//     Integer.parseInt() and then we can compare accordingly and if any of the one terminates 
+//     then also check with 0 and return the answer accordingly.
+    
+    public int compareVersion(String version1, String version2) {
+        String[] versionlist1 = version1.split("\\.");
+        String[] versionlist2 = version2.split("\\.");
+        
+        int idx1 = 0, idx2 = 0, n1 = versionlist1.length, n2=versionlist2.length;
+        
+        while(idx1<n1 && idx2<n2){
+            int num1 = Integer.parseInt(versionlist1[idx1]);
+            int num2 = Integer.parseInt(versionlist2[idx2]);
+            idx1++;
+            idx2++;
+            if(num1>num2){
+                return 1;
+            }
+            else if(num1<num2){
+                return -1;
+            }
+            
+        }
+        
+        
+        while(idx1<n1){
+            int num1 = Integer.parseInt(versionlist1[idx1]);
+            idx1++;
+            if(num1>0){
+                return 1;
+            }
+        }
+        
+        
+        while(idx2<n2){
+            int num2 = Integer.parseInt(versionlist2[idx2]);
+            idx2++;
+            if(num2>0){
+                return -1;
+            }
+        }
+        
+        return 0;
+    }
+
+    //     133. Clone Graph
+//     tc O(n) sc O(n)
+    
+//     Here we are applying BFS approach to traverse in the graph and accordingly 
+//     we are maintaining a hashmap to keep a track when we add a node in a queue
+//     also to get new nodes corresponding to the original nodes of the graph.
+//     when the child of a node is not there already in the map then only we add it
+//     into the map and que and if yes or if no then make the current node's neighbor list by adding the current child
+    
+    
+    
+    
+    
+    public Node cloneGraph(Node node) {
+        if(node==null){
+            return node;
+        }
+        Map<Node,Node> map = new HashMap<>();
+        LinkedList<Node> que = new LinkedList<>();
+        que.addLast(node);
+        Node newNode = new Node(node.val);
+        map.put(node,newNode);
+        
+        while(que.size()!=0){
+            int size = que.size();
+            while(size-->0){
+                Node orgNode = que.removeFirst();
+                for(Node child:orgNode.neighbors){
+                if(!map.containsKey(child)){
+                    Node newChild = new Node(child.val);
+                    map.put(child,newChild);
+                    que.addLast(child);
+                }
+                Node newN = map.get(orgNode);
+                newN.neighbors.add(map.get(child));
+                }
+            } 
+        }
+        return map.get(node);
+        
+    }
+
+    
+
+//     171. Excel Sheet Column Number
+//     tc O(n) sc O(1)
+//     So make the arrangements that Starting from the last index keep
+//     on calculating the sum with the factor of 26 just like binary to decimal conversion
+    
+    
+    public int titleToNumber(String columnTitle) {
+        int sum=0;
+        int fact=1;
+        for(int i=columnTitle.length()-1;i>=0;i--){
+            char ch = columnTitle.charAt(i);
+            sum = sum + (ch - 'A' + 1)*fact;
+            fact *= 26;
+        }
+        return sum;
+    }
+
+    
+//     1288. Remove Covered Intervals
+//     tc O(nlogn) sc O(1)
+//     we will count the removal of intervals by first sorting the array on the basis
+//     of first index and then in decreasing order of second index if first index is equal
+//     Then accordingly we will maintain the msf and if any interval's second index is smaller
+//     than msf increment the removeCount.
+    
+    
+    public int removeCoveredIntervals(int[][] intervals) {
+        int removeCount = 0, msf=-1;
+        Arrays.sort(intervals,(a,b)->{
+           return a[0] == b[0]? b[1]-a[1] : a[0]-b[0];
+        });
+        
+        for(int[] interval:intervals){
+            if(msf>=interval[1]){
+                removeCount++;
+            }
+            msf = Math.max(msf,interval[1]);
+        }
+        
+        return intervals.length-removeCount;
+        
+    }
+
 
 
 
