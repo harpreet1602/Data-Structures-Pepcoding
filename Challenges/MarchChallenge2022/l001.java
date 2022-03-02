@@ -1,7 +1,7 @@
 
 
 
-cdpublic class l001{
+public class l001{
     
 //     338. Counting Bits
 //     tc O(n) sc O(n)
@@ -20,6 +20,21 @@ cdpublic class l001{
             }
         }
         return ans;        
+    }
+
+    
+//     392. Is Subsequence
+    // tc O(O(t.length)) sc O(1)
+//    Just apply two pointer approach and just check regularly the subsequence  
+    public boolean isSubsequence(String s, String t) {
+        int i=0,j=0;
+        while(i<s.length() && j<t.length()){
+            if(s.charAt(i) == t.charAt(j)){
+                i++;
+            }
+            j++;
+        }
+        return i == s.length();
     }
 
 }
