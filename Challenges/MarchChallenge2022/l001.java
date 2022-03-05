@@ -37,4 +37,35 @@ public class l001{
         return i == s.length();
     }
 
+
+    // 740. Delete and Earn
+//     tc O(n) sc O(n)
+//     In this question, dp has been applied whether to take the current ele or not
+//     WIth tabulation, where we are making use of the freq array and dp array
+//     we have made the size of the array 10002 to get the answer at 10001 index
+//     Because the the answer uses the last two indices answer
+//     so if we are considering the last one or we consider the second last one
+//    plus ind * freq[ind] i.e.   dp[i] = Math.max(dp[i-1],dp[i-2] + i*freq[i]);
+//     By this our answer will be made in the end.
+    
+    public int deleteAndEarn(int[] nums) {
+        int[] freq = new int[10002];
+        int[] dp = new int[10002];
+        
+        for(int i=0;i<nums.length;i++){
+            freq[nums[i]]++;
+        }
+        
+        dp[0] = 0;
+        dp[1] = 1 * freq[1];
+        
+        for(int i=2;i<=10001;i++){
+            dp[i] = Math.max(dp[i-1],dp[i-2] + i*freq[i]);
+        }
+        
+        return dp[10001];
+        
+    }
+
+
 }
