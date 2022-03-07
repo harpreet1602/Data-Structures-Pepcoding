@@ -68,4 +68,36 @@ public class l001{
     }
 
 
-}
+
+
+} 
+//     21. Merge Two Sorted Lists
+
+//     tc O(n) sc O(1)
+//     So just sort the two sorted list like you do in arrays
+//     so whatever node will be smaller that will be selected
+//    we can just checkout the technique here of doing it. 
+    public ListNode mergeTwoLists(ListNode l1, ListNode l2) {
+          if(l1==null || l2==null)
+        {
+            return l1!=null?l1:l2;
+        }
+        ListNode dummy=new ListNode(-1);
+        ListNode dp=dummy,p1=l1,p2=l2;
+        while(p1!=null && p2!=null)
+        {
+            if(p1.val<=p2.val)
+            {
+                dp.next=p1;
+                p1=p1.next;
+            }
+            else
+            {
+                dp.next=p2;
+                p2=p2.next;
+            }
+            dp=dp.next;
+        }
+        dp.next=p1!=null?p1:p2;
+        return dummy.next;
+    }
