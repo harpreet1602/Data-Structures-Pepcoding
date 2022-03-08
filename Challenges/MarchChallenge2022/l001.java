@@ -67,10 +67,6 @@ public class l001{
         
     }
 
-
-
-
-} 
 //     21. Merge Two Sorted Lists
 
 //     tc O(n) sc O(1)
@@ -101,3 +97,46 @@ public class l001{
         dp.next=p1!=null?p1:p2;
         return dummy.next;
     }
+
+    class ListNode {
+             int val;
+             ListNode next;
+             ListNode(int x) {
+                 val = x;
+                 next = null;
+             }
+         }
+//     141. Linked List Cycle
+//     tc O(n) sc O(1)
+//     Two pointers one slow and one fast
+//     if slow becomes equal to fast then there is a cycle 
+//     otherwise fast becomes null anytime then there is no cycle
+    public boolean hasCycle(ListNode head) {
+        if(head==null||head.next==null){
+            return false;
+        }
+        ListNode slow,fast;
+        slow = fast = head;
+        while(fast!=null){
+            slow = slow.next;
+            fast = fast.next;
+            if(fast!=null){
+                fast = fast.next;
+            }
+            if(slow == fast){
+                return true;
+            }
+        }
+        return false;
+    }
+    
+
+
+
+
+
+
+
+
+
+}
