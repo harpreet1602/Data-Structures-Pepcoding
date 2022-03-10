@@ -131,6 +131,36 @@ public class l001{
     }
     
 
+    
+//     2. Add Two Numbers
+//     tc O(n) => for addition sc O(n) => for making a new list for answer
+//     numbers are given in reverse order and the answer will also come in reverse order
+//     so we don't need to take the tention as we are getting the flow from 
+//     LSB to MSB (most siginificant bit) of both numbers and sum
+//     so just keep on going untill this condition  while(n1!=null || n2!=null || carry==1) => for understanding this condition we can see 
+//     Input: l1 = [9,9,9,9,9,9,9], l2 = [9,9,9,9]
+// Output: [8,9,9,9,0,0,0,1]
+//     keep on computing the addition, digit and next carry 
+//     Just do a dry run to get a logic 
+    public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
+        ListNode n1 = l1, n2 = l2;
+        ListNode dummy = new ListNode(-1);
+        ListNode curr = dummy;
+        int carry = 0;
+        while(n1!=null || n2!=null || carry==1){
+            
+            int sum = (n1!=null?n1.val:0) + (n2!=null?n2.val:0) + carry;
+            int digit = sum%10;
+            curr.next = new ListNode(digit);
+            curr = curr.next;
+            carry = sum/10;
+            if(n1!=null)
+            n1 = n1.next;
+            if(n2!=null)
+            n2 = n2.next;
+        }
+        return dummy.next;
+    }
 
 
 
