@@ -1,4 +1,4 @@
-
+import java.util.LinkedList;
 
 
 public class l001{
@@ -161,6 +161,52 @@ public class l001{
         }
         return dummy.next;
     }
+
+
+    
+//   20. Valid Parentheses  
+//     tc O(n) sc O(n)
+//     So just keep on adding the opening parentheses in the stack 
+//     and pop the corresponding ones by checking the condition
+//     At any point the corresponding parentheses are not found return false 
+//     If the stack does not become empty after traversing then also return false
+//     If the stack becomes empty return true.
+    public boolean isValid(String s) {
+        LinkedList<Character> st = new LinkedList<>();
+        st.addFirst('1');
+        for(int i=0;i<s.length();i++){
+            char ch = s.charAt(i);
+            if(ch=='(' || ch=='{' || ch=='['){
+                st.addFirst(ch);
+            }
+            else if(ch==')' && st.getFirst()=='('){
+                st.removeFirst();
+            }
+            else if(ch=='}' && st.getFirst()=='{'){
+                st.removeFirst();
+            }
+            else if(ch==']' && st.getFirst()=='['){
+                st.removeFirst();
+            }
+            else{
+                return false;
+            }
+        }
+        if(st.getFirst()=='1'){
+            return true;
+        }
+        return false;
+    }
+
+    
+
+
+
+
+
+
+
+
 
 
 
