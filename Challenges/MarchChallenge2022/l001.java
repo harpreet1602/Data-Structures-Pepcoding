@@ -199,6 +199,27 @@ public class l001{
     }
 
     
+//     946. Validate Stack Sequences
+//     tc O(n) sc O(n)
+//     So we will be adding the ele from pushed arr and also we will have rigrous
+//     remove when the top of the stack matches with popped of idx
+//     then we keep on removing the ele from stack and increment the idx of popped
+//     in the end if we reached end of the popped array then return true
+//     otherwise false.
+//     Do dry run on example test case.
+    
+    public boolean validateStackSequences(int[] pushed, int[] popped) {
+        LinkedList<Integer> st = new LinkedList<>();
+        int idx=0;
+        for(int ele:pushed){
+            st.addFirst(ele);
+            while(st.size()!=0 && st.getFirst() == popped[idx]){
+                idx++;
+                st.removeFirst();
+            }
+        }
+        return idx == popped.length;
+    }
 
 
 
