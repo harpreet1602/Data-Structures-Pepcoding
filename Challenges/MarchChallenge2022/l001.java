@@ -221,6 +221,31 @@ public class l001{
         return idx == popped.length;
     }
 
+    
+//     1029. Two City Scheduling
+    
+//     tc O(nlogn) sc O(1)
+//     So just sort the two d array on the basis of the difference in the increasing order
+//     from negative difference to positive one 
+//     so that the in most of the negative differences there is benefit in going to city a
+    // in the most of the positive difference there is bennefit in going to city b.
+//     so initially put all elements of the half array into city a and rest in b to get 
+//     minimum answer
+public int twoCitySchedCost(int[][] costs) {
+    Arrays.sort(costs,(a,b)->{
+       return ((a[0]-a[1]) - (b[0]-b[1])); 
+    });
+    int ans = 0;
+    for(int i=0;i<costs.length;i++){
+        if(i<costs.length/2){
+            ans += costs[i][0];
+        }else{
+            ans += costs[i][1];
+        }
+    }
+    return ans;
+}
+
 
 
 
