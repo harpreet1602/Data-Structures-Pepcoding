@@ -248,6 +248,27 @@ public int twoCitySchedCost(int[][] costs) {
 
 
 
+    // 704. Binary Search
+//     tc O(logn) sc O(1)
+//     So ust applying the binary search and setting the low and high one ahead and one earlier 
+//     position from mid and the loop will run till low < high.
+    public int search(int[] nums, int target) {
+        int low = 0, high = nums.length-1;
+        while(low<high){
+            int mid = (low + (high-low)/2);
+            if(nums[mid] == target){
+                return mid;
+            }
+            else if(target < nums[mid]){
+                high = mid - 1;
+            }
+            else {
+                low = mid + 1;
+            }
+        }
+        return -1;
+           
+    }
 
 
 
