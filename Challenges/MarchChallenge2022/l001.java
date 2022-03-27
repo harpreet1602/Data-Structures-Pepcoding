@@ -247,29 +247,95 @@ public int twoCitySchedCost(int[][] costs) {
 }
 
 
-
-    // 704. Binary Search
+  // 704. Binary Search
 //     tc O(logn) sc O(1)
 //     So ust applying the binary search and setting the low and high one ahead and one earlier 
-//     position from mid and the loop will run till low < high.
-    public int search(int[] nums, int target) {
-        int low = 0, high = nums.length-1;
-        while(low<high){
-            int mid = (low + (high-low)/2);
-            if(nums[mid] == target){
-                return mid;
-            }
-            else if(target < nums[mid]){
-                high = mid - 1;
-            }
-            else {
-                low = mid + 1;
+//     position from mid and the loop will run till low <= high.
+public int search(int[] nums, int target) {
+    int low = 0, high = nums.length-1;
+    while(low<=high){
+        int mid = (low + ((high-low)/2));
+        
+        // int mid = (high+low)/2;
+        if(nums[mid] == target){
+            return mid;
+        }
+        else if(target < nums[mid]){
+            high = mid - 1;
+        }
+        else {
+            low = mid + 1;
+        }
+    }
+    return -1;
+       
+}
+
+
+//     1337. The K Weakest Rows in a Matrix
+//     Brute linear search along with priority queue
+//     where we are putting count,ind in pq and accordingly eliminating the wrong answers
+//     by making maxheap
+//     Then make our answer out of it.
+//     tc O(nlogk + n^2) sc O(k)
+//    
+    public int getcount1(int[] row){
+        int count = 0;
+        for(int i=0;i<row.length;i++){
+            if(row[i] == 1){
+                count++;
             }
         }
-        return -1;
-           
+        return count;
     }
+    
+    //     tc O(nlogk + nlogn) sc O(k)
+//     Optimized binary search along with priority queue
 
+      public int getcount(int[] row){
+        int low = 0,high=row.length;
+          while(low<high){
+              int mid = low + (high-low)/2;
+              if(row[mid]==1){
+                  low = mid+1;
+              }
+              else{
+                  high = mid;
+              }
+          }
+        return low;
+    }
+//         count, index
+        public int[] kWeakestRows(int[][] mat, int k) {
+        PriorityQueue<int[]> pq = new PriorityQueue<>((a,b)->{
+           if(a[0]==b[0]){
+               return b[1] - a[1];
+           } 
+           else{
+               return b[0] - a[0];
+            }
+        });
+        
+        for(int i=0;i<mat.length;i++){
+            int count = getcount(mat[i]);
+            
+            pq.add(new int[]{count,i});
+            
+            if(pq.size()>k){
+                pq.remove();
+            }
+        }
+        
+        int ind = k-1;
+        int[] ans = new int[k];
+        while(pq.size()!=0){
+            ans[ind--] = pq.remove()[1];
+        }
+        
+        return ans;
+        
+        
+    }
 
 
 
