@@ -1,3 +1,6 @@
+import java.util.HashMap;
+import java.util.PriorityQueue;
+
 public class topkfrequent {
     
 //     347. Top K Frequent Elements
