@@ -34,7 +34,7 @@ public class bstIterator{
         }
     }
     
-    public BSTIterator(TreeNode root) {
+    public bstIterator(TreeNode root) {
         st = new LinkedList<>();
         addAllLeft(root);
     }
@@ -48,4 +48,6 @@ public class bstIterator{
     public boolean hasNext() {
         return st.size()!=0;
     }
+
+
 }
