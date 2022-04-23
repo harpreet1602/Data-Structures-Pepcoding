@@ -1,9 +1,12 @@
+import java.util.Arrays;
+
+
 public class hashmapQues {
     
 //     brute force
 //     time O(1) space O((int)1e6+1)
 public int[] map;
-public MyHashMap() {
+public hashmapQues() {
     map = new int[(int)1e6+1];
     Arrays.fill(map,-1);
 }
