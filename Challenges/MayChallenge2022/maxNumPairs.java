@@ -1,3 +1,6 @@
+import java.util.Arrays;
+import java.util.HashMap;
+
 public class maxNumPairs {
         // 1679. Max Number of K-Sum Pairs
 //     tc O(nlogn) sc O(1)
