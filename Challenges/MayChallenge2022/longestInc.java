@@ -1,10 +1,11 @@
 public class longestInc {
     
 //     329. Longest Increasing Path in a Matrix
-//         tc O(n) sc O(n)
+//         tc O((n*m)^2) sc O(n*m)
+    // it would be (M x N) ^ 2 if its only in one static direction. but we have to consider traversing M x N points in all the 4 directions, remember every point can traverse in 4 different directions, once you traverse to the next element there are 4 more ways that you can traverse so as you traverse the possible number of paths keeps growing.
 //     We can apply any graph traversal here BFS/DFS/Union Find.
 //     and get the increasing path from the graph.
-//     So this time we are applying DFS here. 
+//     So this time we are applying DFS here with DP
 //     We will be having a cache 2d matrix to store the increasing path starting from
 //     the index in the matrix.
 //     From every index of the matrix, dfs will be applied to get the increasing path
