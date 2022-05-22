@@ -3,8 +3,7 @@ public class reverseArray {
 
     // 344. Reverse String
     // tc O(n) sc O(1)
-    // just have two pointers one in the start and one in the end
-    // swap until they meet.
+    // just have two pointers one in the start and one in the end swap until they meet.
     private void swap(char[] s, int i, int j) {
         char temp = s[i];
         s[i] = s[j];
