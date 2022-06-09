@@ -1,3 +1,6 @@
+import java.util.List;
+import java.util.ArrayList;
+
 public class nqueens {
     
 //     51. N-Queens
