@@ -5,7 +5,7 @@ public class rangeSumQuery2d {
 //     Ḍo a dry run to properly understand the formula how it is used here.
 private int[][] dp;
 //     tc O(n*m) sc O(n*m) => for making the prefix 2d array
-    public NumMatrix(int[][] matrix) {
+    public void NumMatrix(int[][] matrix) {
         int n = matrix.length, m =matrix[0].length;
         dp = new int[n+1][m+1];
         

@@ -1,3 +1,6 @@
+import java.util.HashMap;
+import java.util.HashSet;
+
 public class maxErasureValue {
     
     // 1695. Maximum Erasure Value

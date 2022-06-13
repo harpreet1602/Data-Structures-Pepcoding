@@ -1,3 +1,4 @@
+import java.util.HashMap;
 public class longestSubstring {
     
     // 3. Longest Substring Without Repeating Characters.

@@ -1,3 +1,4 @@
+import java.util.HashMap;
 public class makeX0{
     
     // 1658. Minimum Operations to Reduce X to Zero
