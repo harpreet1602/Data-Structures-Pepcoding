@@ -2,7 +2,7 @@ import java.util.HashMap;
 public class longestSubstring {
     
     // 3. Longest Substring Without Repeating Characters.
-//     tc O(n) sc O(1)
+//     tc O(n) sc O(n)
 //     Two Pointers along with the use of hashmap to track I should only get the maximum
 //     in case of no duplicacy i.e. from start to end every character's frequency must be 1 or 0
 //     Accordingly we will move pointers and apply conditions that end is going to track 
@@ -33,5 +33,37 @@ public int lengthOfLongestSubstring(String s) {
         }
     }
     return max;
+}
+// Egensia Interview
+public static void main (String[] args) throws java.lang.Exception
+{
+    // your code goes here
+// 		 a b c a b c e b b
+// sc O(n) tc O(n)
+    HashMap<Character,Integer> map = new HashMap<>();
+    String str = "aa";
+    int start=0,end=0,prevend=-1,max=0,n=str.length();
+    
+    while(start<=end && end<n){
+        char ch = str.charAt(end);
+        if(prevend!=end)
+        map.put(ch,map.getOrDefault(ch,0)+1);
+    
+        prevend=end;
+    
+        if(map.getOrDefault(ch,0)!=1){
+            max = Math.max(max,end-start);
+            map.put(str.charAt(start),map.get(str.charAt(start))-1);
+            start++;
+        }   
+        else{
+            end++;
+        }
+        
+    }
+    max = Math.max(max,end-start);
+    
+    System.out.println(max);
+    
 }
 }
