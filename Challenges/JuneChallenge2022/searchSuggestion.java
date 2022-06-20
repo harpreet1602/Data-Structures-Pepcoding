@@ -1,3 +1,8 @@
+import java.util.TreeMap;
+import java.util.Arrays;
+import java.util.List;
+import java.util.ArrayList;
+
 public class searchSuggestion {
     
     // 1268. Search Suggestions System
