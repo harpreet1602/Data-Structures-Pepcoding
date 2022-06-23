@@ -1,6 +1,6 @@
 import java.util.PriorityQueue;
 
-public class kthLargest{
+public class kthLcoargest{
     
     // 215. Kth Largest Element in an Array
 
