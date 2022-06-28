@@ -1,3 +1,6 @@
+import java.util.HashMap;
+import java.util.Arrays;
+
 public class longestStringChain {
     
     // 1048. Longest String Chain
