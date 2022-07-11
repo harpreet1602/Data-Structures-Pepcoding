@@ -1,3 +1,5 @@
+import java.util.Arrays;
+
 public class candy {
     
     // 135. Candy
