@@ -1,5 +1,19 @@
 public class inorderPreOrderTree {
     
+    
+    public class TreeNode {
+        int val;
+        TreeNode left;
+        TreeNode right;
+        TreeNode() {}
+        TreeNode(int val) { this.val = val; }
+        TreeNode(int val, TreeNode left, TreeNode right) {
+            this.val = val;
+            this.left = left;
+            this.right = right;
+        }
+    }
+
     // 105. Construct Binary Tree from Preorder and Inorder Traversal
 //     tc O(n) sc O(n)
 //     Iterate over preorder array and recursively reduce the search space in inorder array
