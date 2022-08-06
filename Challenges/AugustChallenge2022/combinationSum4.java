@@ -1,3 +1,5 @@
+import java.util.Arrays;
+
 public class combinationSum4 {
      // 377. Combination Sum IV
 //     tc O() sc O()
@@ -7,7 +9,7 @@ public class combinationSum4 {
 //     But after that for optimising the solution 
 //     Use the value of the number of ways to make a particular target i.e. target -> number of ways to make that target mapping
 //     If it's already found return it. Filling the dp with -1 because it is not part of answer => 0 is part of answer.
-public int combinationSum4(int[] nums, int target) {
+public int combinationSum41(int[] nums, int target) {
     int[] dp = new int[target+1];
     Arrays.fill(dp,-1);
     return combinationHelper(nums,target,dp);
