@@ -1,5 +1,16 @@
 public class sortedArrTobst{
-
+    public class TreeNode {
+        int val;
+        TreeNode left;
+        TreeNode right;
+        TreeNode() {}
+        TreeNode(int val) { this.val = val; }
+        TreeNode(int val, TreeNode left, TreeNode right) {
+            this.val = val;
+            this.left = left;
+            this.right = right;
+        }
+    }
 //     108. Convert Sorted Array to Binary Search Tree
 // tc O(n) sc O(n)=> recursive space I think     
 //     Middle element is the root at the current stage and similarly repeat the process for left and right children
