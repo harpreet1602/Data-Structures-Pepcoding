@@ -1,3 +1,5 @@
+import java.util.HashMap;
+
 public class romanToInteger {
     
     // 13. Roman to Integer
