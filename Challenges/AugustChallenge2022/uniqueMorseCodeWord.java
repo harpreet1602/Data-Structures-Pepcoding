@@ -1,3 +1,5 @@
+import java.util.HashSet;
+
 public class uniqueMorseCodeWord {
     
     // 804. Unique Morse Code Words
