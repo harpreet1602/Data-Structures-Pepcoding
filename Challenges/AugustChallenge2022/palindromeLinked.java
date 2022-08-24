@@ -1,5 +1,11 @@
 public class palindromeLinked {
-    
+    public class ListNode {
+             int val;
+             ListNode next;
+             ListNode() {}
+             ListNode(int val) { this.val = val; }
+             ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+         }
 //     tc O(n) sc O(1)
 //     find the mid and then reverse from its next node
 //     and then simply check whether the two halves are equal or not
