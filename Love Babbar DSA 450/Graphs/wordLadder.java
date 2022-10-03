@@ -6,7 +6,9 @@ import java.util.List;
 public class wordLadder {
     
 //     127. Word Ladder
-// tc O(n*10*26)=> O(n) sc O(n) I think
+// tc O(n*word.length*26*log n)
+//     n is number of words, word.length is the length of one word, 26 are the characters, log n or constant time is the amotised time of searching in hashset.
+    // sc O(2*n)=> O(n) I think
 //     So what can be done in this word ladder question
 //     Here we have to go from start word to end word 
 //     So we will try each and every possibility in each word by placing a to z character in each position of every word
