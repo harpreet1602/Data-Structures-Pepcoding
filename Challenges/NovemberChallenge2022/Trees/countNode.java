@@ -1,7 +1,18 @@
 package Trees;
 
 public class countNode {
-    
+    public class TreeNode {
+             int val;
+             TreeNode left;
+             TreeNode right;
+             TreeNode() {}
+             TreeNode(int val) { this.val = val; }
+             TreeNode(int val, TreeNode left, TreeNode right) {
+                 this.val = val;
+                 this.left = left;
+                 this.right = right;
+             }
+         }
     // 222. Count Complete Tree Nodes
 // tc O(n) sc O(1)
 // Count the nodes => in the base case return 0 and in the leaf node return 1
