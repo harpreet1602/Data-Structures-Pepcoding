@@ -19,5 +19,26 @@ public int findKthLargest(int[] nums, int k) {
     }
     return pq.peek();
 }
+
+    // 215. Kth Largest Element in an Array
+// tc O(nlogk) sc O(k)
+//     n total elements into which logk operation for priority queue.
+//     Priority Queue => Min heap
+//     store the elements in the minheap, keep on deleting the smallest element when the size exceeds k
+//     then in the end k large elements will be present so return the kth largest.
+    
+public int findKthLargest1(int[] nums, int k) {
+    PriorityQueue<Integer> pq = new PriorityQueue<>();
+    
+    int n = nums.length;
+    
+    for(int i=0;i<n;i++){
+        pq.add(nums[i]);
+        if(pq.size()>k){
+            pq.remove();
+        }
+    }
+    return pq.peek();
+}
     
 }
