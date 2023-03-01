@@ -43,4 +43,56 @@ private int[] mergeSortedArrays(int[] left,int[] right){
     }
     return ans;
 }
+
+
+//    912. Sort an Array 
+//     tc O(nlogn) sc O(n)
+// keep on dividing till we get a single element and once we get it start merging the arrays
+//     make left and right arrays accordingly and do changes in the nums array itself through si, mid and ei.
+    public int[] sortArray(int[] nums) {
+        int n = nums.length;
+        
+        sortArray(nums,0,n-1);
+        return nums;
+    }
+    
+    private void sortArray(int[] nums,int si,int ei){
+        if(si<ei){
+        int mid = (si+ei)/2;
+        
+        sortArray(nums,si,mid);
+        sortArray(nums,mid+1,ei);
+            
+        mergeSortedArrays(nums,si,mid,ei);
+        }
+    }
+    private void mergeSortedArrays(int[] nums,int si,int mid,int ei){
+        int l=0,r=0,n=mid-si+1,m=ei-mid,k=si;
+        int[] left = new int[n];
+        int[] right = new int[m];
+        
+        for(int i=si;i<=mid;i++){
+            left[l++] = nums[i];
+        }
+        l=0;
+        for(int i=mid+1;i<=ei;i++){
+            right[r++] = nums[i];
+        }
+        r=0;
+        
+        while(l<n && r<m){
+            if(left[l]<=right[r]){
+                nums[k++] = left[l++];
+            }
+            else{
+                nums[k++] = right[r++];
+            }
+        }
+        while(l<n){
+            nums[k++] = left[l++];
+        }
+        while(r<m){
+            nums[k++] = right[r++];
+        }
+    }
 }
