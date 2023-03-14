@@ -8,13 +8,13 @@ public class sortedListToBST{
 //     start to slow on the left hand side and slow.next to end on right hand side.
 //     In the start also we are starting from head and end is null.
     
-public TreeNode sortedListToBST(ListNode head) {
+public TreeNode sortedListToBST1(ListNode head) {
     if(head == null){
         return null;
     }
     return sortedListToBST(head,null);
 }
-private TreeNode sortedListToBST(ListNode start,ListNode end){
+private TreeNode sortedListToBST1(ListNode start,ListNode end){
     ListNode slow, fast;
     slow = fast = start;
     
